@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   MainContainer,
   Heading,
+  HeadingUnderline,
   SubHeading,
   CoursesContainer,
   SingleCourseSection,
@@ -51,10 +52,11 @@ const SingleCoursePerClass = () => {
   return (
     <MainContainer>
       <Heading>Explore our programs</Heading>
+      <HeadingUnderline />
       <SubHeading>
         Discover the many benefits you will enjoy when you add us to your online platform
       </SubHeading>
-      <Heading>Grades Class 4 - Class 10</Heading>
+      <SubHeading> <b>Grades Class 4 - Class 10</b></SubHeading>
       <CoursesContainer>
         {singleCourseData.length > 0 ? (
           singleCourseData.map((course, index) => (
@@ -71,7 +73,7 @@ const SingleCoursePerClass = () => {
         )}
       </CoursesContainer>
 
-      <Heading>Online Live School Tuitions</Heading>
+      <SubHeading> <b>Online Live School Tuitions</b> </SubHeading>
       <CoursesContainer>
         {singleCourseData.length > 0 ? (
           singleCourseData.map((course, index) => (
@@ -88,8 +90,7 @@ const SingleCoursePerClass = () => {
         )}
       </CoursesContainer>
 
-      <Heading>Class 11 - Class 12</Heading>
-      <Heading>JEE-NEET</Heading>
+      <SubHeading><b> Class 11 - Class 12</b></SubHeading>
       <CoursesContainer>
         {singleCourseData.length > 0 ? (
           singleCourseData.map((course, index) => (

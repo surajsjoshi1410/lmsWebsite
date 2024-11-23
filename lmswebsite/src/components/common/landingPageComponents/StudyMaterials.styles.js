@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const StudyMaterialsContainer = styled.div`
   text-align: center;
   padding: 40px;
-    background-color: white;
-
+  background-color: white;
 `;
 
 export const Heading = styled.h1`
@@ -55,6 +54,11 @@ export const MaterialCard = styled.div`
   border-radius: 16px;
   background-color: #f9f9f9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align items horizontally */
+  justify-content: center; /* Center align items vertically */
+  text-align: center;
 
   &.previous-year {
     background-color: #fbe9e7;
@@ -70,6 +74,26 @@ export const MaterialCard = styled.div`
   }
 `;
 
+export const MaterialImage = styled.img`
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+
+  @media (max-width: 1280px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+  }
+
+  @media (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
+`;
 export const MaterialTitle = styled.h2`
   font-size: 20px;
   font-weight: bold;
@@ -92,6 +116,10 @@ export const responsiveStyles = `
     ${MaterialCard} {
       width: 200px;
     }
+    ${MaterialImage} {
+      width: 70px;
+      height: 70px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -111,6 +139,10 @@ export const responsiveStyles = `
     ${MaterialCard} {
       width: 180px;
       padding: 15px;
+    }
+    ${MaterialImage} {
+      width: 60px;
+      height: 60px;
     }
     ${MaterialTitle} {
       font-size: 18px;
@@ -142,6 +174,10 @@ export const responsiveStyles = `
     ${MaterialCard} {
       width: 160px;
       padding: 10px;
+    }
+    ${MaterialImage} {
+      width: 50px;
+      height: 50px;
     }
     ${MaterialTitle} {
       font-size: 16px;

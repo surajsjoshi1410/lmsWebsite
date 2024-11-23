@@ -12,7 +12,7 @@ import {
   BenefitImage,
   Image,
 } from "./BenefitsSection.styles";
-import Group from "../../../icons/LandingPageIcons/Group.svg";
+import Group2 from "../../../icons/LandingPageIcons/Group2.png"; // Updated import
 
 const BenefitsSection = () => {
   const [data] = useState({
@@ -71,7 +71,7 @@ const BenefitsSection = () => {
           )}
         </div>
         <BenefitImage>
-          <Image src={Group} alt="Benefit Illustration" />
+          <Image src={Group2} alt="Benefit Illustration" /> {/* Updated source */}
         </BenefitImage>
       </FlexContainer>
     </BenefitsSectionContainer>

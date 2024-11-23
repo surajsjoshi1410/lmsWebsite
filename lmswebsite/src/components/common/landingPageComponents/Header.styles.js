@@ -14,6 +14,7 @@ export const HeaderContainer = styled.header`
 export const Logo = styled.a`
   display: flex;
   align-items: center;
+  margin-left: 50px;
 `;
 
 export const LogoImage = styled.img`
@@ -72,12 +73,18 @@ export const Hamburger = styled.div`
 
 export const NavMenu = styled.nav`
   display: flex;
+  align-items: center;
 
   @media (max-width: 768px) {
     display: none;
     flex-direction: column;
-    align-items: center;
     width: 100%;
+    background-color: white;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
     &.open {
       display: flex;
@@ -90,11 +97,24 @@ export const NavLinks = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
+  margin-right: 50px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 export const NavLinkItem = styled.li`
   margin-right: 20px;
   position: relative;
+
+  @media (max-width: 768px) {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
 
   a {
     text-decoration: none;
@@ -136,7 +156,14 @@ export const AuthButtons = styled.div`
   display: flex;
 
   @media (max-width: 768px) {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      margin: 10px 0;
+    }
   }
 `;
 
@@ -151,21 +178,23 @@ export const SignInButton = styled.button`
   border-radius: 4px;
 
   &:hover {
-    background-color: #000;
+    background-color: #e60073;
     color: #fff;
   }
 `;
 
 export const SignUpButton = styled.button`
-  background-color: #ff0080;
-  color: white;
+  border: 2px solid #000;
+  background-color: transparent;
+  color: #000;
   padding: 10px 20px;
   margin-left: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   border-radius: 4px;
 
   &:hover {
     background-color: #e60073;
+    color: #fff;
   }
 `;

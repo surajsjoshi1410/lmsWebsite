@@ -7,10 +7,11 @@ import StudyMaterials from "./landingPageComponents/StudyMaterials";
 import SingleCoursePerClass from "./landingPageComponents/SingleCoursePerClass";
 import ExperiencedTeachers from "./landingPageComponents/ExperiencedTeachers";
 import Why from "./landingPageComponents/Why";
-import TeachersSection from "./landingPageComponents/TeachersSection";
+// import TeachersSection from "./landingPageComponents/TeachersSection";
 import FAQSection from "./landingPageComponents/FAQSection";
 import Footer from "./landingPageComponents/Footer";
 import Footer2 from "./landingPageComponents/Footer2";
+import ExpertTeacherss from "./landingPageComponents/ExpertTeacherss";
 import TestimonialsSection from "./landingPageComponents/TestimonialsSection";
 import { PageContainer, LoadingMessage, ErrorMessage } from "./LandingPage.styles";
 
@@ -44,7 +45,8 @@ const LandingPage = () => {
       <StudyMaterials />
       <SingleCoursePerClass />
       <Why />
-      <TeachersSection />
+      {/* <TeachersSection /> */}
+      <ExpertTeacherss/>
       <TestimonialsSection />
       <FAQSection />
       <Footer />

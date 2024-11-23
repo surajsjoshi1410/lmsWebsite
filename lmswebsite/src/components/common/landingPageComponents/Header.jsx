@@ -71,16 +71,15 @@ const Header = () => {
           <NavLinkItem><a href="/">Create Your Enrollment</a></NavLinkItem>
           <NavLinkItem><a href="/">About Us</a></NavLinkItem>
         </NavLinks>
+        <AuthButtons>
+          <Link to="/login">
+            <SignInButton>Sign In</SignInButton>
+          </Link>
+          <Link to="/signup">
+            <SignUpButton>Sign Up</SignUpButton>
+          </Link>
+        </AuthButtons>
       </NavMenu>
-
-      <AuthButtons>
-        <Link to="/login">
-          <SignInButton>Sign In</SignInButton>
-        </Link>
-        <Link to="/signup">
-          <SignUpButton>Sign Up</SignUpButton>
-        </Link>
-      </AuthButtons>
     </HeaderContainer>
   );
 };

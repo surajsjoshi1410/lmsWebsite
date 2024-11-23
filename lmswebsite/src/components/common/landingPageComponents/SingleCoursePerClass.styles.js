@@ -15,11 +15,17 @@ export const MainContainer = styled.div`
   }
 `;
 
+export const HeadingUnderline = styled.div`
+  width: 100px;
+  height: 4px;
+  background-color: #ff0080;
+  margin: 8px auto 0;
+`;
+
 export const Heading = styled.h1`
-  font-size: 1.8rem;
-  color: #333;
-  margin: 10px 0;
-  font-weight: 500;
+  font-size: 36px;
+  font-weight: bold;
+  position: relative;
 `;
 
 export const SubHeading = styled.p`

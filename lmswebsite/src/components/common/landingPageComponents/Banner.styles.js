@@ -32,27 +32,33 @@ export const SliderItem = styled.div`
     position: relative;
 `;
 
-
 export const BannerImage = styled.img`
     display: block;
     margin: auto;
-    width: 50%;
-    height: auto;
-    max-height: 250px;
+    width: 85%; /* Increase width */
+    height: 400px; /* Set a specific height */
+    max-height: 400px; /* Increase max-height if needed */
     object-fit: cover;
+    position: relative; /* Ensure it interacts with z-index */
+    z-index: 1; /* Place it behind slick-dots and CoursesBackground */
+    border-radius: 0px 0px 20px 20px;
 
     ${media.xl`
-        width: 60%;
+        width: 80%;
+        height: 350px;
     `}
 
     ${media.md`
-        width: 70%;
+        width: 90%;
+        height: 300px;
     `}
 
     ${media.xs`
-        width: 90%;
+        width: 100%;
+        height: 250px;
     `}
 `;
+
 
 export const BannerText = styled.p`
     position: absolute;
@@ -80,22 +86,24 @@ export const BannerText = styled.p`
 export const CoursesBackground = styled.div`
     position: relative;
     background-color: white;
-    width: 60%;
-    margin: 40px auto;
+    width: 80%;
+    margin: -32px auto;
     border-radius: 20px;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center; /* Center content inside CoursesBackground */
+    text-align: center;
+    z-index: 10; /* Ensure it appears above the banner image */
+
 
     ${media.md`
-        width: 80%;
+        width: 50%;
         margin: 20px auto;
     `}
 
     ${media.xs`
-        width: 90%;
+        width: 60%;
         margin: 10px auto;
     `}
 `;
@@ -132,7 +140,7 @@ export const Card = styled.div`
     padding: 20px;
     margin: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: #ffb6c1;
+    background-color: ${(props) => props.bgColor || "#ffb6c1"}; /* Default to #ffb6c1 if bgColor is not provided */
     transition: transform 0.2s;
     flex: 1 1 calc(20% - 20px);
     max-width: calc(20% - 20px);
@@ -172,4 +180,17 @@ export const CardStatistics = styled.div`
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+`;
+
+export const StyledSliderDots = styled.div`
+    .slick-dots {
+        position: absolute;
+        bottom: 50px; /* Adjust as needed */
+        z-index: 10; /* Ensure it appears above the banner image */
+    }
+
+    .slick-dots li button:before {
+        color: white; /* Change dot color */
+        font-size: 12px;
+    }
 `;
