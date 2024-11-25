@@ -5,6 +5,7 @@ export const UserEngagementChartWrap = styled.div`
    width: 100%;
   max-width: 60vw;
   height: 100%; /* Ensure full height */
+  margin:10px auto;
 
   .chart-wrapper {
     position: relative;

@@ -30,8 +30,10 @@ export const CustomerQueryWrap = styled.div`
     max-width: 320px;
     width: 100%;
     margin-right:25px;
+    // height:40px;
     flex: 0 0 auto;
     align-items: center; 
+    font-size: 14px;
 
     ${media.md`
       max-width: 100%;
@@ -40,7 +42,7 @@ export const CustomerQueryWrap = styled.div`
 
     .ant-input {
       border-radius: 6px;
-      height: 40px;
+      height:auto;
       padding: 0 12px;
     }
   }
@@ -65,6 +67,7 @@ export const CustomerQueryWrap = styled.div`
 
     .ant-select {
       width: 120px;
+      margin-top: -10px;
     }
   }
 

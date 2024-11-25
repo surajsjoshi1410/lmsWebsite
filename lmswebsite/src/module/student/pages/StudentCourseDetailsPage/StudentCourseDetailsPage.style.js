@@ -221,3 +221,17 @@ export const EnrollButton = styled.button`
     width: 35%;
   }
 `;
+
+export const PlanTitle = styled.h3`
+  font-size: 22px;
+  color: #ee1b7a;
+  margin: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
+`;

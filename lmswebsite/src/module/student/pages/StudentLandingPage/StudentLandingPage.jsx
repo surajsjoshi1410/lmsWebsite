@@ -37,6 +37,7 @@ export const StudentLandingPage = () => {
   const [profilePicture, setProfilePicture] = useState(null);
 
   const [studentDataForm, setStudentDataForm] = useState();
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const [classData, setClassData] = useState([]);
   const [studentClass, setStudentClass] = useState();
   const [packagesData, setPackagesData] = useState([]);
@@ -87,12 +88,12 @@ export const StudentLandingPage = () => {
       } catch (error) {
         console.error("API Caller Error:", error);
       }
-      
+
 
     }
 
     apiCaller();
-    
+
   }, []);
 
 
@@ -140,8 +141,6 @@ export const StudentLandingPage = () => {
 
     }
     apiCaller();
-    // console.log("Form Values:", values);
-    // console.log("Profile Picture:", profilePicture);
 
   };
 
@@ -206,8 +205,10 @@ export const StudentLandingPage = () => {
                           {availableSlots.map((slot, index) => (
                             <Slot key={index}
                               onClick={() => {
+                                setSelectedSlot(slot);
                                 setSlot(slot);
                               }}
+                              isSelected={slot === selectedSlot}
                             >
 
                               {slot}</Slot>
@@ -274,9 +275,6 @@ export const StudentLandingPage = () => {
                             console.log("Selected subjects:", options);
                           }}
                         />
-
-
-
                       </Form.Item>
                     </StyledCol>
                   </StyledRow>
@@ -306,9 +304,11 @@ export const StudentLandingPage = () => {
             </ApplicationContainer>
             : studentDataForm.student.custom_package_status === "pending" ?
               <CustomPackageStatus> Your Custom Package is under review</CustomPackageStatus>
-              :  <CustomPackageStatus> Your Custom Package Request Rejected</CustomPackageStatus>
+              : <CustomPackageStatus> Your Custom Package Request Rejected</CustomPackageStatus>
           }
-          <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+          {studentDataForm.student.custom_package_status == "no_package" &&
+            <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+          }
           <StudentEnrollmentVideoView />
           <TeachersSection />
           <StudentEnrollmentReviews />
@@ -317,7 +317,7 @@ export const StudentLandingPage = () => {
         :
 
         <LoadingPage />
-        
+
     }
 
     </>

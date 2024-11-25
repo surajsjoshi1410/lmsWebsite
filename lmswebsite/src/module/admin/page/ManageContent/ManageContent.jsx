@@ -1,5 +1,5 @@
 // ManageContent.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
 import {
@@ -15,7 +15,11 @@ const ManageContent = () => {
   const handleBack = () => {
     navigate(-1);
   };
-
+  
+  // useEffect(() => {
+  //   navigate("class");
+  // }, [useEffect]);
+ 
   return (
     <Container>
       <Header>
@@ -23,9 +27,10 @@ const ManageContent = () => {
         <h2>Manage Content</h2>
       </Header>
       <TabsContainer>
-        <Tab to="class" as={NavLink}>
-          Class
-        </Tab>
+          <Tab to="/admin/manageContent/" as={NavLink}>
+           
+            Class
+          </Tab>
         <Tab to="subject" as={NavLink}>
         Subject
         </Tab>

@@ -1,3 +1,5 @@
+// BecomeTeacherApplicationForm.styles.js
+
 import styled from "styled-components";
 import { theme, media } from "../../../../style/theme/theme";
 
@@ -82,106 +84,62 @@ export const ApplicationContainer = styled.div`
   }
 `;
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+// Rename the styled Form to avoid conflict with antd's Form
+export const StyledForm = styled.div`
   width: 100%;
 
-  .applicationRowOne, .applicationRowTwo, .applicationRowThree {
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .applicationRowOne,
+  .applicationRowTwo,
+  .applicationRowThree {
+   
     display: flex;
+    justify-content: space-between;
     gap: 20px;
-    //  padding: 15px;
-    margin-bottom: 15px; /* Apply margin-bottom to each row */
+    margin-bottom: 15px;
+    
 
     ${media.sm`
       flex-direction: column;
       gap: 12px;
     `}
-   
+  }
+     .applicationRowThree  div{
+       width: 100%;
+       gap: 20px;
+     }
     
+     
 
-    input, select ,.react-select-container{
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid ${theme.colors.gray300};
-      border-radius: 4px;
-      width: 100%;
-      color: ${theme.colors.textPrimary};
-      background-color: ${theme.colors.white};
-
-      &::placeholder {
-        color: ${theme.colors.gray500};
-      }
-    }
+  .ant-input,
+  .ant-select-selector,
+  .ant-upload {
+    width: 100%;
   }
 
   button {
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: ${theme.colors.red};
-    background-color: ${theme.colors.primary};
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: ${theme.colors.primaryDark};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.gray500};
-      cursor: not-allowed;
-    }
+    width: 100%;
   }
+   
 `;
 
 export const UploadWrapper = styled.div`
-  position: relative;
-  width: 100%;
-
-  .uploadLabel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: ${theme.colors.primary};
-    border: 1px solid ${theme.colors.primary};
-    border-radius: 4px;
-    cursor: pointer;
-    gap: 8px;
-    background-color: ${theme.colors.white};
-
-    .uploadIcon {
-      font-size: 1.2rem;
-    }
-  }
-
-  input[type="file"] {
-    /* Visually hide the input */
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
+  .ant-upload {
     width: 100%;
-    height: 100%;
-    cursor: pointer;
   }
 `;
 
-
 export const Processing = styled.div`
-height: 30vh;
- display: ${({ visible }) =>{  return (visible ? 'block' : 'none')}};
-font-family: ${theme.typography.fontFamily};
+  height: 30vh;
+  display: ${({ visible }) => (visible ? "block" : "none")};
+  font-family: ${theme.typography.fontFamily};
   font-size: 2rem;
   color: ${theme.colors.primary};
   text-align: center;
- padding-top:5%;
+  padding-top: 5%;
   margin-bottom: 20px;
 
   ${media.md`
@@ -191,11 +149,4 @@ font-family: ${theme.typography.fontFamily};
   ${media.sm`
     font-size: 1.6rem;
   `}
-
 `;
-
-// text-align: center;
-// padding: 20px;
-// font-size: 1.2rem;
-// color: ${theme.colors.primary};
-

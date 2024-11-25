@@ -1,6 +1,7 @@
 import api from "../config/axiosConfig";
 
 export const createBanner = async (responseData) => {
+    
     console.log("responseData", responseData);
     
     try {

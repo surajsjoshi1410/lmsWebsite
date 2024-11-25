@@ -11,6 +11,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaEye } from "react-icons/fa";
 import { getTeacherByAuthId } from "../../../../../api/teacherApi";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "../../../../../pages/LoadingPage/LoadingPage";
 
 export default function QuizBatches() {
     const [searchInput, setSearchInput] = useState("");
@@ -37,8 +38,8 @@ export default function QuizBatches() {
     useEffect(() => {
         const fetchBatches = async () => {
             try {
-                const authId=JSON.parse(localStorage.getItem("sessionData")).userId;
-                const teacherData= await getTeacherByAuthId(authId);
+                const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+                const teacherData = await getTeacherByAuthId(authId);
                 console.log("Teacher Data:", teacherData);
                 const fetchedBatches = await getBatchesByTeacherId(teacherData.teacher._id);
                 setBatches(fetchedBatches);
@@ -48,7 +49,7 @@ export default function QuizBatches() {
                 setLoading(false);
             } catch (err) {
                 console.error('Error fetching batches:', err);
-                setError('Failed to fetch batches');
+                // setError('Failed to fetch batches');
                 setLoading(false);
             }
         };
@@ -109,7 +110,9 @@ export default function QuizBatches() {
             </div>
             <div className="area-row ar-three">
                 {loading ? (
-                    <p>Loading...</p>
+                    <>
+                        <LoadingPage />
+                    </>
                 ) : error ? (
                     <p style={{ color: 'red' }}>{error}</p>
                 ) : batches && filterData.length > 0 ? (
@@ -122,14 +125,18 @@ export default function QuizBatches() {
                             teacher_id: batch.teacher_id,
                             date: batch.date,
                             studentcount: batch.students.length,
-                            action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`)}}><FaEye /> View Quizes</button>
+                            action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`) }}><FaEye /> View Quizes</button>
                         }
                         return (
                             <BatchCard key={batch._id} batch={batchData} />
                         )
                     })
                 ) : (
-                    <p>No batches available</p>
+                    <>
+                        <div className="quizBatches-batchNotFound">
+                            <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
+                        </div>
+                    </>
                 )}
 
                 {/* {isModalOpen && (

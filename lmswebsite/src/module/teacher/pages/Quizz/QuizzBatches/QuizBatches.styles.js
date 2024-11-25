@@ -19,6 +19,13 @@ export const QuizBatcheswrap = styled.div`
       padding: 1em;
     `}
   }
+.quizBatches-batchNotFound{
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+height:100vh;
+gap:20px;}
 
   .AssignedTeacherBatch-batch_title {
     font-family: ${theme.typography.fontFamily};

@@ -99,6 +99,7 @@ export default function Circulars() {
     <CircularWrap>
       <div className="circular-header">
         <h2 className="circular-title">Created Circulars</h2>
+        <div className="circulat-button">
         <Input
           placeholder="Search by Circular Name"
           prefix={<FaSearch />}
@@ -113,6 +114,8 @@ export default function Circulars() {
         >
           Create Circular
         </Button>
+        </div>
+       
       </div>
 
       <Table

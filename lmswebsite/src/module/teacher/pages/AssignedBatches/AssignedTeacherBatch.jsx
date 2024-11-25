@@ -7,6 +7,7 @@ import { AssignedTeacherBatchesWrap } from './AssignedTeacherBatches.style';
 import { getBatchesByTeacherId } from "../../../../api/batchApi";
 import BatchCard from "../../components/BatchCard/BatchCard";
 import { getTeacherByAuthId } from "../../../../api/teacherApi";
+import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
 
 export default function AssignedTeacherBatch() {
     const [searchInput, setSearchInput] = useState("");
@@ -40,8 +41,9 @@ export default function AssignedTeacherBatch() {
                 console.log("Fetched Batches:", fetchedBatches);
                 setLoading(false);
             } catch (err) {
+                setBatches(null);
                 console.error('Error fetching batches:', err);
-                setError(err.message || 'Failed to fetch batches');
+                // setError(err.message || 'Failed to fetch batches');
                 setLoading(false);
             }
         };
@@ -94,7 +96,9 @@ export default function AssignedTeacherBatch() {
             </div>
             <div className="area-row ar-three">
                 {loading ? (
-                    <p>Loading...</p>
+                    <>
+                        <LoadingPage />
+                    </>
                 ) : error ? (
                     <div>
                         <p style={{ color: 'red' }}>{error}</p>
@@ -146,9 +150,15 @@ export default function AssignedTeacherBatch() {
                             <BatchCard key={batch._id} batch={batchData} />
                         );
                     })
-                ) : (
-                    <p>No batches available for this teacher.</p>
-                )}
+                ) :
+                    (
+                        <>
+                            <div className="assignedBatches-batchNotFound">
+                                <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
+                            </div>
+                        </>
+
+                    )}
             </div>
         </AssignedTeacherBatchesWrap>
     );

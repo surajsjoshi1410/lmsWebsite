@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   FormField,
@@ -8,7 +8,7 @@ import {
   FileInput,
   Select,
 } from "./GeneralSettings.style";
-import{getUserByAuthId} from "../../../../../api/userApi";
+import { getUserByAuthId } from "../../../../../api/userApi";
 import { getTeacherByAuthId } from "../../../../../api/teacherApi";
 
 const GeneralSettings = () => {
@@ -20,15 +20,18 @@ const GeneralSettings = () => {
   const [gender, setGender] = useState("Male");
 
   useEffect(() => {
-    console.log("hello"); 
-    const apiCaller=async() => {
-      const authId=JSON.parse(localStorage.getItem("sessionData")).userId;
-      const DataTeacher= await getTeacherByAuthId(authId);
+    console.log("hello");
+    const apiCaller = async () => {
+      const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+      const DataTeacher = await getTeacherByAuthId(authId);
       console.log(DataTeacher);
       setFullName(DataTeacher.teacher.user_id.name);
       setUsername(DataTeacher.teacher.user_id.email);
       setEmail(DataTeacher.teacher.user_id.email);
       setPhone(DataTeacher.teacher.phone_number);
+      const dateObject = new Date(DataTeacher.teacher.dateOfBirth);
+      const formattedDate = dateObject.toISOString().split("T")[0];
+      setDob(formattedDate);
     }
     apiCaller();
 

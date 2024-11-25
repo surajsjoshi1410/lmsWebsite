@@ -152,7 +152,7 @@ export const AvailableSlotsContainer = styled.div`
 
 export const Slot = styled.div`
   padding: 8px;
-  background-color: : ${(props) =>(props.isSelected ? "#EE1B7A" : "#fff")};
+  background-color : ${(props) =>(props.isSelected ? "#EE1B7A" : "#fff")};
   color:${(props) =>(props.isSelected ? "#fff" : "#000")};
   border: 1px solid #dcdcdc;
   border-radius: 50px;

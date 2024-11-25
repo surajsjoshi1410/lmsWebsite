@@ -55,6 +55,7 @@ export const getAllStudents = async () => {
     try {
       // Make GET request to fetch all students
       const response = await api.get('/students');
+      console.log('All students fetched successfully:', response.data);
       
       // Return the list of students
       return response.data;

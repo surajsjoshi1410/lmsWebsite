@@ -30,7 +30,7 @@ export default function UserManagement() {
             name: student.user_id?.name || "N/A",
             email: student.user_id?.email || "N/A",
             phoneNumber: student.phone_number || "N/A",
-            classLevel: student.ClassLevel || "N/A",
+            classLevel: student.class?.classLevel || "N/A",
           }));
           setOriginalData(formattedData);
           setData(formattedData);

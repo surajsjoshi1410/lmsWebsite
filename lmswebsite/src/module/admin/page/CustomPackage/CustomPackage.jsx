@@ -33,10 +33,11 @@ const CustomPackage = () => {
   // Handle search functionality
   const handleSearch = () => {
     const filtered = packages.filter((pkg) =>
-      pkg.student_id?.user_id?.name.toLowerCase().includes(searchInput.toLowerCase())
+      pkg.student_id?.user_id?.name?.toLowerCase().includes(searchInput.toLowerCase())
     );
     setFilteredPackages(filtered);
   };
+  
 
   const handleViewDetails = (record) => {
     setSelectedPackage(record);
@@ -112,14 +113,17 @@ const CustomPackage = () => {
       <div className="header">
         <h2>Custom Packages</h2>
         <SearchContainer>
-          <Input
-            placeholder="Search by Student Name"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onPressEnter={handleSearch}
-            allowClear
-          />
-        </SearchContainer>
+  <Input
+    placeholder="Search by Student Name"
+    value={searchInput}
+    onChange={(e) => {
+      setSearchInput(e.target.value);
+      handleSearch(); // Trigger search on every change
+    }}
+    onPressEnter={handleSearch}
+    allowClear
+  />
+</SearchContainer>
       </div>
       <Table
         dataSource={filteredPackages}

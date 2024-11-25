@@ -32,7 +32,9 @@ export const submitTeacherApplication = async (applicationData) => {
         class_id:applicationData.class_id,
         subject_id:applicationData.subject_id,
         profileImage: profileImageUrl, // Add profile image URL
-        board_id:applicationData.board_id
+        board_id:applicationData.board_id,
+        qualifications:applicationData.qualifications,
+        dateOfBirth:applicationData.dateOfBirth
       };
       // Send the request to the backend
       const response = await api.post('/teacher-application/apply', requestBody);

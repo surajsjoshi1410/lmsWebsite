@@ -18,6 +18,7 @@ const TeachersSection = () => {
     const fetchTeachers = async () => {
       try {
         const response = await getTeachersByExperience();
+        console.log("Teachers fetched successfully:", response);
         setTeachers(response.slice(0, 4)); // Get the top 3 experienced teachers
         setLoading(false);
       } catch (err) {
@@ -46,11 +47,11 @@ const TeachersSection = () => {
           <TeacherCard key={index}>
             <TeacherImage
               src={teacher.profile_image || 'default-image-path.jpg'}
-              alt={teacher.name}
+              alt={teacher.user_id.name}
             />
             <TeacherInfo>
-              <h3 className="teacher-name">{teacher.name}</h3>
-              <p className="teacher-subject">{teacher.subject}</p>
+              <h3 className="teacher-name">{teacher.user_id.name}</h3>
+              <p className="teacher-subject">{teacher.qualifications}</p>
               <p className="teacher-experience">
                 Experience: {teacher.experience} years
               </p>

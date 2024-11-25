@@ -3,7 +3,11 @@
 import React from 'react';
 import axiosInstance from '../../../../config/axiosConfig'; // Adjust the path as needed
 import { EnrollButton  }from "./PaymentComponet.style";
+import { getStudentById } from '../../../../api/studentApi';
+import { useNavigate } from 'react-router-dom';
+import { razorPayKeys } from '../../../../config/razorpayConfig';
 const PaymentComponent = ({ studentId, packageId, amount }) => {
+  const navigate = useNavigate();
   const handlePayment = async () => {
     try {
       // Step 1: Create Order on Backend
@@ -13,17 +17,17 @@ const PaymentComponent = ({ studentId, packageId, amount }) => {
         amount,
         description: 'Purchase of Premium Package', // Optional
       });
-
+      const studentData= await getStudentById(studentId);
       const order = orderResponse.data;
 
       // Step 2: Initialize Razorpay Checkout
       const options = {
-        key: 'rzp_test_YW49ucyVtjePLT', // Your Razorpay Key ID
+        key: razorPayKeys.key_id, // Your Razorpay Key ID
         amount: Number(order.amount), // Amount in paise
         currency: order.currency,
-        name: 'Your Education Platform',
+        name: razorPayKeys.name,
         description: order.notes.description,
-        image: 'https://your-logo-url.com/logo.png', // Optional: Logo image
+        image: razorPayKeys.logo, // Optional: Logo image
         order_id: order.id,
         handler: async function (response) {
           console.log(response);
@@ -38,6 +42,7 @@ const PaymentComponent = ({ studentId, packageId, amount }) => {
             if (verificationResponse.data.message === 'Payment verified successfully') {
               alert('Payment Successful!');
               // Optionally, redirect or update UI
+              navigate('/student/package/paymentSucces');
             } else {
               alert('Payment Verification Failed!');
             }
@@ -47,9 +52,9 @@ const PaymentComponent = ({ studentId, packageId, amount }) => {
           }
         },
         prefill: {
-          name: 'Student Name', // Replace with actual student name
-          email: 'student@example.com', // Replace with actual student email
-          contact: '9999999999', // Replace with actual contact number
+          name: studentData.user_id.name, // Replace with actual student name
+          email: studentData.user_id.email, // Replace with actual student email
+          contact: studentData.phone_number, // Replace with actual contact number
         },
         notes: {
           address: 'Student Address', // Optional

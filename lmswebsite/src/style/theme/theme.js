@@ -47,6 +47,7 @@ export const theme = {
   },
   lineargradients: {
         pinkGradient: `linear-gradient(90deg,   #672A47 0%, #EE1B7A 100% )`,
+        hoverPinkGradient:` linear-gradient(to right, #ff4f88, #ff0076)`,
   },
  
   typography: {

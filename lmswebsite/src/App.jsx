@@ -24,7 +24,7 @@ import PublicRoute from "./module/admin/components/PublicRoute";
 import UserManagement from "./module/admin/page/UserManagement/UserManagement";
 import manageCustomBatch from "./module/admin/page/manageCustomBatchApproval/manageCustomBatch";
 // import { ManagecustomBatchWrap } from "./module/admin/page/manageCustomBatchApproval/manageCustomBatch.styles";
-import ManagePayment from "./module/admin/page/ManagePayment/ManagePayment";
+import ManagePayment from "./module/admin/page/managePayment/managePayment";
 import TeacherDashboardLayout from "./module/teacher/pages/TeacherDashboardLayout/TeacherDashboardLayout";
 import { TeacherDashboardScreenWrap } from "./module/teacher/pages/TeacherDashboard/TeacherDashboardScreen.styles";
 import TeacherDashboardScreen from "./module/teacher/pages/TeacherDashboard/TeacherDashboardScreen";
@@ -51,6 +51,9 @@ import ManageContent from "./module/admin/page/ManageContent/ManageContent";
 // import BannerForm from "./module/admin/page/BannerForm/BannerForm";
 import ManageContentTable from "./module/admin/page/ManageContent/ManageContentTable/ManageContentTable";
 import CustomPackage from "./module/admin/page/CustomPackage/CustomPackage";
+import PaymentSuccess from "./module/student/pages/PaymentSuccess/PaymentSuccess";
+import StudentDashboardLayout from "./module/student/pages/StudentDashboardLayout/StudentDashboardLayout";
+import StudentDashboardScreen from "./module/student/pages/StudentDashboard/StudentDashboardScreen";
 function App() {
   const [count, setCount] = useState(0);
   
@@ -81,6 +84,11 @@ function App() {
           <Route path="/student"   element={<StudentLandingPage />} />
           <Route path="/student/course/details" element={<StudentCourseDetailsPage/>}/>
           <Route path="/student/package/successPage/" element={<SubscriptionSuccess/>}/>
+          <Route path="/student/package/paymentSucces" element={<PaymentSuccess/>}/>
+
+          <Route path="/student/dashboard" element={<StudentDashboardLayout />}>
+          <Route index element={<StudentDashboardScreen/>} />
+          </Route>
 
 
           <Route path="/teacher" element={<BecomeTeacherApplicationForm />} />
@@ -133,7 +141,7 @@ function App() {
 
 
             <Route path="/admin/manageContent" element={<ManageContent />}>
-          <Route path="class" element={<ManageContentTable contentType="class" />} />
+          <Route index element={<ManageContentTable contentType="class" />} />
           <Route path="subject" element={<ManageContentTable contentType="subject" />} />
           <Route path="board" element={<ManageContentTable contentType="board" />} />
           <Route path="package" element={<ManageContentTable contentType="package" />} />

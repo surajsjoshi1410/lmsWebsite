@@ -6,8 +6,8 @@ export const ContactFormStylesWrap = styled.div`
   max-width: 350px;
   min-width: 240px;
   height: 100%; /* Fill available height */
-  margin: auto;
-
+  // margin: auto;
+ margin:10px auto;
   .contact-forms {
     width: 100%;
     height: 100%; /* Ensure the component fills its container height */
