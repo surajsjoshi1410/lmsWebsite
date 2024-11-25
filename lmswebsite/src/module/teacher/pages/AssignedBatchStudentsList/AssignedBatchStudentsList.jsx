@@ -19,6 +19,7 @@ import {
   MemberList,
   MemberInfo,
 } from "./AssignedBatchStudentsList.style"; // Import the styled component
+import { red } from "@mui/material/colors";
 
 const AssignedBatchStudentsList = () => {
   const { batchId } = useParams();
@@ -103,25 +104,25 @@ const AssignedBatchStudentsList = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      // sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      sorter: (a, b) => a.email.localeCompare(b.email),
+      // sorter: (a, b) => a.email.localeCompare(b.email),
     },
     {
       title: "Class Level",
       dataIndex: "classLevel",
       key: "classLevel",
-      sorter: (a, b) => a.classLevel - b.classLevel,
+      // sorter: (a, b) => a.classLevel - b.classLevel,
     },
     {
       title: "Subject",
       dataIndex: "subjects",
       key: "subjects",
-      sorter: (a, b) => a.subjects.localeCompare(b.subjects),
+      // sorter: (a, b) => a.subjects.localeCompare(b.subjects),
       render: (subjects) => <span>{subjects}</span>, // Display subjects as plain text
     },
     // Add more columns if needed
@@ -152,7 +153,7 @@ const AssignedBatchStudentsList = () => {
     <>
     <TeacherStudentsListContainer>
       <Header>
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center",  }}>
         <Link to="/teacher/dashboard/batches">
           <IoMdArrowRoundBack size={24} style={{ marginRight: "10px" }}/>
         </Link>

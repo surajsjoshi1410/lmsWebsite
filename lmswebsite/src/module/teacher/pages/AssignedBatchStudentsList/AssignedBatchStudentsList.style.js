@@ -9,6 +9,7 @@ export const TeacherStudentsListContainer = styled.div`
   padding: 20px;
   min-height: 60vh;
   background-color: ${theme.colors.seasalt};
+ 
 
   ${media.sm`
     padding: 15px;
@@ -94,7 +95,7 @@ export const TeacherStudentsListContainer = styled.div`
       }
 
       th {
-        background-color: ${theme.colors.pink2};
+        background-color: ${theme.colors.pink4};
         color: ${theme.colors.cadet};
         font-weight: bold;
         font-size: 1rem;

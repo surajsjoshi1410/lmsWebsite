@@ -101,6 +101,7 @@ gap:20px;}
     }
 
     &.ar-three {
+    
       display: flex;
       flex-direction: column;
       margin-top: 6vh;

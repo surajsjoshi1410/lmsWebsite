@@ -100,7 +100,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  width: 30%;
+  width: 40%;
   float: right;
   background-color: #fa5a7d;
   color: white;

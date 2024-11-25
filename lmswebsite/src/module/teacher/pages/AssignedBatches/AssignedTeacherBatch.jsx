@@ -135,7 +135,7 @@ export default function AssignedTeacherBatch() {
                                         display: "flex",
                                         alignItems: "center",
                                         padding: "5px 10px",
-                                        backgroundColor: "#007bff",
+                                        backgroundColor: "#ff007a",
                                         color: "#fff",
                                         border: "none",
                                         borderRadius: "5px",

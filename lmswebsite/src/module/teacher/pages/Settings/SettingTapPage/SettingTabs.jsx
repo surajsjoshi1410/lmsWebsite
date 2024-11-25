@@ -1,35 +1,25 @@
-// src/SettingsPage/SettingsPage.jsx
 import React, { useState } from "react";
+import { Layout, Menu, Button } from "antd";
 import {
-  Container,
-  Sidebar,
-  SidebarItem,
-  SidebarIcon,
-  Content,
-  Title,
-  HamburgerMenu,
-} from "./SettingTabs.style";
+  SettingOutlined,
+  UserOutlined,
+  CreditCardOutlined,
+  BellOutlined,
+  FileTextOutlined,
+} from "@ant-design/icons";
 import GeneralSettings from "../GeneralSettings/GeneralSettings";
 import AccountSettings from "../AccountSettings/AccountSettings";
 import PaymentSettings from "../PaymentSettings/PaymentSettings";
 import TermsConditionSettings from "../TermsConditionSettings/TermsConditionSettings";
+import PushNotificationSettings from "../PushNotificationSettings/PushNotificationSettings";
+import { StyledMenuItem } from "../SettingTapPage/SettingTabs.style";
 
-import PushNotificationSettings from "../PushNotificationSettings/PushNotificationSettings"; // Import PushNotificationSettings
-
-const SidebarItems = [
-  { name: "General", key: "general" },
-  { name: "Account", key: "account" },
-  { name: "Payment & Billing", key: "billing" },
-  { name: "Push Notification", key: "notifications" },
-  { name: "Terms & Condition", key: "terms" },
-];
+const { Sider, Content } = Layout;
 
 const SettingsTabs = () => {
+  const [collapsed, setCollapsed] = useState(false); // Sidebar collapse state
   const [activeTab, setActiveTab] = useState("general");
-  const [isSidebarVisible, setSidebarVisible] = useState(false); // State for toggling sidebar visibility
 
-
- 
   const renderContent = () => {
     switch (activeTab) {
       case "general":
@@ -47,35 +37,63 @@ const SettingsTabs = () => {
     }
   };
 
-  const handleHamburgerClick = () => {
-    setSidebarVisible(!isSidebarVisible); // Toggle sidebar visibility on hamburger click
+  const handleMenuClick = (e) => {
+    setActiveTab(e.key); // Set active tab based on menu item key
   };
 
   return (
-    <Container>
-      <HamburgerMenu onClick={handleHamburgerClick}>
-        <h3>Settings</h3>
-        <div className="hamburger-lines">
-          <div></div> {/* Hamburger line 1 */}
-          <div></div> {/* Hamburger line 2 */}
-          <div></div> {/* New child line */}
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        theme="light"
+      >
+        <div className="settings-sider "
+          style={{
+            height: 32,
+            margin: 16,
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          Settings
         </div>
-      </HamburgerMenu>
-      <Sidebar isSidebarVisible={isSidebarVisible}>
-        {SidebarItems.map((item) => (
-          <SidebarItem
-            key={item.key}
-            active={item.key === activeTab}
-            onClick={() => setActiveTab(item.key)}
-          >
-            {/* <Title> */}
-              {item.name}
-            {/* </Title> */}
-          </SidebarItem>
-        ))}
-      </Sidebar>
-      <Content>{renderContent()}</Content>
-    </Container>
+
+        <Menu
+          mode="inline"
+          selectedKeys={[activeTab]}
+          onClick={handleMenuClick}
+        >
+          <StyledMenuItem key="general" icon={<SettingOutlined />}>
+            General
+          </StyledMenuItem>
+          <StyledMenuItem key="account" icon={<UserOutlined />}>
+            Account
+          </StyledMenuItem>
+          <StyledMenuItem key="billing" icon={<CreditCardOutlined />}>
+            Payment & Billing
+          </StyledMenuItem>
+          <StyledMenuItem key="notifications" icon={<BellOutlined />}>
+            Push Notification
+          </StyledMenuItem>
+          <StyledMenuItem key="terms" icon={<FileTextOutlined />}>
+            Terms & Condition
+          </StyledMenuItem>
+        </Menu>
+      </Sider>
+      <Layout>
+        <Content
+          style={{
+            margin: "24px 16px",
+            padding: 24,
+            background: "#fff",
+          }}
+        >
+          {renderContent()}
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 

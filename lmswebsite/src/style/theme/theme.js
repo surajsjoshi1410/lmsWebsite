@@ -22,6 +22,7 @@ export const theme = {
     pink5: "#672A47",
     pink6:"#f562ba",
     pink7:"#ffcaea",
+    pink8:"#ff007a",
     lightPink: " #ffcaea",
     salmon: "#FF947A",
     lightGrayishCyan:"#D7FDEB",
