@@ -91,7 +91,7 @@ const Sidebar = () => {
             <ul className="menu-list">
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard"
+                  to="/student/dashboard"
                   activeClassName="active"
                   className="menu-link"
                 >
@@ -103,7 +103,7 @@ const Sidebar = () => {
               </li>
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard/batches"
+                  to="/student/dashboard/assignedBatches"
                   activeClassName="active"
                   className="menu-link"
                 >
@@ -115,7 +115,7 @@ const Sidebar = () => {
               </li>
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard/quizz/assignedBatch"
+                  to="/student/dashboard/assignedBatch"
                   activeClassName="active"
                   className="menu-link"
                 >
@@ -125,9 +125,11 @@ const Sidebar = () => {
                   <span className="menu-link-text">Task Management</span>
                 </NavLink>
               </li>
+
+
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard/circular"
+                  to="/student/dashboard/circular"
                   activeClassName="active"
                   className="menu-link"
                 >
@@ -137,9 +139,11 @@ const Sidebar = () => {
                   <span className="menu-link-text">Circulars</span>
                 </NavLink>
               </li>
+
+              
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard/setting"
+                  to="/student/dashboard/setting"
                   activeClassName="active"
                   className="menu-link"
                 >

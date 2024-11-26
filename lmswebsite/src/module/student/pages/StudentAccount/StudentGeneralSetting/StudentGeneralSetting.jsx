@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, DatePicker, Typography, Row, Col } from "antd";
 import dayjs from "dayjs"; // Import dayjs for date handling
-import { getTeacherByAuthId } from "../../../../../api/teacherApi";
-import { StyledDatePicker, StyledInput } from "./GeneralSettings.style";
+import { getStudentByAuthId } from "../../../../../api/studentApi";
+import { StyledDatePicker, StyledInput } from "./StudentGeneralSetting.style";
 
 const { Title } = Typography;
 
@@ -17,17 +17,17 @@ const GeneralSettings = () => {
   useEffect(() => {
     const apiCaller = async () => {
       const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
-      const DataTeacher = await getTeacherByAuthId(authId);
+      const DataStudent = await getStudentByAuthId(authId);
 
       // Populate fields with data from the API
-      setFullName(DataTeacher.teacher.user_id.name);
-      setUsername(DataTeacher.teacher.user_id.email);
-      setEmail(DataTeacher.teacher.user_id.email);
-      setPhone(DataTeacher.teacher.phone_number);
-      console.log(DataTeacher);
+      setFullName(DataStudent.student.user_id.name);
+      setUsername(DataStudent.student.user_id.email);
+      setEmail(DataStudent.student.user_id.email);
+      setPhone(DataStudent.student.phone_number);
+      console.log(DataStudent);
 
       // Format the date of birth
-      const dateObject = new Date(DataTeacher.teacher.dateOfBirth);
+      const dateObject = new Date(DataStudent.student.dateOfBirth);
       const formattedDate = dateObject.toISOString().split("T")[0];
       setDob(formattedDate);
     };

@@ -148,6 +148,7 @@ export const StudentLandingPage = () => {
 
     <> {
       studentDataForm ?
+     
         <>
 
           <Header />
@@ -172,7 +173,8 @@ export const StudentLandingPage = () => {
                         name="name"
 
                       >
-                        {studentDataForm.student.user_id.name}
+                         <Input value={studentDataForm.student.user_id.name} readOnly />
+                        {/* {studentDataForm.student.user_id.name} */}
 
                       </Form.Item>
                     </StyledCol>
@@ -182,7 +184,8 @@ export const StudentLandingPage = () => {
                         name="email"
 
                       >
-                        {studentDataForm.student.user_id.email}
+                         <Input value={studentDataForm.student.user_id.email} readOnly />
+                        {/* {studentDataForm.student.user_id.email} */}
 
                       </Form.Item>
                     </StyledCol>
@@ -192,7 +195,8 @@ export const StudentLandingPage = () => {
                         name="phone"
 
                       >
-                        {studentDataForm.student.phone_number}
+                         <Input value={studentDataForm.student.phone_number} readOnly />
+                        {/* {studentDataForm.student.phone_number} */}
                       </Form.Item>
                     </StyledCol>
                   </StyledRow>
@@ -224,9 +228,10 @@ export const StudentLandingPage = () => {
                       <Form.Item
                         label="Select Board"
                         name="board"
-
-
-                      >{studentDataForm.student.board_id.name}
+                      >
+                         <Input value={studentDataForm.student.board_id.name} readOnly />
+                                                
+                        {/* {studentDataForm.student.board_id.name} */}
 
                       </Form.Item>
                     </StyledCol>
@@ -236,7 +241,8 @@ export const StudentLandingPage = () => {
                         name="class"
 
                       >
-                        {studentDataForm.student.class.classLevel}
+                         <Input value={studentDataForm.student.class.classLevel} readOnly />
+                        {/* {studentDataForm.student.class.classLevel} */}
 
                       </Form.Item>
                     </StyledCol>
@@ -308,6 +314,7 @@ export const StudentLandingPage = () => {
           }
           {studentDataForm.student.custom_package_status == "no_package" &&
             <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+
           }
           <StudentEnrollmentVideoView />
           <TeachersSection />

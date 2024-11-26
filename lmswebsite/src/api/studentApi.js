@@ -91,3 +91,13 @@ export const getAllStudents = async () => {
       throw error;
     }
   };
+
+  export const getStudentsForBatchBySubjectId= async (subjectId) => {
+    try {
+      const response = await api.get(`/students/batch/subject/${subjectId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching students by Subject ID:', error);
+      throw error;
+    }
+  }

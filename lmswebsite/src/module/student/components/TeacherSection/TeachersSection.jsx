@@ -37,28 +37,31 @@ const TeachersSection = () => {
   if (error) {
     return <p>{error}</p>;
   }
-
+  console.log("teachers", teachers);  
   return (
-    <TeachersSectionContainer>
-      <SectionTitle>Meet Our Experienced Teachers</SectionTitle>
-      <TeachersGrid>
-        {teachers.map((teacher, index) => (
-          <TeacherCard key={index}>
-            <TeacherImage
-              src={teacher.profile_image || 'default-image-path.jpg'}
-              alt={teacher.name}
-            />
-            <TeacherInfo>
-              <h3 className="teacher-name">{teacher.name}</h3>
-              <p className="teacher-subject">{teacher.subject}</p>
-              <p className="teacher-experience">
-                Experience: {teacher.experience} years
-              </p>
-            </TeacherInfo>
-          </TeacherCard>
-        ))}
-      </TeachersGrid>
-    </TeachersSectionContainer>
+   
+    <>hello</>
+    // <TeachersSectionContainer>
+    //   <SectionTitle>Meet Our Experienced Teachers</SectionTitle>
+    //   <TeachersGrid>
+    //     {teachers.map((teacher, index) => (
+    //       <TeacherCard key={index}>
+    //         <TeacherImage
+    //           src={teacher.profile_image || 'default-image-path.jpg'}
+    //           alt={teacher.name}
+    //         />
+    //         <TeacherInfo>
+    //           <h3 className="teacher-name">{teacher.name}</h3>
+    //           <p className="teacher-subject">{teacher.subject}</p>
+    //           <p className="teacher-experience">
+    //             Experience: {teacher.experience} years
+    //           </p>
+    //         </TeacherInfo>
+    //       </TeacherCard>
+    //     ))}
+    //   </TeachersGrid>
+    // </TeachersSectionContainer>
+  
   );
 };
 

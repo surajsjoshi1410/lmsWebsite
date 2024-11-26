@@ -70,3 +70,15 @@ export const getBatchById = async(batch_id)=>{
   }
 }
 
+
+export const getBatchesByStudentId = async (studentId) => {   
+  try {
+    const response = await api.get(`/batches/getAllBatches/student/${studentId}`);
+    console.log("batches fetched succesfully",response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching batches:', error);  
+    throw error; // Re-throw the error to handle it in the calling function
+  }
+};
+

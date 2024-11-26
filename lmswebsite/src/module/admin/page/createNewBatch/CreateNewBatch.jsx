@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select, Button, DatePicker, Upload, message } from 
 import { UploadOutlined } from "@ant-design/icons";
 import { createBatch } from "../../../../api/batchApi";
 import { getClasses, getSubjects, getTeachersBySubjectAndClass } from "../../../../services/createBatch";
-import { getStudentsByClassId } from "../../../../api/studentApi";
+import { getStudentsByClassId, getStudentsForBatchBySubjectId } from "../../../../api/studentApi";
 import { uploadFileToFirebase } from "../../../../utils/uploadFileToFirebase";
 import { CreateNewBatchWrap } from "./CreateNewBatch.Styles"; // Import styles
 
@@ -27,9 +27,9 @@ const CreateNewBatch = ({ open, closeModal }) => {
 
   const handleClassChange = async (value) => {
     const subjectData = await getSubjects(value);
-    const studentData = await getStudentsByClassId(value);
+    // const studentData = await getStudentsByClassId(value);
     setSubjects(subjectData || []);
-    setStudents(studentData.students || []);
+    // setStudents(studentData.students || []);
     form.setFieldsValue({
       subject: undefined,
       teachers: undefined,
@@ -39,18 +39,21 @@ const CreateNewBatch = ({ open, closeModal }) => {
 
   const handleSubjectChange = async (value) => {
     const teacherData = await getTeachersBySubjectAndClass(value, form.getFieldValue("class"));
+    const studentData = await getStudentsForBatchBySubjectId(value);
+  
+    setStudents(studentData.data || []);
     setTeachers(teacherData || []);
     form.setFieldsValue({ teachers: undefined });
   };
 
   const handleFileUpload = async (info) => {
 
-      const url = await uploadFileToFirebase(info.file, "batchImages");
-      console.log("url", url);
-      
-      form.setFieldsValue({ batchImage: url });
-      message.success("File uploaded successfully!");
-    
+    const url = await uploadFileToFirebase(info.file, "batchImages");
+    console.log("url", url);
+
+    form.setFieldsValue({ batchImage: url });
+    message.success("File uploaded successfully!");
+
   };
 
   const handleSubmit = async (values) => {
@@ -62,15 +65,15 @@ const CreateNewBatch = ({ open, closeModal }) => {
         teachers: values.teachers?.map((teacher) => teacher) || [],
         students: values.students?.map((student) => student) || [],
       };
-      const submissionData={
+      const submissionData = {
         batch_name: batchData.batchName,
-        batch_image:batchData.batchImage,
+        batch_image: batchData.batchImage,
         teacher_id: batchData.teachers,
         class_id: batchData.class,
-        students:batchData.students,
-        subject_id:batchData.subject,
-        date:  batchData.date,
-    
+        students: batchData.students,
+        subject_id: batchData.subject,
+        date: batchData.date,
+
       }
 
       const response = await createBatch(submissionData);
@@ -152,18 +155,19 @@ const CreateNewBatch = ({ open, closeModal }) => {
               disabled={!teachers.length}
             />
           </Form.Item>
-
-          <Form.Item name="students" label="Students">
-            <Select
-              mode="multiple"
-              placeholder="Select students"
-              options={students.map((student) => ({
-                label: student.user_id.name,
-                value: student._id,
-              }))}
-              disabled={!students.length}
-            />
-          </Form.Item>
+          {students &&
+            <Form.Item name="students" label="Students">
+              <Select
+                mode="multiple"
+                placeholder="Select students"
+                options={students?.map((student) => ({
+                  label: student.user_id.name,
+                  value: student._id,
+                }))}
+                disabled={!students.length}
+              />
+            </Form.Item>
+          }
 
           <Form.Item
             name="date"

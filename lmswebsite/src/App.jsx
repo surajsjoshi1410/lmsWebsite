@@ -54,6 +54,10 @@ import CustomPackage from "./module/admin/page/CustomPackage/CustomPackage";
 import PaymentSuccess from "./module/student/pages/PaymentSuccess/PaymentSuccess";
 import StudentDashboardLayout from "./module/student/pages/StudentDashboardLayout/StudentDashboardLayout";
 import StudentDashboardScreen from "./module/student/pages/StudentDashboard/StudentDashboardScreen";
+
+import StudentCircular from "./module/student/pages/StudentCircular/StudentCircular";
+import StudentSetting from "./module/student/pages/StudentAccount/StudentSetting/StudentSetting";
+import StudentAssignedBatches from "./module/student/pages/StudentAssignedBatches/StudentAssignedBatches";
 function App() {
   const [count, setCount] = useState(0);
   
@@ -88,6 +92,10 @@ function App() {
 
           <Route path="/student/dashboard" element={<StudentDashboardLayout />}>
           <Route index element={<StudentDashboardScreen/>} />
+          <Route path="/student/dashboard/circular" element={<StudentCircular />} />
+          <Route path="/student/dashboard/setting" element={<StudentSetting />} />
+          <Route path="/student/dashboard/assignedBatches" element={<StudentAssignedBatches />} />
+          
           </Route>
 
 
@@ -155,6 +163,9 @@ function App() {
               element={<CustomerQueryFormView />}
             />
           </Route>
+
+
+        
         </Routes>
       </Router>
       {/* <RouterProvider router={router} /> */}
