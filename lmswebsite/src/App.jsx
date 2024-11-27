@@ -58,6 +58,8 @@ import StudentDashboardScreen from "./module/student/pages/StudentDashboard/Stud
 import StudentCircular from "./module/student/pages/StudentCircular/StudentCircular";
 import StudentSetting from "./module/student/pages/StudentAccount/StudentSetting/StudentSetting";
 import StudentAssignedBatches from "./module/student/pages/StudentAssignedBatches/StudentAssignedBatches";
+import StudentQuiz from "./module/student/pages/StudentQuiz/StudentQuiz";
+import StudentResponseQuiz from './module/student/pages/StudentQuiz/StudentResponseQuiz';
 function App() {
   const [count, setCount] = useState(0);
   
@@ -95,6 +97,12 @@ function App() {
           <Route path="/student/dashboard/circular" element={<StudentCircular />} />
           <Route path="/student/dashboard/setting" element={<StudentSetting />} />
           <Route path="/student/dashboard/assignedBatches" element={<StudentAssignedBatches />} />
+
+
+          <Route path="/student/dashboard/assignedBatch" element={<StudentQuiz />} />
+          {/* <Route path="/student/quiz/:id" element={<StudentResponseQuiz />} /> */}
+          <Route path="/student/dashboard/assignedBatch/questions" element={<StudentResponseQuiz />} />
+
           
           </Route>
 
@@ -115,6 +123,7 @@ function App() {
             <Route path="/teacher/dashboard/setting" element={<SettingsTabs />} />
             <Route path="/teacher/dashboard/quizz/assignedBatch" element={<QuizBatches />} />
             <Route path="/teacher/dashboard/quizz/batches/:batchId" element={<QuizList />} />
+
           </Route>
           <Route
             path="/admin"
