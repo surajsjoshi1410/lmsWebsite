@@ -10,6 +10,7 @@ import { getTeacherByAuthId } from '../../../../../api/teacherApi';
 import { getQuizzesByTeacher } from '../../../../../api/quizApi';
 import TeacherCreateQuizForm from '../TeacherCreateQuizForm/TeacherCreateQuizForm';
 import { createQuiz } from '../../../../../api/quizApi';
+import { Modal } from 'antd';
 
 export default function QuizList() {
     const [searchInput, setSearchInput] = useState("");
@@ -21,6 +22,13 @@ export default function QuizList() {
     const [teacherId, setTeacherId] = useState('');
     const [filterData, setFilterData] = useState([]);
     const [originalData, setOriginalData] = useState([]);
+
+    const [selectedQuiz, setSelectedQuiz] = useState(null); // Store selected quiz for modal
+    const [quizResponse, setQuizResponse] = useState(null); // Store quiz responses
+    const [loadingResponses, setLoadingResponses] = useState(false);
+    const [model2, setModel2] = useState(false);
+
+
     const param = useParams();
     const batchId = param.batchId;
     useEffect(() => {
@@ -37,7 +45,7 @@ export default function QuizList() {
         }
         apicaller();
 
-    }, [])
+    }, [batchId]);
 
     // Handle showing the dialog
     const handleAddQuiz = () => {
@@ -109,6 +117,16 @@ export default function QuizList() {
         console.log("filtered Data", filterData);
     }, [searchInput, originalData]);
 
+    const handleViewQuestions = (quiz) => {
+        setSelectedQuiz(quiz); // Set selected quiz to show its questions in modal'
+    };
+
+    const handleViewResponses = (quiz) => {
+        setQuizResponse(quiz.answered_by || []); // Assuming responses are inside the quiz object
+        setLoadingResponses(false);
+        setModel2(true);
+    };
+
     return (<QuizListWrap className="content-area">
         <div className="area-row ar-one">
             <div className="created-quizes-batches_nav">
@@ -179,6 +197,22 @@ export default function QuizList() {
                                 </p>
                             </div>
                         </div>
+
+                        <div className="view-questions-button" style={{ display: "flex", justifyContent: "space-between" }}>
+                            <ViewButton
+                                style={{ width: "20%", color: "white", backgroundColor: "#f7366f" }}
+                                onClick={() => handleViewQuestions(quiz)}
+                            >
+                                View Questions
+                            </ViewButton>
+
+                            <ViewButton
+                                style={{ width: "20%", color: "white", backgroundColor: "#f7366f" }}
+                                onClick={() => handleViewResponses(quiz)}
+                            >
+                                View Responses
+                            </ViewButton>
+                        </div>
                     </QuizCard>
                 ))}
             </QuizzesContainer>
@@ -190,6 +224,81 @@ export default function QuizList() {
                     teacherId={teacherId} // Pass the teacherId
                 />
             )}
+
+            <Modal
+                title={` ${selectedQuiz?.quiz_title}`}
+                visible={!!selectedQuiz}
+                onCancel={() => setSelectedQuiz(null)}
+                footer={[
+                    <Button key="back" onClick={() => setSelectedQuiz(null)}>
+                        Close
+                    </Button>,
+                ]}
+            >
+                <div>
+                    <ul>
+                        {selectedQuiz?.questions.map((question, index) => (
+                            <li style={{ paddingRight: "20px" }} key={index}>
+                                <strong>Q{index + 1}: </strong>{question.question_text}
+                                <ul style={{ paddingLeft: "20px" }}>
+                                    {question.options.map((option) => (
+                                        <li key={option.option_id}>
+                                            {option.option_id}. {option.option_text}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </Modal>
+
+            {/* View Responses Modal */}
+            <Modal
+                title={`Responses`}
+                visible={model2}
+                onCancel={() => { setSelectedQuiz(null); setModel2(false); }}
+                footer={[
+                    <Button key="back" onClick={() => { setSelectedQuiz(null); setModel2(false); }}>
+                        Close
+                    </Button>,
+                ]}
+            >
+                {loadingResponses ? (
+                    <p>Loading responses...</p>
+                ) : (
+                    <div>
+                        {quizResponse && quizResponse.length === 0 ? (
+                            <p style={{ padding: "20px" }}>No Answer's Submitted By Students Yet!</p>
+                        ) : (
+                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                    <tr>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Student Name</th>
+                                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {quizResponse?.map((response, index) => (
+                                        <tr key={index}>
+                                            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                                                {response.student_id.user_id.name}
+                                            </td>
+                                            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
+                                                {response.score}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
+                )}
+            </Modal>
+
+
+
+
         </div>
 
 

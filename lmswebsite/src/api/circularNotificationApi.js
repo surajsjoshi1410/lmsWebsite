@@ -10,13 +10,14 @@ import api from '../config/axiosConfig';
  * @returns {Object} - The response data containing the created circular notification
  */
 export const createCircularNotificationApi = async (notificationData) => {
-    const { circularName, validDate, content, imageFile } = notificationData;
+    const { circularName, validDate, content, imageFile ,role} = notificationData;
 
     const formData = new FormData();
     formData.append('circularName', circularName);
     formData.append('validDate', validDate);
     formData.append('content', content);
     formData.append('image', imageFile);
+    formData.append('role', role);
 
     try {
         const response = await api.post('/circularNotifications', formData, {
@@ -37,9 +38,9 @@ export const createCircularNotificationApi = async (notificationData) => {
  * Function to fetch all circular notifications
  * @returns {Array} - The response data containing all circular notifications
  */
-export const getAllCircularNotificationsApi = async () => {
+export const getAllCircularNotificationsApi = async (role) => {
     try {
-        const response = await api.get('/circularNotifications');
+        const response = await api.get(`/circularNotifications/all?role=${role}`);
         console.log('Circular notifications fetched successfully:', response.data);
         return response.data; // Return the response data
     } catch (error) {

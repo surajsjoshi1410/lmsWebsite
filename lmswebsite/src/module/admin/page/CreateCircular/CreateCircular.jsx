@@ -17,6 +17,7 @@ const CreateCircular = ({closeModal}) => {
   const [imagePreview, setImagePreview] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const[role,setRole]=useState('all');
   const navigate = useNavigate();
 
   const handleImageChange = (e) => {
@@ -41,6 +42,7 @@ const CreateCircular = ({closeModal}) => {
       validDate,
       content: description,
       imageFile: metaImage,
+      role:role,
     };
 
     try {
@@ -95,6 +97,15 @@ const CreateCircular = ({closeModal}) => {
               value={validDate}
               onChange={(e) => setValidDate(e.target.value)}
             />
+          </FormGroup>
+
+          <FormGroup>
+            <label>Role:</label>
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="all">All</option>
+              <option value="student">Student</option>
+              <option value="teacher">Teacher</option>
+            </select> 
           </FormGroup>
 
           <FormGroup>

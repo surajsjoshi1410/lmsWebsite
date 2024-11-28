@@ -360,6 +360,6 @@ export const QuizListWrap = styled.div`
       padding: 10px;
     `}
   `;
-   
+
    
   

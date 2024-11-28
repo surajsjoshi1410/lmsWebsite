@@ -2,6 +2,7 @@ import api from "../config/axiosConfig";
 
 export const createQuiz = async (responseData) => {
     try {
+      console.log("responseData", responseData);
         // Call the backend API using the Axios instance
         const response = await api.post("/quizzes/create", responseData);
         console.log("Quiz created successfully:", response.data);
@@ -85,3 +86,21 @@ export const getQuizzesByTeacher = async (filters = {}) => {
       }
     }
   };
+
+
+  export const getQuizBySubjectId = async (subject_id) => {
+    try {
+
+      if (!subject_id) {
+        throw new Error('Subject ID is missing');
+    }
+
+        // Call the backend API using the Axios instance
+        const response = await api.get(`/quizzes/subject/${subject_id}`);
+        console.log("Quiz fetched successfully:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching quiz:", error.response?.data || error.message);
+    }
+    
+}

@@ -64,8 +64,13 @@ import ManageMeeting from "./module/teacher/pages/manageMeetings/manageMeeting";
 import StudentCircular from "./module/student/pages/StudentCircular/StudentCircular";
 import StudentSetting from "./module/student/pages/StudentAccount/StudentSetting/StudentSetting";
 import StudentAssignedBatches from "./module/student/pages/StudentAssignedBatches/StudentAssignedBatches";
+
 import StudentQuiz from "./module/student/pages/StudentQuiz/StudentQuiz";
 import StudentResponseQuiz from './module/student/pages/StudentQuiz/StudentResponseQuiz';
+
+import StudentTaskBoard from "./module/student/pages/StudentTaskBoard/StudentTaskBoardQuiz/StudentTaskBoard";
+import QuizQuestionPage from "./module/student/pages/StudentTaskBoard/QuizQuestionPage/QuizQuestionPage";
+
 import ManageMeetingStudent from "./module/student/pages/manageMeetingsStudent/ManageMeetingStudent";
 
 function App() {
@@ -114,10 +119,15 @@ function App() {
           <Route path="/student/dashboard/circular" element={<StudentCircular />} />
           <Route path="/student/dashboard/setting" element={<StudentSetting />} />
           <Route path="/student/dashboard/assignedBatches" element={<StudentAssignedBatches />} />
+
           <Route path="/student/dashboard/assignedBatch" element={<StudentQuiz />} />
           {/* <Route path="/student/quiz/:id" element={<StudentResponseQuiz />} /> */}
           <Route path="/student/dashboard/assignedBatch/questions" element={<StudentResponseQuiz />} />
 
+
+
+          <Route path="/student/dashboard/taskBoard" element={<StudentTaskBoard />} />
+          <Route path="/student/dashboard/taskBoard/quiz/:quizId" element={<QuizQuestionPage />} />
 
           <Route path="/student/dashboard/meetings" element={<ManageMeetingStudent />} />
 

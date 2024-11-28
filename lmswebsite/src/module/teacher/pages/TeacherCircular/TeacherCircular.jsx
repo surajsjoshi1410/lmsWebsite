@@ -16,7 +16,7 @@ const TeacherCircular = () => {
   useEffect(() => {
     const fetchCirculars = async () => {
       try {
-        const data = await getAllCircularNotificationsApi();
+        const data = await getAllCircularNotificationsApi('teacher');
         if (data?.circularNotifications) {
           const formattedData = data.circularNotifications.map((circular) => ({
             key: circular._id, // Unique key for Ant Design Table
