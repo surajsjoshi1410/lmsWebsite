@@ -9,6 +9,8 @@ import ContactForms from "../../components/ContactForm/ContactForm";
 import UpcomingBatch from "../../components/UpcommingBatch/UpcominngBatch";
 import Cards from "../../components/dashBoardCards/cards"; // Import the new Cards component
 import { getStatisticsData } from "../../../../api/statsApi";
+import { getTotalNumberOfBatches,getTotalNumberOfStudents,getTotalNumberOfTeachers,getDailyRevenueByMonth,getPaidAndUnpaidAmount,getTotalRevenue, getWeeklyTeacherApplicationCount } from "../../../../api/adminDashboardApi";
+
 
 const Dashboard = () => {
   const [dashboardCards, setDashboardCards] = useState([]);
@@ -16,16 +18,27 @@ const Dashboard = () => {
   useEffect(() => {
     const apiCaller = async () => {
       const response = await getStatisticsData();
+      const totalStudents = await getTotalNumberOfStudents();
+      const totalTeachers = await getTotalNumberOfTeachers();
+      const totalBatches = await getTotalNumberOfBatches();
+      const totalRevenue = await getTotalRevenue();
+      const paidAndUnpaidAmount = await getPaidAndUnpaidAmount();
+      const dailyRevenueByMonth = await getDailyRevenueByMonth();
+      const weeklyTeacherApplication = await getWeeklyTeacherApplicationCount();
+
+      console.log(paidAndUnpaidAmount);
+      console.log(dailyRevenueByMonth);
+      console.log(weeklyTeacherApplication);
       setDashboardCards([
         {
           title: "Total students",
-          count: response.totalStudents,
+          count: totalStudents.count,
           iconPath: student_icon,
           background: "#F8E7D8",
         },
         {
           title: "Total teachers",
-          count: response.totalTeachers,
+          count: totalTeachers.count,
           iconPath: teacher_icon,
           background: "#D7FDEB",
         },
@@ -35,7 +48,14 @@ const Dashboard = () => {
           iconPath: batch_icon,
           background: "#C9E2FF",
         },
+        {
+          title: "Total Revenue",
+          count: totalRevenue.totalAmount,
+          iconPath: batch_icon,
+          background: "#C9E2FF",
+        },
       ]);
+
     };
     apiCaller();
   }, []);

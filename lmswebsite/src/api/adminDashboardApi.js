@@ -21,7 +21,7 @@ export const getTotalNumberOfTeachers = async () => {
 
 export const getTotalNumberOfBatches = async () => {
     try {
-        const response = await api.get('/adminDashboard/dashboard/numberOfBatches');
+        const response = await api.get('/adminDashboard/dashboard/totalBatches');
         return response.data;
     } catch (error) {
         console.error(error);
