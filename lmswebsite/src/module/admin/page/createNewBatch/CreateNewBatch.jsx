@@ -40,6 +40,7 @@ const CreateNewBatch = ({ open, closeModal }) => {
   const handleSubjectChange = async (value) => {
     const teacherData = await getTeachersBySubjectAndClass(value, form.getFieldValue("class"));
     const studentData = await getStudentsForBatchBySubjectId(value);
+    console.log("studentData", studentData.data);
   
     setStudents(studentData.data || []);
     setTeachers(teacherData || []);
@@ -148,7 +149,7 @@ const CreateNewBatch = ({ open, closeModal }) => {
             <Select
               mode="multiple"
               placeholder="Select teachers"
-              options={teachers.map((teacher) => ({
+              options={teachers?.map((teacher) => ({
                 label: teacher.user_id.name,
                 value: teacher._id,
               }))}
@@ -161,8 +162,8 @@ const CreateNewBatch = ({ open, closeModal }) => {
                 mode="multiple"
                 placeholder="Select students"
                 options={students?.map((student) => ({
-                  label: student.user_id.name,
-                  value: student._id,
+                  label: student?.user?.name,
+                  value: student?._id,
                 }))}
                 disabled={!students.length}
               />

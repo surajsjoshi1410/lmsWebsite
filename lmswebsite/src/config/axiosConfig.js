@@ -1,10 +1,10 @@
 import axios from "axios";
-import{updateAccessToken} from "../api/refreshTokenApi";
+import { updateAccessToken } from "../api/refreshTokenApi";
 
 // Create an Axios instance with the base URL and common configurations
 const api = axios.create({
-  baseURL: "https://lmswebsite-backend.vercel.app/", // Replace with your backend base URL
-  // baseURL : "http://localhost:5000/",
+  // baseURL: "https://lmswebsite-backend.vercel.app/", // Replace with your backend base URL
+  baseURL : "http://localhost:5000/",
 
   timeout: 30000, // Optional: Timeout after 10 seconds
   headers: {
@@ -34,7 +34,6 @@ api.interceptors.request.use(
 //   }
 // );
 
-
 // Response interceptor to handle token expiration
 api.interceptors.response.use(
   (response) => response, // Pass through successful responses
@@ -51,10 +50,11 @@ api.interceptors.response.use(
 
       try {
         // Call the updateAccessToken() function to get a new token
-       await updateAccessToken();
+        await updateAccessToken();
 
         // Update the token in local storage
-        const sessionData = JSON.parse(localStorage.getItem("sessionData")) || {};
+        const sessionData =
+          JSON.parse(localStorage.getItem("sessionData")) || {};
         // Update the authorization header for the failed request
         originalRequest.headers.Authorization = `Bearer ${sessionData.accessToken}`;
 

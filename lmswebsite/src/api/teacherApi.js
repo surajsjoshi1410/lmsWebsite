@@ -64,3 +64,13 @@ export const getTeacherByAuthId = async (authId) => {
       throw error; // Re-throw error for further handling if needed
     }
   };
+
+  export const getTeacherscheduleById = async (tecaherId) => {
+    try {
+      const response = await api.get(`/teachers/teacher/${tecaherId}/schedule`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching teacher schedule:', error);
+      throw error;
+    }
+  }

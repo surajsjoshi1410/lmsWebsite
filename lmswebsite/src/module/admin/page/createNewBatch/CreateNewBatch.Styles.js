@@ -17,7 +17,7 @@ export const CreateNewBatchWrap = styled.div`
   }
 
     .ant-form {
-    padding: 20px; /* Add padding to the form */
+    padding: 20px!important; /* Add padding to the form */
   }
     .ant-modal-content {
         right: -100px;

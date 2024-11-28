@@ -1,25 +1,25 @@
-// src/module/teacher/pages/BecomeTeacherApplicationForm/TaskBoard/AssignedBatchStudentsList.jsx
-
 import React, { useState, useEffect } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
-import { getBatchById } from "../../../../api/batchApi";
-import { Table, Spin, Alert, Button } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-// import "./AssignedBatchStudentsList.style"; // Ensure the correct file extension
+import { getBatchById, createMeeting } from "../../../../api/batchApi";
+import { getTeacherByAuthId } from "../../../../api/teacherApi";
+import {
+  Table,
+  Spin,
+  Alert,
+  Button,
+  Tooltip,
+  Tag,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+  message,
+} from "antd";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { BsCameraVideo } from "react-icons/bs";
-import { BsPerson } from "react-icons/bs";
-import { TiDelete } from "react-icons/ti";
-import { BiMerge } from "react-icons/bi";
-import {
-  TeacherStudentsListContainer, Header,  MeetingDetails,
-  MeetingHeader,
-  JoinButton,
-  MemberList,
-  MemberInfo,
-} from "./AssignedBatchStudentsList.style"; // Import the styled component
-import { red } from "@mui/material/colors";
+import moment from "moment";
+
+const { RangePicker } = DatePicker;
 
 const AssignedBatchStudentsList = () => {
   const { batchId } = useParams();
@@ -29,6 +29,9 @@ const AssignedBatchStudentsList = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [teacherId, setTeacherId] = useState(""); // Store the teacher ID
+  const [form] = Form.useForm();
 
   useEffect(() => {
     const fetchBatchDetails = async () => {
@@ -44,49 +47,34 @@ const AssignedBatchStudentsList = () => {
           throw new Error("Batch not found.");
         }
 
-        if (!batch.students || batch.students.length === 0) {
-          setStudents([]);
-        } else {
-          // Extract class level once since it's common for all students
-          const classLevel = batch.class_id?.classLevel || "N/A";
+        const classLevel = batch.class_id?.classLevel || "N/A";
+        const batchSubjects = Array.isArray(batch.subject_id)
+          ? batch.subject_id.map((subject) => subject.subject_name)
+          : batch.subject_id?.subject_name
+          ? [batch.subject_id.subject_name]
+          : [];
 
-          // Extract batch-level subjects if available
-          const batchSubjects = Array.isArray(batch.subject_id)
-            ? batch.subject_id.map((subject) => subject.subject_name)
-            : batch.subject_id?.subject_name
-            ? [batch.subject_id.subject_name]
+        const studentDetails = batch.students.map((student) => {
+          const studentSubjects = Array.isArray(student.subject_id)
+            ? student.subject_id.map((subject) => subject.subject_name)
             : [];
-
-          // Map through students to extract required details
-          const studentDetails = batch.students.map((student) => {
-            // Extract student-level subjects if available
-            const studentSubjects = Array.isArray(student.subject_id)
-              ? student.subject_id.map((subject) => subject.subject_name)
-              : [];
-
-            // Combine student-level subjects with batch-level subjects
-            const combinedSubjects = [
-              ...batchSubjects,
-              ...studentSubjects,
-            ].filter(
-              (subject, index, self) =>
-                subject && self.indexOf(subject) === index
-            ); // Remove duplicates and undefined
-
-            return {
-              key: student._id, // Ensure each student has a unique _id
-              name: student.user_id?.name || "N/A",
-              email: student.user_id?.email || "N/A",
-              classLevel: classLevel,
-              subjects:
-                combinedSubjects.length > 0
-                  ? combinedSubjects.join(", ")
-                  : "N/A",
-              // Add other fields as necessary
-            };
-          });
-          setStudents(studentDetails);
-        }
+          const combinedSubjects = [
+            ...batchSubjects,
+            ...studentSubjects,
+          ].filter(
+            (subject, index, self) => subject && self.indexOf(subject) === index
+          );
+          return {
+            key: student._id,
+            id: student._id,
+            name: student.user_id?.name || "N/A",
+            email: student.user_id?.email || "N/A",
+            classLevel: classLevel,
+            subjects:
+              combinedSubjects.length > 0 ? combinedSubjects.join(", ") : "N/A",
+          };
+        });
+        setStudents(studentDetails);
         setLoading(false);
       } catch (err) {
         console.error("Error fetching batch details:", err);
@@ -94,151 +82,166 @@ const AssignedBatchStudentsList = () => {
         setLoading(false);
       }
     };
+    const teacherId = localStorage.getItem("teacherId");
+    const fetchTeacherDetails = async () => {
+      try {
+        const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+        const response = await getTeacherByAuthId(authId);
+
+        setTeacherId(response.teacher._id); // Save the teacher ID
+      } catch (err) {
+        console.error("Error fetching teacher details:", err);
+      }
+    };
 
     fetchBatchDetails();
+    fetchTeacherDetails();
   }, [batchId]);
 
-  // Define columns for Ant Design Table
+  const handleCreateMeeting = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleModalCancel = () => {
+    setIsModalVisible(false);
+    form.resetFields();
+  };
+
+  const handleFormSubmit = async (values) => {
+    try {
+      const { title, time } = values;
+      const [startDate, endDate] = time;
+
+      const meetingPayload = {
+        title,
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        teacher_id: teacherId, // Use the fetched teacher ID
+        batch_id: batchId,
+        students: students.map((student) => student.id), // Pass all student IDs in the batch
+      };
+
+      console.log("Creating meeting with payload:", meetingPayload);
+
+      // Call the API to create the meeting
+      const response = await createMeeting(meetingPayload);
+      message.success("Meeting created successfully!");
+
+      setIsModalVisible(false);
+      form.resetFields();
+    } catch (err) {
+      console.error("Error creating meeting:", err);
+      message.error("Failed to create meeting.");
+    }
+  };
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      // sorter: (a, b) => a.name.localeCompare(b.name),
+      render: (text) => <strong>{text}</strong>,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      // sorter: (a, b) => a.email.localeCompare(b.email),
+      render: (text) => (
+        <a href={`mailto:${text}`} style={{ color: "#1677ff" }}>
+          {text}
+        </a>
+      ),
     },
     {
       title: "Class Level",
       dataIndex: "classLevel",
       key: "classLevel",
-      // sorter: (a, b) => a.classLevel - b.classLevel,
+      render: (text) => <Tag color="green">{text}</Tag>,
     },
     {
-      title: "Subject",
+      title: "Subjects",
       dataIndex: "subjects",
       key: "subjects",
-      // sorter: (a, b) => a.subjects.localeCompare(b.subjects),
-      render: (subjects) => <span>{subjects}</span>, // Display subjects as plain text
+      render: (subjects) => (
+        <Tooltip title={subjects}>
+          <span>
+            {subjects.length > 20 ? `${subjects.slice(0, 20)}...` : subjects}
+          </span>
+        </Tooltip>
+      ),
     },
-    // Add more columns if needed
   ];
 
-  // Handle Edit
-  const handleEdit = (student) => {
-    console.log("Editing student:", student);
-    // You can implement your edit form logic here
-  };
-
-  // Handle Delete
-  const handleDelete = (studentEmail) => {
-    const updatedStudents = students.filter(
-      (student) => student.email !== studentEmail
-    );
-    setStudents(updatedStudents); // Update state with the filtered students
-  };
-
-  const [meetingMembers, setMeetingMembers] = useState([
-    { email: "Jayanth@gmail.com", role: "Developer" },
-    { email: "Pooja@gmail.com", role: "Designer" },
-    { email: "Aryan@gmail.com", role: "Project Manager" },
-  ]);
-
-
   return (
-    <>
-    <TeacherStudentsListContainer>
-      <Header>
-        <div style={{ display: "flex", alignItems: "center",  }}>
+    <div style={{ padding: "20px" }}>
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}
+      >
         <Link to="/teacher/dashboard/batches">
-          <IoMdArrowRoundBack size={24} style={{ marginRight: "10px" }}/>
+          <IoMdArrowRoundBack size={24} style={{ marginRight: "10px" }} />
         </Link>
-          <h1>Students List</h1>
-        </div>
-        <div style={{ textAlign: "right" }}>
-          <button>Add Meeting</button>
-        </div>
-      </Header>
+        <h2 style={{ margin: 0 }}>Students List for {batchName}</h2>
+        <Button
+          type="primary"
+          style={{ marginLeft: "auto" }}
+          onClick={handleCreateMeeting}
+        >
+          Create Meeting
+        </Button>
+      </div>
 
       {loading ? (
-        <div className="spinner">
-          <Spin size="large" />
-        </div>
+        <Spin size="large" />
       ) : error ? (
-        <Alert
-          message="Error"
-          description={error}
-          type="error"
-          showIcon
-          style={{ marginTop: "20px" }}
-        />
-      ) : students.length > 0 ? (
-        <div className="students-table">
-          <Table
-            columns={columns}
-            dataSource={students}
-            pagination={{ pageSize: 10 }}
-            bordered
-          />
-        </div>
+        <Alert message="Error" description={error} type="error" showIcon />
       ) : (
-        <Alert
-          message="No Students"
-          description="There are no students in this batch."
-          type="info"
-          showIcon
-          style={{ marginTop: "20px" }}
+        <Table
+          columns={columns}
+          dataSource={students}
+          pagination={{ pageSize: 8 }}
+          bordered
+          style={{
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            overflow: "hidden",
+          }}
         />
       )}
-    </TeacherStudentsListContainer>
-     <MeetingDetails>
-     <MeetingHeader>
-       <div className="icon-container">
-         <FiEdit
-           style={{ cursor: "pointer", marginRight: "15px" }}
-           onClick={() => handleEdit()} // Trigger edit
-         />
-         <FiTrash2
-           style={{ cursor: "pointer", marginRight: "15px" }}
-           onClick={() => handleDelete()} // Trigger delete
-         />
-         <TiDelete style={{ cursor: "pointer", fontSize: "24px" }} />
-       </div>
-     </MeetingHeader>
-     <div className="Meet">
-       <div className="MeetingTitle"></div>
-       <h2>Meeting details</h2>
-     </div>
-     <p className="MeetingDay">Thursday, January 14 · 3:30 – 4:30pm</p>
 
-     <BsCameraVideo style={{ marginRight: "10px" }} />
-     <JoinButton>Join Meeting</JoinButton>
-     <BiMerge style={{ marginLeft: "10px" }} />
-     <MemberList>
-       <div className="Member">
-         <BsPerson style={{ marginRight: "10px" }} />
-         <h3>{students.length} Members</h3>
-       </div>
-       <div className="MeetingMember">
-         {meetingMembers.map((member, index) => (
-           <div key={index}>
-             <div className="MembericonMember">
-               <BsPerson style={{ marginRight: "10px" }} />
-               <MemberInfo bold>
-                 <span>{member.email}</span>
-                 <span>{member.role}</span>
-               </MemberInfo>
-             </div>
-           </div>
-         ))}
-       </div>
-     </MemberList>
-   </MeetingDetails>
-   </>
+      {/* Modal for Creating Meeting */}
+      <Modal
+        title="Create Meeting"
+        visible={isModalVisible}
+        onCancel={handleModalCancel}
+        footer={null}
+      >
+        <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
+          <Form.Item
+            name="title"
+            label="Meeting Title"
+            rules={[{ required: true, message: "Please enter a title!" }]}
+          >
+            <Input placeholder="Enter meeting title" />
+          </Form.Item>
+          <Form.Item
+            name="time"
+            label="Meeting Time"
+            rules={[{ required: true, message: "Please select a time range!" }]}
+          >
+            <RangePicker
+              showTime
+              format="YYYY-MM-DD HH:mm"
+              placeholder={["Start Time", "End Time"]}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block>
+              Create Meeting
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </div>
   );
 };
 

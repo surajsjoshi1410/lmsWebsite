@@ -33,19 +33,19 @@ const PaymentComponent = ({ studentId, packageId, amount }) => {
           console.log(response);
           // Step 3: Verify Payment on Backend
           try {
-            const verificationResponse = await axiosInstance.post('/api/payments/verify-payment', {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            });
+            // const verificationResponse = await axiosInstance.post('/api/payments/verify-payment', {
+            //   razorpay_order_id: response.razorpay_order_id,
+            //   razorpay_payment_id: response.razorpay_payment_id,
+            //   razorpay_signature: response.razorpay_signature,
+            // });
 
-            if (verificationResponse.data.message === 'Payment verified successfully') {
+            // if (verificationResponse.data.message === 'Payment verified successfully') {
               alert('Payment Successful!');
               // Optionally, redirect or update UI
               navigate('/student/package/paymentSucces');
-            } else {
-              alert('Payment Verification Failed!');
-            }
+            // } else {
+            //   alert('Payment Verification Failed!');
+            // }
           } catch (error) {
             console.error('Payment Verification Error:', error);
             alert('Payment Verification Failed!');

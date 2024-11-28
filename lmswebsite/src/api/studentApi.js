@@ -101,3 +101,13 @@ export const getAllStudents = async () => {
       throw error;
     }
   }
+
+  export const getStudentscheduleById = async (studentId) => {
+    try {
+      const response = await api.get(`/students/student/${studentId}/schedule`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching student schedule:', error);
+      throw error;
+    }
+  }

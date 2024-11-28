@@ -44,7 +44,6 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
 
-
   const handleLogout = () => {
     localStorage.clear(); // Clear all items in localStorage
     navigate("/login"); // Redirect to the login page or desired route
@@ -139,6 +138,18 @@ const Sidebar = () => {
               </li>
               <li className="menu-item">
                 <NavLink
+                  to="/teacher/dashboard/meetings"
+                  activeClassName="active"
+                  className="menu-link"
+                >
+                  <span className="menu-link-icon">
+                    <AiTwotoneNotification />
+                  </span>
+                  <span className="menu-link-text">Schedule</span>
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <NavLink
                   to="/teacher/dashboard/setting"
                   activeClassName="active"
                   className="menu-link"
@@ -149,13 +160,7 @@ const Sidebar = () => {
                   <span className="menu-link-text">Settings</span>
                 </NavLink>
               </li>
-             
-             
-            
-            
-            
 
-             
               <li className="menu-item">
                 <NavLink
                   to="/login" // Optional: Redirect route after logout

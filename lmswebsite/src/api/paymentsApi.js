@@ -50,3 +50,16 @@ export const getPaymentDetailsByIdApi = async (paymentId) => {
         throw error; // Throw the error for further handling
     }
 };
+
+
+
+export const createPaymentForCustomPackage = async (paymentData) => {
+    try {
+        const response = await api.post('/api/payments/customPackage/create-order', paymentData);
+        console.log('Payment link successfully:', response.data);
+        return response.data; // Return the payment details
+    } catch (error) {
+        console.error('Error creating payment Link:', error.response ? error.response.data : error.message);
+        throw error; // Throw the error for further handling
+    }
+};

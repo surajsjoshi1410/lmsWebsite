@@ -163,13 +163,13 @@ export default function QuizList() {
                         <div className='quizdisplay'>
                             <div className='subject'>
                                 <p>
-                                    <strong>Subject:</strong> {quiz.subject.subject_name} {/* Assuming populated */}
+                                    <strong>Subject:</strong> {quiz.subject?.subject_name} {/* Assuming populated */}
                                 </p>
                             </div>
 
                             <div className='class'>
                                 <p>
-                                    <strong>Class  :</strong> {quiz.class_level.classLevel} {/* Assuming populated */}
+                                    <strong>Class  :</strong> {quiz.class_level?.classLevel} {/* Assuming populated */}
                                 </p>
                             </div>
 

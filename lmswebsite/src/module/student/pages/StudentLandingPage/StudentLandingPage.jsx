@@ -133,7 +133,7 @@ export const StudentLandingPage = () => {
       try {
         const response = await createCustomPackage({ subject_id: slectedSubject, student_id: studentDataForm.student._id, slots: slot });
         console.log("response", response);
-        window.location.reload();
+        // window.location.reload();
       } catch (err) {
         console.error("Error submitting Packages:", err);
       }
@@ -148,7 +148,7 @@ export const StudentLandingPage = () => {
 
     <> {
       studentDataForm ?
-     
+
         <>
 
           <Header />
@@ -173,8 +173,8 @@ export const StudentLandingPage = () => {
                         name="name"
 
                       >
-                         <Input value={studentDataForm.student.user_id.name} readOnly />
-                        {/* {studentDataForm.student.user_id.name} */}
+                        {/* <Input value={studentDataForm.student.user_id.name} readOnly /> */}
+                        {studentDataForm.student.user_id.name}
 
                       </Form.Item>
                     </StyledCol>
@@ -184,8 +184,8 @@ export const StudentLandingPage = () => {
                         name="email"
 
                       >
-                         <Input value={studentDataForm.student.user_id.email} readOnly />
-                        {/* {studentDataForm.student.user_id.email} */}
+                        {/* <Input value={studentDataForm.student.user_id.email} readOnly /> */}
+                        {studentDataForm.student.user_id.email}
 
                       </Form.Item>
                     </StyledCol>
@@ -195,8 +195,8 @@ export const StudentLandingPage = () => {
                         name="phone"
 
                       >
-                         <Input value={studentDataForm.student.phone_number} readOnly />
-                        {/* {studentDataForm.student.phone_number} */}
+                        {/* <Input value={studentDataForm.student.phone_number} readOnly /> */}
+                        {studentDataForm.student.phone_number}
                       </Form.Item>
                     </StyledCol>
                   </StyledRow>
@@ -204,7 +204,8 @@ export const StudentLandingPage = () => {
                   {/* Row 2: Available Slots */}
                   <StyledRow>
                     <StyledCol>
-                      <Form.Item label="Available Slots">
+                      <Form.Item label="Available Slots"
+                      >
                         <AvailableSlotsContainer>
                           {availableSlots.map((slot, index) => (
                             <Slot key={index}
@@ -229,9 +230,9 @@ export const StudentLandingPage = () => {
                         label="Select Board"
                         name="board"
                       >
-                         <Input value={studentDataForm.student.board_id.name} readOnly />
-                                                
-                        {/* {studentDataForm.student.board_id.name} */}
+                        {/* <Input value={studentDataForm.student.board_id.name} readOnly /> */}
+
+                        {studentDataForm.student.board_id.name}
 
                       </Form.Item>
                     </StyledCol>
@@ -241,8 +242,8 @@ export const StudentLandingPage = () => {
                         name="class"
 
                       >
-                         <Input value={studentDataForm.student.class.classLevel} readOnly />
-                        {/* {studentDataForm.student.class.classLevel} */}
+                        {/* <Input value={studentDataForm.student.class.classLevel} readOnly /> */}
+                        {studentDataForm.student.class.classLevel}
 
                       </Form.Item>
                     </StyledCol>
@@ -297,7 +298,6 @@ export const StudentLandingPage = () => {
                               "linear-gradient(90deg, #E82C86 0%, #82194B 100%)",
                             borderColor: "#82194B",
                           }}
-                          onClick={handleSubmit}
                         >
                           Submit Application
                         </Button>

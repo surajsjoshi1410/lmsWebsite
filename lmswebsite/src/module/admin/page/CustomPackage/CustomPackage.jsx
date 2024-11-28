@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Modal, Form, Input } from "antd";
+import { Table, Button, Modal, Form, Input, message } from "antd";
 import { getPackages } from "../../../../api/customPackageApi";
-import { Container, StyledModal, StyledForm, SearchContainer } from "./CustomPackage.style";
+import { Container, SearchContainer } from "./CustomPackage.style";
+import {createPaymentForCustomPackage} from "../../../../api/paymentsApi";
 
 const CustomPackage = () => {
   const [packages, setPackages] = useState([]);
@@ -9,6 +10,7 @@ const CustomPackage = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchInput, setSearchInput] = useState("");
+  const [editedPrice, setEditedPrice] = useState(null);
 
   const [form] = Form.useForm();
 
@@ -37,10 +39,10 @@ const CustomPackage = () => {
     );
     setFilteredPackages(filtered);
   };
-  
 
   const handleViewDetails = (record) => {
     setSelectedPackage(record);
+    setEditedPrice(record.package_price); // Initialize edited price
     setIsModalVisible(true);
     form.setFieldsValue({
       studentName: record.student_id?.user_id?.name || "N/A",
@@ -60,7 +62,29 @@ const CustomPackage = () => {
   const handleModalClose = () => {
     setSelectedPackage(null);
     setIsModalVisible(false);
+    setEditedPrice(null);
     form.resetFields();
+  };
+
+  // Handle sending payment request
+  const handleSendPaymentRequest = async () => {
+    if (!editedPrice || isNaN(editedPrice)) {
+      message.error("Please enter a valid package price.");
+      return;
+    }
+    try {
+      const paymentData = await createPaymentForCustomPackage({
+        package_id: selectedPackage._id,
+        amount: editedPrice,
+        student_id: selectedPackage.student_id,
+      })
+      console.log("Payment data:", paymentData);
+      message.success("Payment request sent successfully.");
+      handleModalClose();
+    } catch (error) {
+      console.error("Error sending payment request:", error);
+      message.error("Failed to send payment request.");
+    }
   };
 
   const columns = [
@@ -113,17 +137,17 @@ const CustomPackage = () => {
       <div className="header">
         <h2>Custom Packages</h2>
         <SearchContainer>
-  <Input
-    placeholder="Search by Student Name"
-    value={searchInput}
-    onChange={(e) => {
-      setSearchInput(e.target.value);
-      handleSearch(); // Trigger search on every change
-    }}
-    onPressEnter={handleSearch}
-    allowClear
-  />
-</SearchContainer>
+          <Input
+            placeholder="Search by Student Name"
+            value={searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+              handleSearch(); // Trigger search on every change
+            }}
+            onPressEnter={handleSearch}
+            allowClear
+          />
+        </SearchContainer>
       </div>
       <Table
         dataSource={filteredPackages}
@@ -138,6 +162,11 @@ const CustomPackage = () => {
         visible={isModalVisible}
         onCancel={handleModalClose}
         footer={[
+          !selectedPackage?.is_approved && (
+            <Button key="send" type="primary" onClick={handleSendPaymentRequest}>
+              Send Payment Request
+            </Button>
+          ),
           <Button key="close" onClick={handleModalClose}>
             Close
           </Button>,
@@ -167,7 +196,15 @@ const CustomPackage = () => {
               <Input disabled />
             </Form.Item>
             <Form.Item label="Package Price" name="packagePrice">
-              <Input disabled />
+              {selectedPackage.is_approved ? (
+                <Input disabled />
+              ) : (
+                <Input
+                  type="number"
+                  defaultValue={selectedPackage.package_price}
+                  onChange={(e) => setEditedPrice(e.target.value)}
+                />
+              )}
             </Form.Item>
             <Form.Item label="Is Approved" name="isApproved">
               <Input disabled />

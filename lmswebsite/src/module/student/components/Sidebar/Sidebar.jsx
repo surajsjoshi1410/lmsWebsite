@@ -126,7 +126,6 @@ const Sidebar = () => {
                 </NavLink>
               </li>
 
-
               <li className="menu-item">
                 <NavLink
                   to="/student/dashboard/circular"
@@ -139,7 +138,19 @@ const Sidebar = () => {
                   <span className="menu-link-text">Circulars</span>
                 </NavLink>
               </li>
-
+              <li className="menu-item">
+                <NavLink
+                  to="/student/dashboard/meetings"
+                  activeClassName="active"
+                  className="menu-link"
+                >
+                  <span className="menu-link-icon">
+                    <AiTwotoneNotification />
+                  </span>
+                  <span className="menu-link-text">Meeting</span>
+                </NavLink>
+              </li>
+              
               
               <li className="menu-item">
                 <NavLink
