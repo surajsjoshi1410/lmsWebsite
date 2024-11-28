@@ -65,7 +65,7 @@ export const NavLinks = styled.ul`
 export const DropdownContent = styled.ul`
   position: absolute;
   top: 100%;
-  width:112px;
+  width: 112px;
   left: 0;
   background-color: ${theme.colors.backgroundLight};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -139,4 +139,3 @@ export const SignUpButton = styled.button`
     background-color: #e60073;
   }
 `;
-

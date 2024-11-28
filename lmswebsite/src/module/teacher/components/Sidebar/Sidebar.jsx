@@ -1,42 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RxDashboard } from "react-icons/rx";
 import CloseIcon from "@mui/icons-material/Close";
-// import { IconButton } from "@mui/material";
-
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-} from "@mui/material";
-import {
-  Dashboard,
-  AddBox,
-  Assignment,
-  AccessTime,
-  Person,
-  Mail,
-  Description,
-  Settings,
-  Menu as MenuIcon,
-} from "@mui/icons-material";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { SideBarwrap } from "./Sidebar.styles";
+import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { FaLayerGroup } from "react-icons/fa6";
 import { MdOutlineAssignment } from "react-icons/md";
-import { VscPreview } from "react-icons/vsc";
-import { RiCustomerServiceLine } from "react-icons/ri";
-import { AiTwotoneSchedule } from "react-icons/ai";
-// import { MdOutlineAssignment } from "react-icons/md";
-import { FaWpforms } from "react-icons/fa6";
-import { AiTwotoneNotification } from "react-icons/ai";
+import { AiTwotoneNotification, AiTwotoneSchedule } from "react-icons/ai";
 import { MdOutlineSettings } from "react-icons/md";
-import { FaUsersGear } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
-import { MdPayment } from "react-icons/md";
+import { FaUsersGear } from "react-icons/fa6";
+import { SideBarwrap } from "./Sidebar.styles"; // Your styled component for sidebar
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
@@ -48,6 +22,7 @@ const Sidebar = () => {
     localStorage.clear(); // Clear all items in localStorage
     navigate("/login"); // Redirect to the login page or desired route
   };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -58,17 +33,19 @@ const Sidebar = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     // Initial check
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <>
-      <div className="sidebar-toggle-btn"></div>
-      <SideBarwrap isOpen>
+      <SideBarwrap isOpen={isOpen}>
         <div className="sidebar-top">
           <div className="sidebar-brand">
             <span className="brand-logo">
@@ -80,7 +57,7 @@ const Sidebar = () => {
             </span>
             <div className="sidebar-logo">
               <IconButton onClick={() => setIsOpen(!isOpen)}>
-                {isOpen ? <CloseIcon /> : <MenuIcon />}
+                {isCollapsed ? <CloseIcon /> : <AiTwotoneSchedule />}
               </IconButton>
             </div>
           </div>
@@ -97,7 +74,9 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <RxDashboard />
                   </span>
-                  <span className="menu-link-text">DashBoard</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Dashboard</span>
+                  )}
                 </NavLink>
               </li>
               <li className="menu-item">
@@ -109,7 +88,9 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <FaLayerGroup />
                   </span>
-                  <span className="menu-link-text">Manage Batches</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Manage Batches</span>
+                  )}
                 </NavLink>
               </li>
               <li className="menu-item">
@@ -121,7 +102,9 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <MdOutlineAssignment />
                   </span>
-                  <span className="menu-link-text">Task Management</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Task Management</span>
+                  )}
                 </NavLink>
               </li>
               <li className="menu-item">
@@ -133,7 +116,9 @@ const Sidebar = () => {
                   <span className="menu-link-icon">
                     <AiTwotoneNotification />
                   </span>
-                  <span className="menu-link-text">Circulars</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Circulars</span>
+                  )}
                 </NavLink>
               </li>
               <li className="menu-item">
@@ -143,34 +128,39 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <AiTwotoneNotification />
+                    <AiTwotoneSchedule />
                   </span>
-                  <span className="menu-link-text">Schedule</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Schedule</span>
+                  )}
                 </NavLink>
               </li>
               <li className="menu-item">
                 <NavLink
-                  to="/teacher/dashboard/setting"
+                  to="/teacher/dashboard/settings"
                   activeClassName="active"
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
                     <MdOutlineSettings />
                   </span>
-                  <span className="menu-link-text">Settings</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Settings</span>
+                  )}
                 </NavLink>
               </li>
-
               <li className="menu-item">
                 <NavLink
-                  to="/login" // Optional: Redirect route after logout
+                  to="/login"
                   className="menu-link"
-                  onClick={handleLogout} // Logout function attached here
+                  onClick={handleLogout}
                 >
                   <span className="menu-link-icon">
                     <VscSignOut />
                   </span>
-                  <span className="menu-link-text">Sign Out</span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Sign Out</span>
+                  )}
                 </NavLink>
               </li>
             </ul>
