@@ -1,6 +1,5 @@
 import React from "react";
 import { TeacherdashBoardCardswrap } from "./TeacherdashBoardCards.styles";
-import { BlockContentWrap } from "../../../../style/DefaultStyles/DefaultStyles";
 import { ImUser } from "react-icons/im";
 import { GiTeacher } from "react-icons/gi";
 import { MdLiveTv } from "react-icons/md";
@@ -12,33 +11,40 @@ const iconMap = {
   "Total Batches": <MdLiveTv />,
 };
 
-const TeacherdashBoardCards = ({ cardsData }) => {
+const TeacherdashBoardCards = ({ cardsData = [] }) => {
+  // Log the received data for debugging
+  console.log('Received cardsData:', cardsData);
+
+  // Check if cardsData is an array
+  if (!Array.isArray(cardsData)) {
+    console.error("Expected cardsData to be an array but received:", cardsData);
+    return <div>No data available</div>; // Render fallback message
+  }
+
   return (
     <TeacherdashBoardCardswrap>
-      {/* <BlockContentWrap> */}
       <div className="cards">
-        {cardsData.map((card, index) => (
-          <div
-            key={index}
-            className={`card-item`}
-            // style={{ backgroundColor: card.background }}
-          >
-            <div className="card-content">
-              <div
-                className="card-item-icon"
-                style={{ backgroundColor: card.background }}
-              >
-                {iconMap[card.title] || <ImUser />} {/* Fallback icon */}
-              </div>
-              <div className="card-text-content">
-                <p className="card-item-text">{card.title}</p>
-                <div className="card-item-value">{card.count}</div>
+        {cardsData.length > 0 ? (
+          cardsData.map((card, index) => (
+            <div key={index} className="card-item">
+              <div className="card-content">
+                <div
+                  className="card-item-icon"
+                  style={{ backgroundColor: card.background }}
+                >
+                  {iconMap[card.title] || <ImUser />} {/* Fallback icon */}
+                </div>
+                <div className="card-text-content">
+                  <p className="card-item-text">{card.title}</p>
+                  <div className="card-item-value">{card.count}</div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>No data available</div> // Fallback message when cardsData is empty
+        )}
       </div>
-      {/* </BlockContentWrap> */}
     </TeacherdashBoardCardswrap>
   );
 };

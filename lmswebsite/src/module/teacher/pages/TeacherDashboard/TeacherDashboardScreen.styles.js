@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { media } from "../../../../style/theme/theme";
 
-export const TeacherDashboardScreenWrap = styled.main`
+export const TeacherDashBoardCardswrap = styled.main`
   .area-row {
     display: flex;
     gap: 24px;

@@ -32,7 +32,7 @@ import manageCustomBatch from "./module/admin/page/manageCustomBatchApproval/man
 // import { ManagecustomBatchWrap } from "./module/admin/page/manageCustomBatchApproval/manageCustomBatch.styles";
 import ManagePayment from "./module/admin/page/managePayment/managePayment";
 import TeacherDashboardLayout from "./module/teacher/pages/TeacherDashboardLayout/TeacherDashboardLayout";
-import { TeacherDashboardScreenWrap } from "./module/teacher/pages/TeacherDashboard/TeacherDashboardScreen.styles";
+// import { TeacherDashboardScreenWrap } from "./module/teacher/pages/TeacherDashboard/TeacherDashboardScreen.styles";
 import TeacherDashboardScreen from "./module/teacher/pages/TeacherDashboard/TeacherDashboardScreen";
 import AssignedTeacherBatch from "./module/teacher/pages/AssignedBatches/AssignedTeacherBatch";
 import TeacherCircular from "./module/teacher/pages/TeacherCircular/TeacherCircular";
@@ -73,6 +73,7 @@ import QuizQuestionPage from "./module/student/pages/StudentTaskBoard/QuizQuesti
 
 import ManageMeetingStudent from "./module/student/pages/manageMeetingsStudent/ManageMeetingStudent";
 
+import TeacherdashBoardCards from "./module/teacher/components/TeacherdashBoardCards/TeacherdashBoardCards";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -144,13 +145,8 @@ function App() {
             }
           >
             <Route index element={<TeacherDashboardScreen />} />
-            <Route path="/teacher/dashboard/batches" element={<AssignedTeacherBatch />} />
-            <Route path="/teacher/dashboard/assigned-batches/:batchId" element={<AssignedBatchStudentsList />} />
-            <Route path="/teacher/dashboard/circular" element={<TeacherCircular />} />
-            <Route path="/teacher/dashboard/setting" element={<SettingsTabs />} />
-            <Route path="/teacher/dashboard/quizz/assignedBatch" element={<QuizBatches />} />
-            <Route path="/teacher/dashboard/quizz/batches/:batchId" element={<QuizList />} />
-            <Route
+
+                    <Route
               path="/teacher/dashboard/batches"
               element={<AssignedTeacherBatch />}
             />
