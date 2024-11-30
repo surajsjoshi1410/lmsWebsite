@@ -220,7 +220,7 @@ const BatchCard = ({ batch }) => {
                     {/* Footer: Action */}
                     <div className="batch-footer">
                         <span className="action-text">
-                            <strong>Action:</strong> {action}
+                           {action}
                         </span>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ import {
 } from "./CustomerQueryViewForm.styles";
 import { fetchQueryById, updateQueryById } from "../../../../api/customerQueryApi";
 
-const CustomerQueryViewForm = ({queryId}) => {
+const CustomerQueryViewForm = ({queryId,closeModal}) => {
 
   const navigate = useNavigate();
   const [query, setQuery] = useState(null);
@@ -41,8 +41,9 @@ const CustomerQueryViewForm = ({queryId}) => {
       await updateQueryById(queryId, updatedQuery);
       setQuery(updatedQuery);
       setStatus("solved");
+      closeModal();
       alert("Query status updated to solved successfully.");
-      navigate("/admin/customerQueryReview");
+      navigate("/admin/customerQueries");
     } catch (error) {
       console.error("Error updating query status:", error.message);
       alert("Failed to update query status.");

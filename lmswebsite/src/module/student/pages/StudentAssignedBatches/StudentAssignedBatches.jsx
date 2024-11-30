@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaEye } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, Link } from "react-router-dom"; // Import useNavigate
 import { StudentAssignedBatchWrap } from './StudentAssignedBatches.styles';
 import { getBatchesByStudentId, getBatchesByTeacherId } from "../../../../api/batchApi";
 import BatchCard from "../../components/BatchCard/BatchCard";
@@ -115,8 +115,11 @@ export default function StudentAssignedBatches() {
                             date: batch.date,
                             studentcount: batch.students.length,
                             action: (
-                                <button>
-                                    <FaEye style={{ marginRight: "5px" }} /> future Actions
+                                <button >
+                                    <Link to ={`/student/dashboard/assignedBatches/${batch._id}`}>
+                                    <FaEye style={{ marginRight: "5px" }} />View Materials
+                                    </Link>
+                                    
                                 </button>
                             )
                         };

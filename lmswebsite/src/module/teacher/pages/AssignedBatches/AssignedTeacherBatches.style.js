@@ -198,4 +198,11 @@ flex-direction:column;
 height:100vh;
 gap:20px;}
 
+button{
+ border-radius: 4px;
+  padding: 6px;
+  color: ${theme.colors.white};
+  background-color: ${theme.colors.pink4};}
+
 `;
+

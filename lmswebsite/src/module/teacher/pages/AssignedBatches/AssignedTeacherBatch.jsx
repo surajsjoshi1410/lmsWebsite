@@ -142,7 +142,7 @@ export default function AssignedTeacherBatch() {
                                         cursor: "pointer",
                                     }}
                                 >
-                                    <FaEye style={{ marginRight: "5px" }} /> View Students
+                                     View Students
                                 </button>
                             )
                         };

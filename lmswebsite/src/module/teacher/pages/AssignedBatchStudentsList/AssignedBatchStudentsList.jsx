@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { getBatchById, createMeeting } from "../../../../api/batchApi";
 import { getTeacherByAuthId } from "../../../../api/teacherApi";
+import { uploadContent } from "../../../../api/batchContentApi";
 import {
   Table,
   Spin,
@@ -14,10 +15,12 @@ import {
   Input,
   DatePicker,
   message,
+  Upload,
 } from "antd";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import moment from "moment";
+import { set } from "lodash";
 
 const { RangePicker } = DatePicker;
 
@@ -30,8 +33,10 @@ const AssignedBatchStudentsList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModel2visble, setIsModel2visble] = useState(false);
   const [teacherId, setTeacherId] = useState(""); // Store the teacher ID
   const [form] = Form.useForm();
+  const [file, setFile] = useState(null); // Store the selected file
 
   useEffect(() => {
     const fetchBatchDetails = async () => {
@@ -51,8 +56,8 @@ const AssignedBatchStudentsList = () => {
         const batchSubjects = Array.isArray(batch.subject_id)
           ? batch.subject_id.map((subject) => subject.subject_name)
           : batch.subject_id?.subject_name
-          ? [batch.subject_id.subject_name]
-          : [];
+            ? [batch.subject_id.subject_name]
+            : [];
 
         const studentDetails = batch.students.map((student) => {
           const studentSubjects = Array.isArray(student.subject_id)
@@ -172,6 +177,54 @@ const AssignedBatchStudentsList = () => {
     },
   ];
 
+
+
+  const handleUploadContent = async () => {
+    console.log("Uploading content...", file);
+    if (!file) {
+      message.error("Please select a file to upload.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      // Call the uploadContent API function
+      const response = await uploadContent(batchId, teacherId, file);
+      console.log("Content uploaded successfully:", response);
+      message.success("Content uploaded successfully!");
+      setIsModel2visble(false); // Close the modal after success
+      form.resetFields(); // Reset the form
+
+    } catch (err) {
+      message.error("Failed to upload content.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileChange = (info) => {
+    console.log("Selected file:", info.file);
+    // if (info.file.status === "done") {
+    setFile(info.file.originFileObj); // Store the selected file
+    // }
+  };
+
+
+
+  const openUploadModal2 = () => {
+    setIsModel2visble(true);
+  };
+
+
+
+  if (loading) {
+    return <Spin size="large" />;
+  }
+
+  if (error) {
+    return <Alert message={error} type="error" showIcon />;
+  }
+
   return (
     <div style={{ padding: "20px" }}>
       <div
@@ -183,11 +236,19 @@ const AssignedBatchStudentsList = () => {
         <h2 style={{ margin: 0 }}>Students List for {batchName}</h2>
         <Button
           type="primary"
-          style={{ marginLeft: "auto" }}
+          style={{ marginLeft: "auto", backgroundColor: "#ee1b7a"  }}
           onClick={handleCreateMeeting}
         >
           Create Meeting
         </Button>
+
+        <Button 
+        type="primary"
+        style={{ marginLeft: "10px", backgroundColor: "#ee1b7a" }}
+        onClick={openUploadModal2}>
+          Upload Content
+        </Button>
+
       </div>
 
       {loading ? (
@@ -234,14 +295,55 @@ const AssignedBatchStudentsList = () => {
               placeholder={["Start Time", "End Time"]}
             />
           </Form.Item>
+
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button 
+            type="primary"
+            style={{ backgroundColor: "#ee1b7a" }}
+            htmlType="submit" block>
               Create Meeting
             </Button>
           </Form.Item>
         </Form>
       </Modal>
-    </div>
+
+{/* Modal for upploading content */}
+
+        <Modal
+          title="Upload Content"
+          visible={isModel2visble}
+          
+          onCancel={() => { setIsModel2visble(false) }}
+          footer={null}
+        >
+          <Form form={form} layout="vertical" onFinish={handleUploadContent}>
+
+            <Upload onChange={handleFileChange}
+            >
+              <Form.Item
+                name="title"
+                label="Select File"
+                rules={[{ required: true, message: "Click to Select File" }]}
+             
+              >
+                <Input placeholder="Click to Select File" />
+              </Form.Item>
+            </Upload>
+          </Form>
+          <Button
+            key="upload"
+            type="primary"
+            style={{ backgroundColor: "#ee1b7a" }}
+            loading={loading}
+            onClick={handleUploadContent}
+          >
+            Upload
+          </Button>
+        </Modal>
+      </div>
+
+    // </div>
+
   );
 };
 

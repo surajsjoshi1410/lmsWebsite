@@ -315,5 +315,3 @@ export const MemberList = styled.div`
   }
 `;
 
-
-

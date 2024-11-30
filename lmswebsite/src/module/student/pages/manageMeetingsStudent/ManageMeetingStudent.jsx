@@ -4,7 +4,8 @@ import moment from "moment";
 import axios from "axios";
 import "react-big-calendar/lib/css/react-big-calendar.css"; // Default styles for react-big-calendar
 import "./ManageMeeting.css"; // Optional custom styles
-import { getStudentByAuthId, getStudentscheduleById } from "../../../../api/studentApi";
+import { getStudentAttendance, getStudentByAuthId, getStudentscheduleById, studentClockIn, studentClockOut } from "../../../../api/studentApi";
+import { clockIn, clockOut } from "../../../../api/teacherApi";
 
 const localizer = momentLocalizer(moment);
 
@@ -12,29 +13,48 @@ function ManageMeetingStudent() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [attendanceStatus, setAttendanceStatus] = useState({});
+  const [loadData, setLoadData] = useState(false);
 
   // Fetch teacher schedule from API
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
         setLoading(true);
-        const teacherId = "6482b54ef5823f6b2e3db456"; // Replace with dynamic teacher ID
-        const authId=JSON.parse(localStorage.getItem("sessionData")).userId;
-        const studentData= await getStudentByAuthId(authId);
-        const response= await getStudentscheduleById(studentData.student._id);
+        const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+        const studentData = await getStudentByAuthId(authId);
+        const response = await getStudentscheduleById(studentData.student._id);
+        const studentAttendanceData= await getStudentAttendance(studentData.student._id);
         // const response = await axios.get(
         //   `http://localhost:5000/students/student/67442e833781bb93207b0dbf/schedule`
         // );
         const schedule = response.data.schedule;
 
         // Map the schedule into events for react-big-calendar
-        const formattedEvents = schedule.map((item, index) => ({
+        let formattedEvents = schedule.map((item, index) => ({
           id: index,
           title: item.meeting_title || "No Title", // Use the meeting title from the API response
           start: new Date(item.date),
           end: new Date(new Date(item.date).getTime() + 60 * 60 * 1000), // Assume 1-hour meetings
+          meetingId: item.meeting_id, // Use meeting_id to track clocking
           meeting_url: item.meeting_url || null, // Include meeting URL
+          clockIn:false,
+          clockOut:false,
         }));
+        studentAttendanceData.attendance.map((item) => {
+
+          formattedEvents=formattedEvents.map((event) => {
+            if (item.meeting_id === event.meetingId) {
+              return {
+                ...event,
+                clockIn: item.clock_in_time?true:false,
+                clockOut: item.clock_out_time ?true:false,
+              };
+            }else{
+              return event;
+            }
+          });
+        });
 
         setEvents(formattedEvents);
         setLoading(false);
@@ -45,7 +65,48 @@ function ManageMeetingStudent() {
     };
 
     fetchSchedule();
-  }, []);
+  }, [loadData]);
+
+  // Handle clock-in action
+  const handleClockIn = async (meetingId) => {
+    try {
+      const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+      const studentData = await getStudentByAuthId(authId);
+
+      // Clock-in API requires teacherId and meetingId
+       const response = await studentClockIn(studentData.student._id, meetingId); // Make sure you pass teacher._id
+
+      setAttendanceStatus((prevStatus) => ({
+        ...prevStatus,
+        [meetingId]: "clocked-in", // Update the status to clocked-in
+      }));
+      if(response){
+        setLoadData(!loadData);
+     }
+    } catch (error) {
+      console.error("Error clocking in:", error);
+    }
+  };
+
+   // Handle clock-out action
+   const handleClockOut = async (meetingId) => {
+    console.log("meetingId", meetingId);  
+    try {
+      const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
+      const studentData = await getStudentByAuthId(authId);
+       const response = await studentClockOut(studentData.student._id, meetingId); // Pass teacherId and meetingId
+
+      setAttendanceStatus((prevStatus) => ({
+        ...prevStatus,
+        [meetingId]: "clocked-out", // Update the status to clocked-out
+      }));
+      if(response){
+        setLoadData(!loadData);
+     }
+    } catch (error) {
+      console.error("Error clocking out:", error);
+    }
+  };
 
   // Handle when a user clicks on an event
   const handleSelectEvent = (event) => {
@@ -57,35 +118,63 @@ function ManageMeetingStudent() {
   };
 
   // Custom event rendering
-  const renderEvent = ({ event }) => (
-    <div>
-      <strong>{event.title}</strong>
-      <br />
-      {event.meeting_url ? (
-        <button
-          style={{
-            marginTop: "5px",
-            backgroundColor: "#3f51b5",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            padding: "5px 10px",
-            cursor: "pointer",
-          }}
-          onClick={(e) => {
-            e.stopPropagation(); // Prevent triggering calendar selection
-            handleSelectEvent(event);
-          }}
-        >
-          Join Meeting
-        </button>
-      ) : (
-        <span style={{ color: "red", fontSize: "12px" }}>
-          Meeting URL not available
+  const renderEvent = ({ event }) => {
+
+    return (
+      <div>
+        <strong>{event.title}</strong>
+        <br />
+        <span style={{ fontSize: "12px", color: "#ffffff" }}>
+          {moment(event.start).format("hh:mm A")} -{" "}
+          {moment(event.end).format("hh:mm A")}
         </span>
-      )}
-    </div>
-  );
+        <br />
+        {event.meeting_url ? (
+          <button
+            onClick={() => handleSelectEvent(event)}
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              padding: "5px 10px",
+              marginTop: "5px",
+            }}
+          >
+            Join Meeting
+          </button>
+        ) : null}
+        <br />
+
+        {!event.clockIn && !event.clockOut ? (
+          <button
+            onClick={() => handleClockIn(event.meetingId)}
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              padding: "5px 10px",
+              marginTop: "5px",
+            }}
+          >
+            Clock In
+          </button>
+        ) : event.clockIn && !event.clockOut ? (
+          <button
+            onClick={() => {handleClockOut(event.meetingId)}}
+            style={{
+              backgroundColor: "#FF6347",
+              color: "white",
+              padding: "5px 10px",
+              marginTop: "5px",
+            }}
+          >
+            Clock Out
+          </button>
+        ) : (
+          <span>Clocked Out</span>
+        )}
+      </div>
+    );
+  };
+
 
   return (
     <div style={{ padding: "20px" }}>
@@ -100,7 +189,7 @@ function ManageMeetingStudent() {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 600 }}
+          style={{ height: 800 }}
           views={["month", "week", "day", "agenda"]} // Available views
           defaultView="month" // Set the default view
           selectable={true} // Allow selecting events
@@ -115,7 +204,7 @@ function ManageMeetingStudent() {
             },
           })}
         />
-      )}Z
+      )}
     </div>
   );
 }

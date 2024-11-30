@@ -257,8 +257,20 @@ const Sidebar = () => {
                   <span className="menu-link-text">Manage Content</span>
                 </NavLink>
               </li>
+              <li className="menu-item">
+                <NavLink
+                  to="/admin/manageAttendance"
+                  activeClassName="active"
+                  className="menu-link"
+                >
+                  <span className="menu-link-icon">
+                    <MdPayment />
+                  </span>
+                  <span className="menu-link-text">Manage Attendance</span>
+                </NavLink>
+              </li>
 
-
+             
               {/* <li className="menu-item">
                 <NavLink
                   to="/admin/customPackage"

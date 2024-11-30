@@ -140,6 +140,20 @@ const Sidebar = () => {
               </li>
               <li className="menu-item">
                 <NavLink
+                  to="/student/dashboard/attendance"
+                  activeClassName="active"
+                  className="menu-link"
+                >
+                  <span className="menu-link-icon">
+                    <AiTwotoneNotification />
+                  </span>
+                  <span className="menu-link-text">Attendance</span>
+                </NavLink>
+              </li>
+
+             
+              <li className="menu-item">
+                <NavLink
                   to="/student/dashboard/meetings"
                   activeClassName="active"
                   className="menu-link"

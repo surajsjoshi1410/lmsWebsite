@@ -85,13 +85,17 @@ const TeacherDashBoardScreen = () => {
       try {
         const recentQuizData = await getRecentQuizForTeacher(teacherId);
         setRecentQuiz(recentQuizData);
-        console.log('Recent Quiz:', recentQuizData);
+        console.log('Recent Quiz fetched:', recentQuizData);
 
         // Set up quiz card data
         setQuizCardData({
-          title: 'Recent Quiz',
+          // title: 'Recent Quiz',
           icon: iconMap['Recent Quiz'],
-          count: recentQuizData.quiz_title || 'No recent quiz available', // If there's no recent quiz, show a fallback message
+          title: recentQuizData.quiz_title || 'No recent quiz available', // If there's no recent quiz, show a fallback message
+          batch_name: recentQuizData.batch_index?.batch_name || 'N/A',
+          subject_name: recentQuizData.subject?.subject_name || 'N/A',
+          className: recentQuizData.class_level?.className || 'N/A',
+          answeredBy: recentQuizData.answered_by.length || '0',
         });
       } catch (error) {
         console.error('Error fetching recent quiz:', error);

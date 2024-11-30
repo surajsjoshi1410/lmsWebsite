@@ -73,7 +73,11 @@ import QuizQuestionPage from "./module/student/pages/StudentTaskBoard/QuizQuesti
 
 import ManageMeetingStudent from "./module/student/pages/manageMeetingsStudent/ManageMeetingStudent";
 
+import { TeacherAttendance } from "./module/teacher/pages/TeacherAttendance/TeacherAttendance";
+import { StudentAttendance } from "./module/student/pages/StudentAttendance/StudentAttendance";
+import { ManageAttendance } from "./module/admin/page/ManageAttendance/ManageAttendance";
 import TeacherdashBoardCards from "./module/teacher/components/TeacherdashBoardCards/TeacherdashBoardCards";
+import StudentMaterial from "./module/student/pages/StudentMaterials/StudentMaterial";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -131,7 +135,6 @@ function App() {
           <Route path="/student/dashboard/taskBoard/quiz/:quizId" element={<QuizQuestionPage />} />
 
           <Route path="/student/dashboard/meetings" element={<ManageMeetingStudent />} />
-
           
           </Route>
 
@@ -173,6 +176,10 @@ function App() {
             <Route
               path="/teacher/dashboard/quizz/batches/:batchId"
               element={<QuizList />}
+            />
+            <Route
+              path="/teacher/dashboard/teacherAttendance"
+              element={<TeacherAttendance />}
             />
           </Route>
           <Route
@@ -238,10 +245,11 @@ function App() {
               path="/admin/customerQueries/:queryId"
               element={<CustomerQueryFormView />}
             />
+            <Route path="/admin/manageAttendance" element={<ManageAttendance/>} />
           </Route>
 
 
-        
+
         </Routes>
       </Router>
       {/* <RouterProvider router={router} /> */}

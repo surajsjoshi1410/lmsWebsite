@@ -144,7 +144,7 @@ export default function CustomerQuery() {
         // title="Query Details"
         width={800}
       >
-        {queryId && <CustomerQueryViewForm queryId={queryId} />}
+        {queryId && <CustomerQueryViewForm queryId={queryId} closeModal={closeModal}/>}
       </Modal>
     </CustomerQueryWrap>
   );

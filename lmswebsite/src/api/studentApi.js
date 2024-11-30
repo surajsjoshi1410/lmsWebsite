@@ -111,3 +111,51 @@ export const getAllStudents = async () => {
       throw error;
     }
   }
+
+  export const studentClockIn = async (studentId, meetingId) => {
+    try {
+      const response = await api.post(`/students/clock-in`, {
+        meetingId,
+        studentId,
+      });
+      console.log("clockedin", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error clocking in:", error.response?.data || error.message);
+    }
+  };
+
+  export const studentClockOut = async (studentId, meetingId) => {
+    console.log("studentClockOut", studentId, meetingId);
+    try {
+      const response = await api.post(`/students/clock-out`, {
+        meetingId,
+        studentId,
+      });
+      console.log("clockedout", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error clocking out:", error.response?.data || error.message);
+    }
+  };
+
+
+  export const getStudentAttendance = async (studentId) => {
+    try {
+      const response = await api.get(`/students/student/attendance?studentId=${studentId}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching student attendance:", error);
+      throw error;
+    }
+  };
+
+  export const getStudentsForAttendance= async () => {
+    try {
+      const response = await api.get(`/students/student/forattendance`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching students for attendance:', error);
+      throw error;
+    }
+  };

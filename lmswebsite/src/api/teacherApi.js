@@ -98,4 +98,25 @@ export const clockIn = async (teacherId, meetingId) => {
     console.error("Error clocking in:", error.response?.data || error.message);
   }
 };
-export const clockOut = async (teacherId, meetingId) => {};
+export const clockOut = async (teacherId, meetingId) => {
+  try {
+    const response = await api.post(`/teachers/clock-out`, {
+      meetingId,
+      teacherId,
+    });
+    console.log("clockedout", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error clocking out:", error.response?.data || error.message);
+  }
+};
+
+export const getTeacherAttendance = async (teacherId) => {
+  try {
+    const response = await api.get(`/teachers/teacher/attendance?teacherId=${teacherId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching teacher attendance:", error);
+    throw error;
+  }
+};

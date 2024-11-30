@@ -125,7 +125,7 @@ export default function QuizBatches() {
                             teacher_id: batch.teacher_id,
                             date: batch.date,
                             studentcount: batch.students.length,
-                            action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`) }}><FaEye /> View Quizes</button>
+                            action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`) }}> View Quizes</button>
                         }
                         return (
                             <BatchCard key={batch._id} batch={batchData} />
@@ -139,22 +139,7 @@ export default function QuizBatches() {
                     </>
                 )}
 
-                {/* {isModalOpen && (
-                    <>
-                        <div className="backdrop" onClick={modelClose}>
-                            <div className="assignedBatch-table-container">
-                                <button onClick={modelClose} className="assignedBatch-close-button" aria-label="Close Table">
-                                    <IoMdClose />
-                                </button>
-                                <div className="assignedBatch-table-container-inner">
-                                    <DashboardTable data={tableData} columns={["Name", "Email"]} />
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </>
-                )} */}
+               
             </div>
         </QuizBatcheswrap>
     )
