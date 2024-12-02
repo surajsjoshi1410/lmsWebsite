@@ -13,13 +13,16 @@ import BoardForm from '../BoardForm/BoardForm';
 import PackageForm from '../PackageForm/PackageForm';
 import FaqForm from '../FaqForm/FaqForm';
 import BannerForm from '../BannerForm/BannerForm';
+import ChooseUsForm from '../ChooseUsForm/ChooseUsForm';
+import BenefitForm from '../BenifitsForm/BenifitsForm';
 import { getAllClasses, createClass, deleteClass } from '../../../../../api/classApi';
 import { getAllSubjects, createSubject, deleteSubjectById } from '../../../../../api/subjectApi';
 import { getBoards, createBoard, deleteBoard } from '../../../../../api/boadApi';
 import { getAllPackages, createPackage, deletePackageById } from '../../../../../api/packagesApi';
 import { getAllFAQ, createFAQ, deleteFAQ } from '../../../../../api/faq';
 import { getBanners, createBanner, deleteBanner } from '../../../../../api/bannerApi';
-
+import { createChooseUsFeature, deleteChooseUsFeature, getChooseUsData } from '../../../../../api/chooseUsApi';
+import { createBenefit, getAllBenefits, deleteBenefit } from '../../../../../api/benefitsApi';
 const ManageContentTable = ({ contentType }) => {
   const [data, setData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -43,7 +46,7 @@ const ManageContentTable = ({ contentType }) => {
             getAllClasses(),
             getBoards(),
           ]);
- 
+
           // Create boardMap to map board IDs to board names
           const boardMap = {};
           boardsData.forEach((board) => {
@@ -77,10 +80,9 @@ const ManageContentTable = ({ contentType }) => {
           const classMap = {};
           classesDataForSubjects.forEach((cls) => {
             const classId = getId(cls);
-            console.log("classId",classId);
             classMap[classId] = cls;
           });
-      
+
 
           const boardMapForSubjects = {};
           boardsDataForSubjects.forEach((board) => {
@@ -93,12 +95,12 @@ const ManageContentTable = ({ contentType }) => {
             const classId = subject.class_id?.$oid || subject.class_id;
             const classData = classMap[classId];
             const classLevel = classData ? classData.classLevel : 'N/A';
-         
+
             // Get boardId from classData
             const boardId = classData?.curriculum?.$oid || classData?.curriculum?._id;
             const boardName = boardId ? boardMapForSubjects[boardId] || 'N/A' : 'N/A';
-  
-    
+
+
             return {
               ...subject,
               classLevel,
@@ -129,13 +131,23 @@ const ManageContentTable = ({ contentType }) => {
           setData(bannerData);
           break;
 
+        case 'chooseUs':
+          const chooseUsData = await getChooseUsData();
+          setData(chooseUsData.features);
+          break;
+
+        case 'benefits':
+          console.log('Fetching benefits');
+          const benefitData = await getAllBenefits();
+          setData(benefitData.benefits);
+          break;
+
         default:
           setData([]);
           break;
       }
     } catch (error) {
       message.error('Failed to fetch data');
-      console.error(error);
     }
   };
 
@@ -177,6 +189,16 @@ const ManageContentTable = ({ contentType }) => {
           await createBanner(newItem);
           message.success('Banner created successfully');
           break;
+        case 'chooseUs':
+          await createChooseUsFeature(newItem);
+          message.success('Choose Us Feature created successfully');
+          break;
+
+        case 'benefits':
+          await createBenefit(newItem);
+          message.success('Benefit created successfully');
+          break;
+
         default:
           break;
       }
@@ -184,7 +206,6 @@ const ManageContentTable = ({ contentType }) => {
       fetchData(); // Refresh data after creation
     } catch (error) {
       message.error('Failed to create item');
-      console.error(error);
     }
   };
 
@@ -216,13 +237,22 @@ const ManageContentTable = ({ contentType }) => {
           await deleteBanner(getId(record));
           message.success('Banner deleted successfully');
           break;
+        case 'chooseUs':
+          await deleteChooseUsFeature(getId(record));
+          message.success('Choose Us Feature deleted successfully');
+          break;
+
+        case 'benefits':
+          await deleteBenefit(getId(record));
+          message.success('Benefit deleted successfully');
+          break;
+
         default:
           break;
       }
       fetchData(); // Refresh data after deletion
     } catch (error) {
       message.error('Failed to delete item');
-      console.error(error);
     }
   };
 
@@ -457,9 +487,65 @@ const ManageContentTable = ({ contentType }) => {
         {
           title: 'Action',
           key: 'action',
+          render: (_, record) => {
+            return (
+              <Popconfirm
+                title="Are you sure you want to delete this banner?"
+                onConfirm={() => handleDelete(record)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <button type="button">Delete</button>
+              </Popconfirm>
+            )
+          },
+        },
+      ];
+      FormComponent = BannerForm;
+      break;
+
+    case 'chooseUs':
+      title = 'Choose Us';
+      columns = [
+
+        {
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
+        },
+        {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description',
+        },
+        {
+          title: 'Image',
+          dataIndex: 'imageUrl',
+          key: 'imageUrl',
+          render: (text, record) => {
+            return (
+
+              <img
+                src={record.imageUrl}
+                alt="Item"
+                style={{ width: '50px', height: '50px', objectFit: 'cover', cursor: 'pointer' }}
+                onClick={() => {
+                  setSelectedImage(record.imageUrl);
+                  setImageModalVisible(true);
+                }
+
+
+                }
+              />
+            )
+          },
+        },
+        {
+          title: 'Action',
+          key: 'action',
           render: (_, record) => (
             <Popconfirm
-              title="Are you sure you want to delete this banner?"
+              title="Are you sure you want to delete this image?"
               onConfirm={() => handleDelete(record)}
               okText="Yes"
               cancelText="No"
@@ -469,8 +555,49 @@ const ManageContentTable = ({ contentType }) => {
           ),
         },
       ];
-      FormComponent = BannerForm;
+      FormComponent = ChooseUsForm;
       break;
+
+    case 'benefits':
+      title = 'Benefits';
+      columns = [
+        {
+          title: 'Name',
+          dataIndex: 'title',
+          key: 'title',
+        },
+        {
+          title: 'Description',
+          dataIndex: 'description',
+          key: 'description',
+        },
+        {
+          title: "Colour",
+          dataIndex: "color",
+          key: "color",
+          render: (text, record) => (
+            <div style={{ backgroundColor: record.color, width: '50px', height: '50px' }}></div>
+          ),
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          render: (_, record) => (
+            <Popconfirm
+              title="Are you sure you want to delete this benefit?"
+              onConfirm={() => handleDelete(record)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <button type="button">Delete</button>
+            </Popconfirm>
+          ),
+        },
+      ];
+
+      FormComponent = BenefitForm;
+      break;
+
 
     default:
       break;
@@ -484,13 +611,13 @@ const ManageContentTable = ({ contentType }) => {
           Create {title}
         </StyledButton>
       </div>
+      {/* Table */}
       <Table
         className='anttable'
         columns={columns}
         dataSource={data}
-        rowKey={(record) => getId(record)}
+        rowKey={(record) => { getId(record) }}
       />
-
       {/* Create Modal */}
       <Modal
         visible={isModalVisible}

@@ -238,6 +238,13 @@ function App() {
                 path="banner"
                 element={<ManageContentTable contentType="banner" />}
               />
+
+              <Route
+                path="chooseUs"
+                element={<ManageContentTable contentType="chooseUs" />}
+              />
+
+              <Route path="benefits" element={<ManageContentTable contentType="benefits" />} />
             </Route>
 
             <Route path="/admin/customPackage" element={<CustomPackage />} />

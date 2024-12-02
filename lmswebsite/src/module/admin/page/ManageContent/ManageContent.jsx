@@ -46,6 +46,13 @@ const ManageContent = () => {
         <Tab to="banner" as={NavLink}>
           Banner
         </Tab>
+        <Tab to="chooseUs" as={NavLink}>
+          Choose Us
+        </Tab>
+
+        <Tab to="benefits" as={NavLink}>
+          Benefits
+        </Tab>
       </TabsContainer>
       <Outlet />
     </Container>

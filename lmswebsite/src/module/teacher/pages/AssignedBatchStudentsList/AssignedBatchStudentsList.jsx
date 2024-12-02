@@ -37,6 +37,7 @@ const AssignedBatchStudentsList = () => {
   const [teacherId, setTeacherId] = useState(""); // Store the teacher ID
   const [form] = Form.useForm();
   const [file, setFile] = useState(null); // Store the selected file
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     const fetchBatchDetails = async () => {
@@ -189,7 +190,7 @@ const AssignedBatchStudentsList = () => {
     try {
       setLoading(true);
       // Call the uploadContent API function
-      const response = await uploadContent(batchId, teacherId, file);
+      const response = await uploadContent(batchId, teacherId, file, description);
       console.log("Content uploaded successfully:", response);
       message.success("Content uploaded successfully!");
       setIsModel2visble(false); // Close the modal after success
@@ -317,19 +318,20 @@ const AssignedBatchStudentsList = () => {
           footer={null}
         >
           <Form form={form} layout="vertical" onFinish={handleUploadContent}>
+          <Form.Item
+                name="description"
+                label="Enter Description"
+               value = {description}    
+
+              >
+                <input type="text" onChange={(e) => setDescription(e.target.value)}    />
+              </Form.Item>
+
 
             <Upload onChange={handleFileChange}
             >
 
-              <Form.Item
-                name="description"
-                label="Enter Description"
-                rules={[{ required: true, message: "Click to Select File" }]}
-             
-              >
-              <Input placeholder="Enter Description" />
-              </Form.Item>
-
+              
 
               <Form.Item
                 name="title"

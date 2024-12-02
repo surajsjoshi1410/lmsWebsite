@@ -70,7 +70,7 @@ const StudentMaterial = () => {
                     <MaterialCardWrapper key={material.id}>
                         <div className="card-header">
                             {/* <h3>{material.name}</h3> */}
-                            <p>Hello 123</p>
+                            <p>{material.description}</p>
                             <a href={material.downloadUrl} target="_blank" className="btn-download" download>
                                 <FaDownload />
                             </a>
