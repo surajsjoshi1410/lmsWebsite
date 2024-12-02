@@ -21,6 +21,7 @@ import {
   Settings,
   Menu as MenuIcon,
 } from "@mui/icons-material";
+import { PiListChecksThin } from "react-icons/pi";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { SideBarwrap } from "./Sidebar.styles";
 import { Link, useNavigate } from "react-router-dom";
@@ -36,8 +37,9 @@ import { AiTwotoneNotification } from "react-icons/ai";
 import { MdOutlineSettings } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
-import { MdPayment } from "react-icons/md";
-import { CiMoneyCheck1 } from "react-icons/ci";
+import { TbTransactionRupee } from "react-icons/tb";
+import { BiSolidCustomize } from "react-icons/bi";
+import { FaTools } from "react-icons/fa";
 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
@@ -64,8 +66,13 @@ const Sidebar = () => {
     },
     { name: "Circulars", 
       icon: <Description />, 
-      link: "/admin/circular" },
-    { name: "Settings", icon: <Settings />, link: "/admin/settings" },
+      link: "/admin/circular" 
+    },
+    {
+       name: "Settings", 
+       icon: <Settings />,
+        link: "/admin/setting" 
+      },
   ];
 
   const handleLogout = () => {
@@ -155,7 +162,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <MdPayment />
+                  <TbTransactionRupee />
                   </span>
                   <span className="menu-link-text">Manage Payment</span>
                 </NavLink>
@@ -167,7 +174,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                  <CiMoneyCheck1 />
+                  <BiSolidCustomize />
                   </span>
                   <span className="menu-link-text">Custom Package</span>
                 </NavLink>
@@ -218,7 +225,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <MdPayment />
+                  <FaTools />
                   </span>
                   <span className="menu-link-text">Manage Content</span>
                 </NavLink>
@@ -230,7 +237,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <MdPayment />
+                  <PiListChecksThin />
                   </span>
                   <span className="menu-link-text">Manage Attendance</span>
                 </NavLink>
@@ -254,7 +261,7 @@ const Sidebar = () => {
 
               <li className="menu-item">
                 <NavLink
-                  to="/admin/settings"
+                  to="/admin/setting"
                   activeClassName="active"
                   className="menu-link"
                 >

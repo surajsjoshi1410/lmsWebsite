@@ -93,7 +93,7 @@ cursor: pointer;
 transition: all 0.3s ease-in-out;
 
 &:hover{
-  background-color: ${theme.colors.black};
+  background-color: ${theme.colors.grey1};
   transition: all 0.3s ease-in-out;
    
 }

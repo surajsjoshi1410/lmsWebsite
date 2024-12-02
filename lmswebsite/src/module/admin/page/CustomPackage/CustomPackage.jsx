@@ -163,11 +163,11 @@ const CustomPackage = () => {
         onCancel={handleModalClose}
         footer={[
           !selectedPackage?.is_approved && (
-            <Button key="send" type="primary" onClick={handleSendPaymentRequest}>
+            <Button key="send" type="primary" style={{backgroundColor: "#f562ba", color: "white"}} onClick={handleSendPaymentRequest}>
               Send Payment Request
             </Button>
           ),
-          <Button key="close" onClick={handleModalClose}>
+          <Button style={{borderColor: "pink", color: "black"}} key="close" onClick={handleModalClose}>
             Close
           </Button>,
         ]}

@@ -24,7 +24,7 @@ export const Container = styled.div`
 
       .ant-input {
         border-radius: 4px;
-        height: 40px;
+        height: 30px;
       }
 
       .ant-btn {

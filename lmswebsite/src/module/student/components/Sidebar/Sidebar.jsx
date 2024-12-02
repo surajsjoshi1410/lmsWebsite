@@ -29,10 +29,11 @@ import { FaLayerGroup } from "react-icons/fa6";
 import { MdOutlineAssignment } from "react-icons/md";
 import { VscPreview } from "react-icons/vsc";
 import { RiCustomerServiceLine } from "react-icons/ri";
-import { AiTwotoneSchedule } from "react-icons/ai";
+import { PiListChecksThin } from "react-icons/pi";
 // import { MdOutlineAssignment } from "react-icons/md";
 import { FaWpforms } from "react-icons/fa6";
 import { AiTwotoneNotification } from "react-icons/ai";
+import { MdVideoCall } from "react-icons/md";
 import { MdOutlineSettings } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
@@ -145,7 +146,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <AiTwotoneNotification />
+                  <PiListChecksThin />
                   </span>
                   <span className="menu-link-text">Attendance</span>
                 </NavLink>
@@ -159,7 +160,7 @@ const Sidebar = () => {
                   className="menu-link"
                 >
                   <span className="menu-link-icon">
-                    <AiTwotoneNotification />
+                  <MdVideoCall />
                   </span>
                   <span className="menu-link-text">Meeting</span>
                 </NavLink>
