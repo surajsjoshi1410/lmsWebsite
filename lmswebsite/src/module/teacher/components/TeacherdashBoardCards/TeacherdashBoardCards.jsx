@@ -3,12 +3,13 @@ import { TeacherdashBoardCardswrap } from "./TeacherdashBoardCards.styles";
 import { ImUser } from "react-icons/im";
 import { GiTeacher } from "react-icons/gi";
 import { MdLiveTv } from "react-icons/md";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 // Define icon mappings for each title
 const iconMap = {
   "Total students": <ImUser />,
   "Total teachers": <GiTeacher />,
-  "Total Batches": <MdLiveTv />,
+  "Total Batches": <FaPeopleGroup />,
 };
 
 const TeacherdashBoardCards = ({ cardsData = [] }) => {

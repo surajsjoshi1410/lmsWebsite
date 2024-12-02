@@ -58,16 +58,6 @@ const Sidebar = () => {
       link: "/admin/customerQueries",
     },
     {
-      name: "Schedule Class",
-      icon: <AccessTime />,
-      link: "/admin/scheduleClass",
-    },
-    {
-      name: "Create Assignment",
-      icon: <Assignment />,
-      link: "/admin/createAssignment",
-    },
-    {
       name: "Application Form Review",
       icon: <Assignment />,
       link: "/admin/applicationFormReview",
@@ -180,30 +170,6 @@ const Sidebar = () => {
                   <CiMoneyCheck1 />
                   </span>
                   <span className="menu-link-text">Custom Package</span>
-                </NavLink>
-              </li>
-              <li className="menu-item">
-                <NavLink
-                  to="/admin/scheduleClass"
-                  activeClassName="active"
-                  className="menu-link"
-                >
-                  <span className="menu-link-icon">
-                    <AiTwotoneSchedule />
-                  </span>
-                  <span className="menu-link-text">Schedule Class</span>
-                </NavLink>
-              </li>
-              <li className="menu-item">
-                <NavLink
-                  to="/admin/createAssignment"
-                  activeClassName="active"
-                  className="menu-link"
-                >
-                  <span className="menu-link-icon">
-                    <MdOutlineAssignment />
-                  </span>
-                  <span className="menu-link-text">Create Assignment</span>
                 </NavLink>
               </li>
               <li className="menu-item">

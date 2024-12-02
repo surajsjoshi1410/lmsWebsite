@@ -6,6 +6,7 @@ export const DailyScheduleContainerWrap = styled.div`
 display : flex;
 flex-direction: column;
 padding: 20px;
+margin: 12px;
 width: 60%;
 border-radius: 10px;
 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

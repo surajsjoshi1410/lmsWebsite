@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import QuizImage from "../../../teacher/assets/Quiz.jpg";
+import QuizImage from "../../../teacher/assets/Quiz.png";
 
 import { MdLiveTv } from "react-icons/md";
 import { TeacherDashboardQuizCardwrap } from "./TeacherDashboardQuizCard.styles";
@@ -31,15 +31,15 @@ const onClick = () => {
                     <tbody>
                       <tr>
                         <td className="label">Batch</td>
-                        <td className="value">: {cardsdata.batch_name || ": N/A"}</td>
+                        <td className="value">: {cardsdata.batch_name || "N/A"}</td>
                       </tr>
                       <tr>
                         <td className="label">Subject</td>
-                        <td className="value">: {cardsdata.subject_name || ": N/A"}</td>
+                        <td className="value">: {cardsdata.subject_name || "N/A"}</td>
                       </tr>
                       <tr>
                         <td className="label">Class</td>
-                        <td className="value">: {cardsdata.className || ": N/A"}</td>
+                        <td className="value">: {cardsdata.className || "N/A"}</td>
                       </tr>
                       <tr>
                         <td className="label">Answered By</td>

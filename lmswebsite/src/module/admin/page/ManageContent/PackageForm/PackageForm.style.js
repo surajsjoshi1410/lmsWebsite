@@ -113,7 +113,7 @@ export const Select = styled.select`
 `;
 
 export const Button = styled.button`
-  background-color: ${theme.colors.pink};
+  background-color: ${theme.colors.pink4};
   color: ${theme.colors.white};
   padding: 0.7em 1.5em;
   border: none;
@@ -124,12 +124,14 @@ export const Button = styled.button`
   transition: background-color 0.3s;
   align-self: center; /* Center the button horizontally */
 
- 
-
-  &:disabled {
-    background-color: ${theme.colors.pink};
-    cursor: not-allowed;
+ &:hover {
+    background-color: ${theme.colors.pink4};
   }
+
+  // &:disabled {
+  //   background-color: ${theme.colors.pink4};
+  //   cursor: not-allowed;
+  // }
 
   ${media.sm`
     padding: 0.6em 1.2em;
@@ -147,7 +149,7 @@ export const FeatureInputContainer = styled.div`
   }
 
   button {
-    background-color: ${theme.colors.red};
+    background-color: ${theme.colors.pink4};
     color: ${theme.colors.white};
     padding: 0.5em;
     font-size: 0.9rem;
@@ -157,7 +159,7 @@ export const FeatureInputContainer = styled.div`
     transition: background-color 0.3s;
 
     &:hover {
-      background-color: ${theme.colors.lightPink};
+      background-color: ${theme.colors.pink4};
     }
   }
 `;

@@ -29,3 +29,13 @@ export const getRecentQuizForTeacher = async (teacherId) => {
         throw error;
     }
 };
+
+export const getTotalWorkingHours = async (teacherId) => {
+    try {
+        const response = await api.get(`/teacherDashboard/workingHours/${teacherId}`);
+        console.log("Total working hours fetched successfully:", response.data);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

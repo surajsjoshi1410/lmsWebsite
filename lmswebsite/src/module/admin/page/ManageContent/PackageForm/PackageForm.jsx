@@ -248,13 +248,14 @@ const PackageForm = () => {
                   onClick={() => removeFeature(index)}
                   disabled={formData.features.length === 1}
                 >
-                  Remove
+                  -
                 </Button>
+                <Button type="button" onClick={addFeature}>
+            +
+            </Button>
               </FeatureInputContainer>
             ))}
-            <Button type="button" onClick={addFeature}>
-              Add Feature
-            </Button>
+           
           </FormItem>
 
           <FormItem>

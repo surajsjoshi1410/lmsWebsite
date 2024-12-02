@@ -84,8 +84,8 @@ export const TeacherDashboardQuizCardwrap = styled.div`
 margin-left: auto;
 background-color: ${theme.colors.pink4};
 border-radius: 5px;
-height: 30px;
-width: 100px;
+// height: 30px;
+// width: 100px;
 color: ${theme.colors.white};
 font-weight: 500;
 border: none;

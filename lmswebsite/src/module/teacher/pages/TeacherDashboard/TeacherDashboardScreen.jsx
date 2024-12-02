@@ -7,6 +7,7 @@ import { ImUser } from 'react-icons/im';
 import { MdLiveTv } from 'react-icons/md';
 import { getRecentQuizForTeacher } from '../../../../api/teachDashboardApi'; // Correct API import
 import TeacherdashBoardQuizCard from '../../components/TeacherDashboardQuizCard/TeacherDashboardQuizCard';
+import DailySchedule from '../../components/DailySchedule/DailySchedule';
 
 const iconMap = {
   'Total students': <ImUser />,
@@ -118,7 +119,7 @@ console.log('Recent Quiz:', quizCardData);
         <TeacherdashBoardCards cardsData={dashboardCards} />
       </div>
       <div className="area-row ar-two">
-       <TeacherdashBoardQuizCard cardsdata={quizCardData} />
+      <DailySchedule/> <TeacherdashBoardQuizCard cardsdata={quizCardData} />
       </div>
       <div className="area-row ar-three">
         {/* Additional UI components */}

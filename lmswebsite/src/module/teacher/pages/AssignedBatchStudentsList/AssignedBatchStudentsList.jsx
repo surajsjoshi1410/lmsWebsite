@@ -320,6 +320,17 @@ const AssignedBatchStudentsList = () => {
 
             <Upload onChange={handleFileChange}
             >
+
+              <Form.Item
+                name="description"
+                label="Enter Description"
+                rules={[{ required: true, message: "Click to Select File" }]}
+             
+              >
+              <Input placeholder="Enter Description" />
+              </Form.Item>
+
+
               <Form.Item
                 name="title"
                 label="Select File"

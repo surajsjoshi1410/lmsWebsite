@@ -110,7 +110,7 @@ export default function DailySchedule() {
         
                   eventTextColor="white" // Text color of the event
                   
-                height={400}
+                height={340}
                 editable={true}
                 droppable={true}
 
