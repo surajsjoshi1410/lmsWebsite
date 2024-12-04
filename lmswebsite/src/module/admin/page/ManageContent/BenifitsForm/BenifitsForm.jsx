@@ -1,68 +1,67 @@
 import React, { useState } from "react";
-import { Input,  Form, Alert, Spin, message } from "antd";
-import { FormContainer, StyledButton } from "./BenifitsForm.styles"; // Import styles
-import { createBenefit } from "../../../../../api/benefitsApi"; // Adjust the path to your API function
-
+import { Form, Input, Button, Alert, message, Spin } from "antd"; // Ant Design components
+import { FormContainer } from "./BenifitsForm.styles"; // Import updated styles
+import { createBenefit } from "../../../../../api/benefitsApi"; // Adjust path to your API function
+ 
 const BenefitForm = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    color:"",
+    color: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
-
+  const [successMessage, setSuccessMessage] = useState("");
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    setError(null); // Clear any existing errors
+    setError(null);
   };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
-
+    setSuccessMessage("");
+ 
+    if (!formData.title || !formData.description || !formData.color) {
+      setError("All fields are required");
+      setIsSubmitting(false);
+      return;
+    }
+ 
     try {
-      if (!formData.title || !formData.description || !formData.color) {
-        setError("All fields are required");
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Call the API function to create the FAQ
-      await createBenefit(formData);
-      message.success("Benifits  created successfully!");
-
-      // Clear form after successful submission
+      await createBenefit(formData); // Call API
+      setSuccessMessage("Benefit created successfully!");
+      message.success("Benefit created successfully!");
       setFormData({
         title: "",
         description: "",
-        color:""
+        color: "",
       });
-    } catch (error) {
-      setError(error.response?.data?.error || "Failed to create Benefits. Please try again later.");
-      console.error("Error creating Benefits:", error.response?.data || error);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to create benefit");
     } finally {
       setIsSubmitting(false);
     }
   };
-
+ 
   return (
     <FormContainer>
-      <h2>Create Benifits</h2>
-      {error && <Alert message={error} type="error" showIcon style={{ marginBottom: "1em" }} />}
-      <Form onSubmitCapture={handleSubmit}>
+      <h2>Create Benefit</h2>
+      {error && <Alert message={error} type="error" showIcon />}
+      {successMessage && <Alert message={successMessage} type="success" showIcon />}
+      <Form onSubmitCapture={handleSubmit} layout="vertical">
         <Form.Item label="Title" required>
           <Input
-            type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Enter the Title"
+            placeholder="Enter the title"
           />
         </Form.Item>
         <Form.Item label="Description" required>
@@ -70,29 +69,31 @@ const BenefitForm = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Enter the Description"
+            placeholder="Enter the description"
             rows={4}
           />
         </Form.Item>
-
         <Form.Item label="Color" required>
           <Input
             type="color"
             name="color"
             value={formData.color}
             onChange={handleChange}
-            placeholder="Enter the Color"
           />
         </Form.Item>
-
         <Form.Item>
-          <StyledButton type="primary" htmlType="submit" disabled={isSubmitting}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={isSubmitting}
+            style={{ margin: "0 auto", display: "block" }}
+          >
             {isSubmitting ? <Spin /> : "Submit"}
-          </StyledButton>
+          </Button>
         </Form.Item>
       </Form>
     </FormContainer>
   );
 };
-
+ 
 export default BenefitForm;

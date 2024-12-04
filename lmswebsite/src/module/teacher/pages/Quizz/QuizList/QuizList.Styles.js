@@ -263,7 +263,7 @@ export const QuizListWrap = styled.div`
    
     padding: 20px;
     border-radius: 8px;
-    background-color: ${theme.colors.darkwhite};
+    background-color: ${theme.colors.seasalt};
     box-shadow: 0 8px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     display: flex;
@@ -317,7 +317,7 @@ export const QuizListWrap = styled.div`
    flex_direction:column;
     margin-bottom: 15px;
       font-size: 1rem;
-      color: ${theme.colors.blue};
+      color: ${theme.colors.black};
       font-family: ${theme.typography.fontFamily};
    
    }

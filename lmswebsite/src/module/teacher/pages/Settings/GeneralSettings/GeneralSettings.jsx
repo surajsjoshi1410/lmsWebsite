@@ -13,17 +13,22 @@ const GeneralSettings = () => {
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [dob, setDob] = useState(); // Default date as string
+  const[microsoft_id,setMicrosoft_id]=useState(); 
+  const [microsoft_principal_name, setMicrosoft_principal_name] = useState(); 
 
   useEffect(() => {
     const apiCaller = async () => {
       const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
       const DataTeacher = await getTeacherByAuthId(authId);
+      console.log("dfghjk",DataTeacher);
 
       // Populate fields with data from the API
       setFullName(DataTeacher.teacher.user_id.name);
       setUsername(DataTeacher.teacher.user_id.email);
       setEmail(DataTeacher.teacher.user_id.email);
       setPhone(DataTeacher.teacher.phone_number);
+      setMicrosoft_id(DataTeacher.teacher?.microsoft_id);
+      setMicrosoft_principal_name(DataTeacher.teacher?.microsoft_principal_name);
       console.log(DataTeacher);
 
       // Format the date of birth
@@ -77,6 +82,18 @@ const GeneralSettings = () => {
             </Row>
             <Row gutter={16}>
               <Col span={12}>
+                <Form.Item label="Microsoft Account Id" name="microsoft_id">
+                  <StyledInput value={microsoft_id} readOnly />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Microsoft Principal Name" name="microsoft_principal_name">
+                  <StyledInput value={microsoft_principal_name} readOnly />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={16}>
+              <Col span={12}>
                 <Form.Item label="Date of Birth" name="dob">
                   <div>
                     {/* <pre>{JSON.stringify(dob)}</pre> Log the value */}
@@ -90,6 +107,7 @@ const GeneralSettings = () => {
                 </Form.Item>
               </Col>
             </Row>
+            
           </Form>
         </div>
       }

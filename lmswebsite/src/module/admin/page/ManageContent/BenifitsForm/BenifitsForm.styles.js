@@ -1,48 +1,41 @@
 import styled from "styled-components";
-import { theme } from "../../../../../style/theme/theme";
-
+import { theme } from "../../../../../style/theme/theme"; // Ensure this path is correct
+ 
 export const FormContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   background: ${theme.colors.white};
-  border-radius: 4px;
-  position: relative;
-
-  h2 {
-    font-family: ${theme.typography.fontFamily};
-    text-align: center;
-  }
-`;
-export const StyledButton = styled.button`
-  background-color: ${theme.colors.pink};
-  border:${theme.colors.pink};
-  color: #fff !important;
-  font-size: 16px;
-  font-weight: bold;
-  width: 150px;
-  height: 40px;
-  display: block;
-  margin: 20px auto 0 auto;
-  border-radius: 4px;
-  text-align: center;
-
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: ${theme.typography.fontFamily};
  
-`;
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: ${theme.typography.fontFamily};
+  }
+ 
+  .ant-form-item-label > label {
+    // font-weight: bold;
+    color: ${theme.colors.primary};
+  }
+ 
+  .ant-btn-primary {
+    background-color: ${theme.colors.pink4};
+    border-color: ${theme.colors.pink4};
 
-export const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid ${theme.colors.primary};
-  border: 1px solid ${theme.colors.primary};
-box-shadow:${theme.colors.primary}
-  border-radius: 4px;
-  font-size: 16px;
-
-   &:focus {
-    border-color: ${theme.colors.red}; /* Customize the border color when focused */
-    box-shadow: 0 0 5px ${theme.colors.red}; /* Optional: Add a glow effect */
-    // outline: none; /* Remove default blue outline */
+          &:hover {
+    background-color: ${theme.colors.pink4} !important;
+    border-color: white !important;
+  }
+  }
+ 
+  .ant-btn-primary:disabled {
+    background-color: ${theme.colors.grey};
+  }
+ 
+  .ant-alert {
+    margin-bottom: 1em;
   }
 `;

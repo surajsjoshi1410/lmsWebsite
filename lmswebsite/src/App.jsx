@@ -78,6 +78,8 @@ import { StudentAttendance } from "./module/student/pages/StudentAttendance/Stud
 import { ManageAttendance } from "./module/admin/page/ManageAttendance/ManageAttendance";
 import TeacherdashBoardCards from "./module/teacher/components/TeacherdashBoardCards/TeacherdashBoardCards";
 import StudentMaterial from "./module/student/pages/StudentMaterials/StudentMaterial";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import LandingHome from "./Main/Pages/LandingHome";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -90,7 +92,7 @@ function App() {
             path="/"
             element={
               <PublicRoute>
-                <LandingPage />
+               <LandingHome/>
               </PublicRoute>
             }
             key=""
@@ -105,6 +107,7 @@ function App() {
             }
           />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/student" element={<StudentLandingPage />} />
           <Route
             path="/student/course/details"
@@ -135,7 +138,8 @@ function App() {
           <Route path="/student/dashboard/taskBoard/quiz/:quizId" element={<QuizQuestionPage />} />
 
           <Route path="/student/dashboard/meetings" element={<ManageMeetingStudent />} />
-          
+          <Route path="/student/dashboard/assignedBatches/:batchId" element={<StudentMaterial />} />
+          <Route path="/student/dashboard/attendance" element={<StudentAttendance />} />          
           </Route>
 
           <Route path="/teacher" element={<BecomeTeacherApplicationForm />} />

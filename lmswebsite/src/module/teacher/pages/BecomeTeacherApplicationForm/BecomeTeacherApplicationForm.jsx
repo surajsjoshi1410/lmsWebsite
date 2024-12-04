@@ -33,7 +33,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserByAuthId } from "../../../../api/userApi";
 import { getAllSubjects } from "../../../../api/subjectApi";
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
-import{updateAccessToken} from "../../../../api/refreshTokenApi";
+import { updateAccessToken } from "../../../../api/refreshTokenApi";
 
 const { Option } = Select;
 
@@ -49,7 +49,7 @@ const BecomeTeacherApplicationForm = () => {
   const [selectedBoard, setSelectedBoard] = useState("");
   const [userData, setUserData] = useState();
   const navigate = useNavigate();
- 
+
 
   const [form] = Form.useForm();
 
@@ -215,6 +215,7 @@ const BecomeTeacherApplicationForm = () => {
                         rules={[
                           { required: true, message: "Please enter your name" },
                           { max: 50, message: "Name cannot exceed 50 characters" },
+                          { pattern: /^[A-Za-z\s]+$/, message: "Please enter a valid name (letters only)" }, // Accept only alphabets and spaces
                         ]}
                       >
                         <Input placeholder="Name" />
@@ -389,7 +390,13 @@ const BecomeTeacherApplicationForm = () => {
                       >
                         <Select
                           placeholder="Select Board"
-                          onChange={(value) => setSelectedBoard(value)}
+                          onChange={(value) =>{ 
+                            setSelectedBoard(value)
+                            setSelectedClass([])
+                            setSelectedSubject([])
+                            form.setFieldsValue({ class_id: undefined });
+                            form.setFieldsValue({ subject_id: undefined });
+                          }}
                           allowClear
                         >
                           {boardData.map((board) => (
@@ -413,7 +420,11 @@ const BecomeTeacherApplicationForm = () => {
                           <Select
                             mode="multiple"
                             placeholder="Select classes..."
-                            onChange={(values) => setSelectedClass(values)}
+                            onChange={(values) => {
+                              setSelectedClass(values)
+                             setSelectedSubject([])
+                             form.setFieldsValue({ subject_id: undefined });
+                            }}
                             allowClear
                           >
                             {classes.map((classItem) => (

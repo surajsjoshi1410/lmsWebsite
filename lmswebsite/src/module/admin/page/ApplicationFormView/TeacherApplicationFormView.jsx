@@ -21,7 +21,6 @@ export default function TeacherApplicationFormView() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    window.location.reload(); // Refresh the page
   };
 
   const columns = [
@@ -45,7 +44,7 @@ export default function TeacherApplicationFormView() {
       dataIndex: "status",
       key: "status",
       render: (text, record) => (
-        <Button
+        <Button className="status-button"
           type="link"
           onClick={() => {
             setTeacherId(record.id);
@@ -136,7 +135,7 @@ export default function TeacherApplicationFormView() {
             pagination={{ pageSize: 10 }}
           />
         ) : (
-          <p>Loading...</p>
+          <p>No data found for your search.</p>
         )}
       </div>
 
@@ -151,6 +150,7 @@ export default function TeacherApplicationFormView() {
         {teacherId && (
           <TeacherApplicationFormReview teacher_Id={teacherId} closeModal={closeModal} />
         )}
+
       </Modal>
     </TeacherApplicationFormViewWrap>
   );

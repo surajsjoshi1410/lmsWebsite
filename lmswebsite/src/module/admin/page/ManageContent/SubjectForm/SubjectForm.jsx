@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  FormContainer,
-  FormContext,
-  Input,
-  Select,
-  Button,
-  RadioGroup,
-  FormItem,
-} from "./SubjectForm.style"; // Import your styled-components
+import { Form, Input, Select, Radio, Button, Spin, Alert, message } from "antd";
 import { createSubject } from "../../../../../api/subjectApi";
 import { getBoards } from "../../../../../api/boadApi";
 import { getClassesByBoardId } from "../../../../../api/classApi";
-import { message, Spin, Alert } from "antd"; // Ant Design components for feedback
-
+import { FormContainer } from "./SubjectForm.style";
+ 
+const { Option } = Select;
+ 
 const SubjectForm = () => {
-  const [formData, setFormData] = useState({
-    subject_name: "",
-    class_id: "",
-    language: "english",
-    board_id: "",
-    is_grammar_subject: "false",
-    approval_status: "pending",
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [classes, setClasses] = useState([]);
-  const [loadingClasses, setLoadingClasses] = useState(false);
-  const [classesError, setClassesError] = useState(null);
-
+  const [form] = Form.useForm();
   const [boards, setBoards] = useState([]);
+  const [classes, setClasses] = useState([]);
   const [loadingBoards, setLoadingBoards] = useState(false);
+  const [loadingClasses, setLoadingClasses] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [boardsError, setBoardsError] = useState(null);
-
+  const [classesError, setClassesError] = useState(null);
+ 
   // Fetch all boards on component mount
   useEffect(() => {
     const fetchBoards = async () => {
@@ -41,90 +26,52 @@ const SubjectForm = () => {
         const fetchedBoards = await getBoards();
         setBoards(fetchedBoards);
       } catch (error) {
-        setBoardsError(
-          error.response?.data?.error || "Failed to fetch boards."
-        );
+        setBoardsError(error.response?.data?.error || "Failed to fetch boards.");
       } finally {
         setLoadingBoards(false);
       }
     };
-
     fetchBoards();
   }, []);
-
-  // Fetch classes whenever board_id changes
-  useEffect(() => {
-    if (!formData.board_id) {
-      setClasses([]);
-      return;
-    }
-
-    const fetchClasses = async () => {
-      setLoadingClasses(true);
-      setClassesError(null);
-      try {
-        const fetchedClasses = await getClassesByBoardId(formData.board_id);
-        setClasses(fetchedClasses);
-      } catch (error) {
-        setClassesError(
-          error.response?.data?.error || "Failed to fetch classes."
-        );
-      } finally {
-        setLoadingClasses(false);
-      }
-    };
-
-    fetchClasses();
-  }, [formData.board_id]);
-
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
+ 
+  // Fetch classes whenever the board_id changes
+  const handleBoardChange = async (boardId) => {
+    form.setFieldsValue({ class_id: undefined });
+    setClasses([]);
+    if (!boardId) return;
+ 
+    setLoadingClasses(true);
+    setClassesError(null);
     try {
-      const submissionPayload = new FormData();
-      Object.keys(formData).forEach((key) => {
-        submissionPayload.append(key, formData[key]);
-      });
-
-      await createSubject(submissionPayload);
+      const fetchedClasses = await getClassesByBoardId(boardId);
+      setClasses(fetchedClasses);
+    } catch (error) {
+      setClassesError(error.response?.data?.error || "Failed to fetch classes.");
+    } finally {
+      setLoadingClasses(false);
+    }
+  };
+ 
+  const handleSubmit = async (values) => {
+    setIsSubmitting(true);
+    try {
+      await createSubject(values);
       message.success("Subject created successfully!");
-
-      // Reset form fields
-      setFormData({
-        subject_name: "",
-        class_id: "",
-        language: "english",
-        is_grammar_subject: "false",
-        approval_status: "pending",
-        board_id: "",
-      });
+      form.resetFields();
       setClasses([]);
     } catch (error) {
       const errorMsg =
-        error.response?.data?.error ||
-        error.message ||
-        "Failed to create subject. Please try again.";
+        error.response?.data?.error || error.message || "Failed to create subject.";
       message.error(errorMsg);
     } finally {
       setIsSubmitting(false);
     }
   };
-
+ 
   return (
     <FormContainer>
       <h2>Create Subject</h2>
-
+ 
       {/* Display error messages or loading spinners */}
       {(loadingBoards || loadingClasses) && <Spin tip="Loading..." />}
       {(boardsError || classesError) && (
@@ -135,113 +82,98 @@ const SubjectForm = () => {
           style={{ marginBottom: "1em" }}
         />
       )}
-
+ 
       {/* Form */}
-      <form onSubmit={handleSubmit}>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleSubmit}
+        initialValues={{
+          language: "english",
+          is_grammar_subject: "false",
+          approval_status: "pending",
+        }}
+      >
         {/* Subject Name */}
-        <FormItem>
-          <label htmlFor="subject_name">Subject Name</label>
-          <Input
-            type="text"
-            id="subject_name"
-            name="subject_name"
-            placeholder="Enter Subject Name"
-            value={formData.subject_name}
-            onChange={handleChange}
-            required
-          />
-        </FormItem>
-
+        <Form.Item
+          label="Subject Name"
+          name="subject_name"
+          rules={[{ required: true, message: "Please enter the subject name" }]}
+        >
+          <Input placeholder="Enter Subject Name" />
+        </Form.Item>
+ 
         {/* Board ID */}
-        <FormItem>
-          <label htmlFor="board_id">Board</label>
+        <Form.Item
+          label="Board"
+          name="board_id"
+          rules={[{ required: true, message: "Please select a board" }]}
+        >
           <Select
-            id="board_id"
-            name="board_id"
-            value={formData.board_id}
-            onChange={handleChange}
-            required
+            placeholder="Select Board"
+            onChange={handleBoardChange}
+            loading={loadingBoards}
           >
-            <option value="">Select Board</option>
             {boards.map((board) => (
-              <option key={board._id} value={board._id}>
+              <Option key={board._id} value={board._id}>
                 {board.name}
-              </option>
+              </Option>
             ))}
           </Select>
-        </FormItem>
-
+        </Form.Item>
+ 
         {/* Class ID */}
-        <FormItem>
-          <label htmlFor="class_id">Class</label>
+        <Form.Item
+          label="Class"
+          name="class_id"
+          rules={[{ required: true, message: "Please select a class" }]}
+        >
           <Select
-            id="class_id"
-            name="class_id"
-            value={formData.class_id}
-            onChange={handleChange}
-            required
-            disabled={!formData.board_id || loadingClasses}
+            placeholder="Select Class"
+            disabled={!form.getFieldValue("board_id") || loadingClasses}
+            loading={loadingClasses}
           >
-            <option value="">Select Class</option>
             {classes.map((cls) => (
-              <option key={cls._id} value={cls._id}>
+              <Option key={cls._id} value={cls._id}>
                 Class: {cls.classLevel}
-              </option>
+              </Option>
             ))}
           </Select>
-        </FormItem>
-
+        </Form.Item>
+ 
         {/* Language */}
-        <FormItem>
-          <label htmlFor="language">Language</label>
-          <Select
-            id="language"
-            name="language"
-            value={formData.language}
-            onChange={handleChange}
-            required
-          >
-            <option value="english">English</option>
-            <option value="hindi">Hindi</option>
+        <Form.Item
+          label="Language"
+          name="language"
+          rules={[{ required: true, message: "Please select a language" }]}
+        >
+          <Select>
+            <Option value="english">English</Option>
+            <Option value="hindi">Hindi</Option>
           </Select>
-        </FormItem>
-
+        </Form.Item>
+ 
         {/* Is Grammar Subject */}
-        <FormItem>
-          <label>Is Grammar Subject?</label>
-          <RadioGroup>
-            <label>
-              <input
-                type="radio"
-                name="is_grammar_subject"
-                value="true"
-                checked={formData.is_grammar_subject === "true"}
-                onChange={handleChange}
-              />
-              True
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="is_grammar_subject"
-                value="false"
-                checked={formData.is_grammar_subject === "false"}
-                onChange={handleChange}
-              />
-              False
-            </label>
-          </RadioGroup>
-        </FormItem>
-
+        <Form.Item
+          label="Is Grammar Subject?"
+          name="is_grammar_subject"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group>
+            <Radio value="true">True</Radio>
+            <Radio value="false">False</Radio>
+          </Radio.Group>
+        </Form.Item>
+ 
         {/* Submit Button */}
-        <FormItem>
-          <Button type="submit" disabled={isSubmitting || loadingClasses}>
-            {isSubmitting ? "Submitting..." : "Submit"}
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={isSubmitting}>
+            Submit
           </Button>
-        </FormItem>
-      </form>
+        </Form.Item>
+      </Form>
     </FormContainer>
   );
 };
-
+ 
 export default SubjectForm;

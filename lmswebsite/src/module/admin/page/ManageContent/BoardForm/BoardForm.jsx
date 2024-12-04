@@ -1,120 +1,55 @@
-// src/module/teacher/pages/BecomeTeacherApplicationForm/TaskBoard/BoardForm.jsx
-
 import React, { useState } from 'react';
-import {
-  FormContainer,
-  InlineContainer,
-  Input,
-  Label,
-  Button,
-} from './BoardForm.styles'; // Ensure the file is named BoardForm.styles.js
-import { createBoard } from '../../../../../api/boadApi'; // Corrected import path (from boadApi to boardApi)
-import { message, Spin, Alert } from 'antd'; // Ant Design components for feedback
-
+import { Form, Input, Button, Spin, message, Alert } from 'antd';
+import { createBoard } from '../../../../../api/boardApi';
+ 
 const BoardForm = () => {
-  // State to manage form inputs
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-  });
-
-  // State to manage submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // State to manage error messages
   const [error, setError] = useState(null);
-
-  // Handle input changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    setIsSubmitting(true); // Set submitting state to true
-    setError(null); // Reset previous errors
-
+ 
+  const handleSubmit = async (values) => {
+    console.log('Form Values:', values); // Log form values
+    setIsSubmitting(true);
+    setError(null);
+ 
     try {
-      // Make the API call to create a new board
-      const response = await createBoard(formData);
-
-      // Display success message
+      const response = await createBoard(values);
+      console.log('API Response:', response); // Log API response
       message.success('Board created successfully!');
-
-      // Reset form fields
-      setFormData({
-        name: '',
-        description: '',
-      });
     } catch (err) {
-      // Extract error message from the response or use a default message
+      console.error('Error:', err); // Log error details
       let errorMsg = 'Failed to create board. Please try again.';
-
-      if (err.response) {
-        // Server responded with a status other than 2xx
-        if (err.response.status === 403) {
-          errorMsg = 'You do not have permission to create a board.';
-        } else if (err.response.data && err.response.data.error) {
-          errorMsg = err.response.data.error;
-        }
-      } else if (err.request) {
-        // Request was made but no response received
-        errorMsg = 'No response from server. Please check your network connection.';
-      } else {
-        // Something else caused the error
-        errorMsg = err.message;
+      if (err.response && err.response.data && err.response.data.error) {
+        errorMsg = err.response.data.error;
       }
-
-      // Set error state
       setError(errorMsg);
-
-      // Display error message
       message.error(errorMsg);
     } finally {
-      setIsSubmitting(false); // Reset submitting state
+      setIsSubmitting(false);
     }
   };
-
+ 
   return (
-    <FormContainer>
+    <div style={{ maxWidth: 600, margin: '0 auto', padding: 24 }}>
       <h2>Create Board</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Board Name Field */}
-        <InlineContainer>
-          <Label htmlFor="name">Name</Label>
-          <Input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter board name"
-            required
-          />
-        </InlineContainer>
-
-        {/* Board Description Field */}
-        <InlineContainer>
-          <Label htmlFor="description">Description</Label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
+      <Form layout="vertical" onFinish={handleSubmit}>
+        <Form.Item
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: 'Please enter board name' }]}
+        >
+          <Input placeholder="Enter board name" />
+        </Form.Item>
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: 'Please enter board description' }]}
+        >
+          <Input.TextArea
             placeholder="Enter board description"
-            required
-            rows="2"
-            cols="50"
-            style={{ resize: 'vertical' }} // Allow vertical resizing
+            rows={3}
+            style={{ resize: 'vertical' }}
           />
-        </InlineContainer>
-
-        {/* Display Error Message */}
+        </Form.Item>
         {error && (
           <Alert
             message={error}
@@ -123,16 +58,20 @@ const BoardForm = () => {
             style={{ marginBottom: '1rem' }}
           />
         )}
-
-        {/* Submit Button */}
-        <div className='buttonboard'>
-        <Button  type="submit" disabled={isSubmitting}>
-          {isSubmitting ? <Spin size="small" /> : 'Submit'}
-        </Button>
-        </div>
-      </form>
-    </FormContainer>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={isSubmitting}
+            block
+            style={{ backgroundColor: '#EE1B7A' , display: 'block' , width: 'auto', margin: '0 auto'}}
+          >
+            {isSubmitting ? <Spin size="small" /> : 'Submit'}
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
-
+ 
 export default BoardForm;

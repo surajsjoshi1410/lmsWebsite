@@ -136,7 +136,7 @@ export default function QuizList() {
 
                 <h2 className="created-quizes-batch_title">Created Quizes</h2>
                 <div className="create-quizes-search">
-                    <form>
+                
                         <div className="created-quizes-input-group">
                             <span className="input-icon">
                                 <FaSearch />
@@ -149,7 +149,7 @@ export default function QuizList() {
                                 onChange={(e) => setSearchInput(e.target.value)}
                             />
                         </div>
-                    </form>
+                  
                 </div>
                 {/* Link replaced with button to open modal */}
                 <button

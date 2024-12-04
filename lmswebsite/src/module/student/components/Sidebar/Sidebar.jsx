@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RxDashboard } from "react-icons/rx";
 import CloseIcon from "@mui/icons-material/Close";
 // import { IconButton } from "@mui/material";
-
+ 
 import {
   List,
   ListItem,
@@ -38,14 +38,14 @@ import { MdOutlineSettings } from "react-icons/md";
 import { FaUsersGear } from "react-icons/fa6";
 import { VscSignOut } from "react-icons/vsc";
 import { MdPayment } from "react-icons/md";
-
+ 
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
   const [isCollapsed, setIsCollapsed] = useState(false);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
-
-
+ 
+ 
   const handleLogout = () => {
     localStorage.clear(); // Clear all items in localStorage
     navigate("/login"); // Redirect to the login page or desired route
@@ -58,15 +58,15 @@ const Sidebar = () => {
         setIsOpen(true);
       }
     };
-
+ 
     window.addEventListener("resize", handleResize);
-
+ 
     // Initial check
     handleResize();
-
+ 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+ 
   return (
     <>
       <div className="sidebar-toggle-btn"></div>
@@ -126,7 +126,7 @@ const Sidebar = () => {
                   <span className="menu-link-text">Task Management</span>
                 </NavLink>
               </li>
-
+ 
               <li className="menu-item">
                 <NavLink
                   to="/student/dashboard/circular"
@@ -151,7 +151,7 @@ const Sidebar = () => {
                   <span className="menu-link-text">Attendance</span>
                 </NavLink>
               </li>
-
+ 
              
               <li className="menu-item">
                 <NavLink
@@ -165,8 +165,8 @@ const Sidebar = () => {
                   <span className="menu-link-text">Meeting</span>
                 </NavLink>
               </li>
-              
-              
+             
+             
               <li className="menu-item">
                 <NavLink
                   to="/student/dashboard/setting"
@@ -181,10 +181,10 @@ const Sidebar = () => {
               </li>
              
              
-            
-            
-            
-
+           
+           
+           
+ 
              
               <li className="menu-item">
                 <NavLink
@@ -205,5 +205,6 @@ const Sidebar = () => {
     </>
   );
 };
-
+ 
 export default Sidebar;
+ 

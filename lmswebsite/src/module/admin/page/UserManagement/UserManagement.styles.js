@@ -47,7 +47,7 @@ export const UserManagementWrap = styled.div`
 
   .UserManagement-search {
     width: 300px;
-    height: 40px;
+    height: auto;
     border-radius: 6px;
 
     .ant-input {
@@ -74,7 +74,7 @@ export const UserManagementWrap = styled.div`
 
       .ant-select-selector {
         border-radius: 6px !important;
-        height: 40px !important;
+        height: auto !important;
         display: flex;
         align-items: center;
         background-color: ${theme.colors.white};

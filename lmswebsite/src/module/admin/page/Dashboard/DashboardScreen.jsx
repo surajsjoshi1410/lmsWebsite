@@ -1,76 +1,104 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
 import { DashboardScreenWrap } from "./Dashboard.styles";
 import batch_icon from "../../assets/total_batches_icon.png";
 import student_icon from "../../assets/total_students_icon.png";
 import teacher_icon from "../../assets/total_teachers_icon.png";
-import UserEngagementChart from "../../components/UserEngagementChart/UserEngagementChart";
-import ContactForms from "../../components/ContactForm/ContactForm";
-import UpcomingBatch from "../../components/UpcommingBatch/UpcominngBatch";
-import Cards from "../../components/dashBoardCards/cards"; // Import the new Cards component
-import { getStatisticsData } from "../../../../api/statsApi";
-import { getTotalNumberOfBatches,getTotalNumberOfStudents,getTotalNumberOfTeachers,getDailyRevenueByMonth,getPaidAndUnpaidAmount,getTotalRevenue, getWeeklyTeacherApplicationCount } from "../../../../api/adminDashboardApi";
-
-
+// import revenue_icon from "../../assets/total_revenue_icon.png";
+import Cards from "../../components/dashBoardCards/cards";
+import {
+  getTotalNumberOfBatches,
+  getTotalNumberOfStudents,
+  getTotalNumberOfTeachers,
+  getTotalRevenue,
+  getPaidAndUnpaidAmount,
+  getDailyRevenueByMonth,
+  getWeeklyTeacherApplicationCount,
+} from "../../../../api/adminDashboardApi";
+import PieChartPage from "../../components/PieChartPage/PieChartPage";
+import WeeklyTeacherApplication from "../../components/WeeklyTeacherApplication/WeeklyTeacherApplication";
+import DailyRevenueByMonth from "../../components/DailyRevenueByMonth/DailyRevenueByMonth";
+ 
 const Dashboard = () => {
   const [dashboardCards, setDashboardCards] = useState([]);
-
+  const [paidAmount, setPaidAmount] = useState(0);
+  const [unpaidAmount, setUnpaidAmount] = useState(0);
+  const [weeklyTeacherApplication, setWeeklyTeacherApplication] = useState([]); // State for weekly teacher application data
+  const [dailyRevenue, setDailyRevenue] = useState([]);
+ 
   useEffect(() => {
     const apiCaller = async () => {
-      const response = await getStatisticsData();
-      const totalStudents = await getTotalNumberOfStudents();
-      const totalTeachers = await getTotalNumberOfTeachers();
-      const totalBatches = await getTotalNumberOfBatches();
-      const totalRevenue = await getTotalRevenue();
-      const paidAndUnpaidAmount = await getPaidAndUnpaidAmount();
-      const dailyRevenueByMonth = await getDailyRevenueByMonth();
-      const weeklyTeacherApplication = await getWeeklyTeacherApplicationCount();
-
-      console.log(paidAndUnpaidAmount);
-      console.log(dailyRevenueByMonth);
-      console.log(weeklyTeacherApplication);
-      setDashboardCards([
-        {
-          title: "Total students",
-          count: totalStudents.count,
-          iconPath: student_icon,
-          background: "#F8E7D8",
-        },
-        {
-          title: "Total teachers",
-          count: totalTeachers.count,
-          iconPath: teacher_icon,
-          background: "#D7FDEB",
-        },
-        {
-          title: "Total Batches",
-          count: response.totalBatches,
-          iconPath: batch_icon,
-          background: "#C9E2FF",
-        },
-        {
-          title: "Total Revenue",
-          count: totalRevenue.totalAmount,
-          iconPath: batch_icon,
-          background: "#C9E2FF",
-        },
-      ]);
-
+      try {
+        // Fetching required data
+        const totalStudents = await getTotalNumberOfStudents();
+        const totalTeachers = await getTotalNumberOfTeachers();
+        const totalBatches = await getTotalNumberOfBatches();
+        const totalRevenue = await getTotalRevenue();
+        const paidAndUnpaidResponse = await getPaidAndUnpaidAmount();
+ 
+        const dailyRevenueByMonth = await getDailyRevenueByMonth();
+        const weeklyTeacherApplicationData =
+          await getWeeklyTeacherApplicationCount(); // Get weekly teacher application data
+ 
+        // Setting state with fetched data
+        setPaidAmount(paidAndUnpaidResponse.paid_amount);
+        setUnpaidAmount(paidAndUnpaidResponse.unpaid_amount);
+        setWeeklyTeacherApplication(weeklyTeacherApplicationData); // Set the weekly teacher application data
+        // console.log(weeklyTeacherApplicationData); // Debug log
+        setDashboardCards([
+          {
+            title: "Total students",
+            count: totalStudents.count,
+            iconPath: student_icon,
+            background: "#F8E7D8",
+          },
+          {
+            title: "Total teachers",
+            count: totalTeachers.count,
+            iconPath: teacher_icon,
+            background: "#D7FDEB",
+          },
+          {
+            title: "Total Batches",
+            count: totalBatches.count,
+            iconPath: batch_icon,
+            background: "#C9E2FF",
+          },
+          {
+            title: "Total Revenue",
+            count: totalRevenue.totalAmount,
+            background: "#8CFAC7",
+          },
+        ]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
+ 
     apiCaller();
-  }, []);
-
+  }, []); // Empty dependency array to run once when the component mounts
+ 
   return (
     <DashboardScreenWrap className="content-area">
       <div>
         <Cards cardsData={dashboardCards} />
       </div>
       <div className="area-row ar-two">
-        <UserEngagementChart /> <ContactForms />
+        <PieChartPage
+          data={[
+            { name: "Paid Amount", value: paidAmount },
+            { name: "Unpaid Amount", value: unpaidAmount },
+          ]}
+          className="PieChart"
+        />
+        <WeeklyTeacherApplication data={weeklyTeacherApplication} />
+        {/* Pass weekly data */}
       </div>
-      <div className="area-row ar-three">{/* <UpcomingBatch /> */}</div>
+      <div className="area-row ar-three">
+        {/* Add more components if needed */}
+        <DailyRevenueByMonth data={dailyRevenue} />
+      </div>
     </DashboardScreenWrap>
   );
 };
-
+ 
 export default Dashboard;

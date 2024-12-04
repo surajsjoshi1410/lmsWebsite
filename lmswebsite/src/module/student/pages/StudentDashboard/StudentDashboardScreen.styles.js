@@ -37,3 +37,18 @@ export const StudentDashboardScreenWrap = styled.main`
     height: 100%; /* Fill parent height */
   }
 `;
+
+export const WelcomeTitle = styled.h1`
+  font-size: 32px;
+  color: ${({ theme }) => theme.colors.pink8};
+  margin-bottom: 10px;
+  font-weight: bold;
+`;
+
+export const WelcomeMessage = styled.p`
+  font-size: 18px;
+  color: ${({theme})=>theme.colors.cadet};
+  margin: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+`;

@@ -92,9 +92,9 @@ export const Label = styled.label`
   width: 30%;
   text-align: left;
   font-weight: bold;
-  color: ${theme.colors.gray700};
+  color: ${theme.colors.black};
   font-family: ${theme.typography.fontFamily};
-  font-size: 1rem;
+  font-size: 0.9rem;
 
   /* Responsive adjustments */
   ${media.sm`
@@ -113,7 +113,7 @@ export const Input = styled.input`
   width: 70%;
   padding: 0.5em;
   margin-bottom: 1em;
-  border: 2px solid ${theme.colors.gray700};
+  border: 1px solid ${theme.colors.black};
   border-radius: 5px;
   font-size: 1rem;
   font-family: ${theme.typography.fontFamily};
@@ -121,12 +121,12 @@ export const Input = styled.input`
   background-color: ${theme.colors.white};
 
   &:focus {
-    border-color: ${theme.colors.blue};
+    border-color: ${theme.colors.black};
     outline: none;
   }
 
   &::placeholder {
-    color: ${theme.colors.gray700};
+    color: ${theme.colors.black};
   }
 
   /* Responsive adjustments */
@@ -144,7 +144,7 @@ export const Input = styled.input`
 export const TextArea = styled.textarea`
   width: 70%;
   padding: 0.5em;
-  border: 2px solid ${theme.colors.gray700};
+  border: 1px solid ${theme.colors.black};
   border-radius: 5px;
   margin-bottom: 1em;
   font-size: 1rem;
@@ -154,12 +154,12 @@ export const TextArea = styled.textarea`
   resize: vertical; /* Allow vertical resizing */
 
   &:focus {
-    border-color: ${theme.colors.blue};
+    border-color: ${theme.colors.black};
     outline: none;
   }
 
   &::placeholder {
-    color: ${theme.colors.gray700};
+    color: ${theme.colors.black};
   }
 
   /* Responsive adjustments */
@@ -178,7 +178,7 @@ export const Select = styled.select`
   width: 70%;
   padding: 0.5em;
   margin-bottom: 1em;
-  border: 2px solid ${theme.colors.gray700};
+  border: 1px solid ${theme.colors.black};
   border-radius: 5px;
   font-size: 1rem;
   font-family: ${theme.typography.fontFamily};
@@ -186,7 +186,7 @@ export const Select = styled.select`
   background-color: ${theme.colors.white};
 
   &:focus {
-    border-color: ${theme.colors.blue};
+    border-color: ${theme.colors.black};
     outline: none;
   }
 
@@ -204,7 +204,7 @@ export const Select = styled.select`
 // Add Question Link
 export const AddQuestionLink = styled.span`
   width: 70%;
-  border: 2px solid ${theme.colors.gray700};
+  border: 1px solid ${theme.colors.black};
   border-radius: 5px;
   padding: 0.5em;
   color: ${theme.colors.pink6};
@@ -235,7 +235,7 @@ export const AddQuestionLink = styled.span`
 
 // Button styling (Cancel Button)
 export const Button = styled.button`
-  background: ${theme.colors.red};
+  background: ${theme.colors.pink4};
   color: ${theme.colors.white};
   border: none;
   border-radius: 5px;
@@ -247,9 +247,6 @@ export const Button = styled.button`
   font-family: ${theme.typography.fontFamily};
   transition: background-color 0.3s;
 
-  &:hover {
-    background: ${theme.colors.pink};
-  }
 
   /* Responsive adjustments */
   ${media.sm`
@@ -265,8 +262,8 @@ export const Button = styled.button`
 
 // Create Quiz Button with 100% width
 export const CreateButton = styled.button`
-  background: ${theme.colors.pink6};
-  color: ${theme.colors.black};
+  background: ${theme.colors.pink4};
+  color: ${theme.colors.white};
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -277,9 +274,9 @@ export const CreateButton = styled.button`
   font-family: ${theme.typography.fontFamily};
   transition: background-color 0.3s;
 
-  &:hover {
-    background: ${theme.colors.pink4};
-  }
+  // &:hover {
+  //   background: ${theme.colors.pink4};
+  // }
 
   /* Responsive adjustments */
   ${media.sm`

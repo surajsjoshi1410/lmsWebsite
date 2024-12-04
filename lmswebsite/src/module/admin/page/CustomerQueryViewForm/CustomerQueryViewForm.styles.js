@@ -110,7 +110,7 @@ export const StatusButton = styled.button`
   cursor: pointer;
   background-color: ${(props) =>
     props.className === "solved" ? theme.colors.success : theme.colors.warning};
-  color: ${theme.colors.red};
+  color: ${theme.colors.pink4};
   max-width: 160px;
    align-self: center;
 

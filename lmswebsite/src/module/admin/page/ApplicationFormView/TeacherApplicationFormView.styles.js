@@ -8,6 +8,18 @@ export const TeacherApplicationFormViewWrap = styled.div`
   width: 100%;
   background-color: ${theme.colors.backgroundLight};
 
+  .status-button{
+  padding: 10px 20px;
+  background-color: ${theme.colors.pink4};
+  border-radius: 4px;
+  color: ${theme.colors.white};
+  }
+
+  .status-button:hover{
+    background-color: ${theme.colors.pink3} !important;
+    color: ${theme.colors.white} !important;
+  }
+
   .area-row {
     display: flex;
     gap: 24px;

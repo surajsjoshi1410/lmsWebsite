@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TeacherDashBoardCardswrap } from './TeacherDashboardScreen.styles'; 
-import { getBatchesCount, getStudentsCount } from '../../../../api/teachDashboardApi';
+import { getBatchesCount, getStudentsCount, getTotalWorkingHours } from '../../../../api/teachDashboardApi';
 import { getTeacherByAuthId } from '../../../../api/teacherApi';
 import TeacherdashBoardCards from '../../components/TeacherdashBoardCards/TeacherdashBoardCards'; 
 import { ImUser } from 'react-icons/im';
@@ -8,11 +8,13 @@ import { MdLiveTv } from 'react-icons/md';
 import { getRecentQuizForTeacher } from '../../../../api/teachDashboardApi'; // Correct API import
 import TeacherdashBoardQuizCard from '../../components/TeacherDashboardQuizCard/TeacherDashboardQuizCard';
 import DailySchedule from '../../components/DailySchedule/DailySchedule';
+import { Ri24HoursFill } from "react-icons/ri";
 
 const iconMap = {
   'Total students': <ImUser />,
   'Total Batches': <MdLiveTv />,
-  'Recent Quiz': <MdLiveTv />  // You can replace with a more relevant icon if you have one
+  'Recent Quiz': <MdLiveTv /> , // You can replace with a more relevant icon if you have one
+  'Total Working Hours': <Ri24HoursFill />
 };
 
 const TeacherDashBoardScreen = () => {
@@ -53,6 +55,7 @@ const TeacherDashBoardScreen = () => {
       try {
         const batchCount = await getBatchesCount(teacherId);
         const studentCount = await getStudentsCount(teacherId);
+        const totalWorkingHours = await getTotalWorkingHours(teacherId);
 
         setBatchesCount(batchCount.count || 0);
         setStudentsCount(studentCount.totalStudents || 0);
@@ -68,6 +71,11 @@ const TeacherDashBoardScreen = () => {
             title: 'Total Batches',
             icon: iconMap['Total Batches'],
             count: batchCount.count || 0,
+          },
+          {
+            title: 'Total Working Hours',
+            icon: iconMap['Total Working Hours'],
+            count: Math.trunc(totalWorkingHours.totalWorkingHours) || 0,
           },
         ]);
       } catch (error) {

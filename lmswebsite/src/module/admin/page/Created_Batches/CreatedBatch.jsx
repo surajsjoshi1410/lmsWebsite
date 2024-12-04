@@ -21,7 +21,6 @@ const CreatedBatch = () => {
           teachers: batch.teacher_id.map((teacher) => teacher.user_id.name).join(", ") || "N/A",
           numOfStudents: batch.students ? batch.students.length : 0,
           date: new Date(batch.date).toLocaleDateString(),
-          time: new Date(batch.date).toLocaleTimeString(),
           subject: batch.subject_id?.subject_name || "N/A",
           class: batch.class_id?.classLevel || "N/A",
         }));
@@ -76,11 +75,7 @@ const CreatedBatch = () => {
       dataIndex: "date",
       key: "date",
     },
-    {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
-    },
+    
     {
       title: "Subject",
       dataIndex: "subject",

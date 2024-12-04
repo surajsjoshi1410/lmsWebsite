@@ -66,20 +66,22 @@ const StudentMaterial = () => {
         <MaterialContainer>
             <h2>Materials for {batchName} </h2>
             <div className="card-list">
-                {contents.map((material) => (
+                {contents.map((material) =>{
+                     {console.log("material",material)}
+                    return  (
                     <MaterialCardWrapper key={material.id}>
                         <div className="card-header">
-                            {/* <h3>{material.name}</h3> */}
                             <p>{material.description}</p>
-                            <a href={material.downloadUrl} target="_blank" className="btn-download" download>
-                                <FaDownload />
+
+                            <a href={material.material_link}  className="btn-download"  download={material.material_link.split('/').pop().split('?')[0]} >
+                                <FaDownload />View Material 
                             </a>
                         </div>
                         {/* <div className="card-body">
                             <p>{material.description}</p>
                         </div> */}
                     </MaterialCardWrapper>
-                ))}
+                )})}
             </div>
         </MaterialContainer>
     );

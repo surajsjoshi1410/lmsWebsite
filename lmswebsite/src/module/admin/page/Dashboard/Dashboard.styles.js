@@ -12,9 +12,11 @@ export const DashboardScreenWrap = styled.main`
       justify-content: space-between;
       align-items: flex-start;
       height: 380px; /* Set a specific height */
+      margin-top: 20px;
     }
 
     &.ar-three {
+    padding-top: 20px;
       display: block;
     }
 

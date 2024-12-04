@@ -9,6 +9,7 @@ export const ApplicationContainer = styled.div`
   gap: 24px;
   padding: 40px;
   background-color: ${theme.colors.backgroundLight};
+  width: 100%;  
 
   ${media.md`
     padding: 20px;
@@ -90,6 +91,7 @@ export const StyledForm = styled.div`
 
   .ant-form-item {
     margin-bottom: 16px;
+    width: 100%;
   }
 
   .applicationRowOne,
@@ -107,10 +109,10 @@ export const StyledForm = styled.div`
       gap: 12px;
     `}
   }
-     .applicationRowThree  div{
-       width: 100%;
-       gap: 20px;
-     }
+    //  .applicationRowThree  div{
+    //    width: 100%;
+    //    gap: 20px;
+    //  }
     
      
 

@@ -52,7 +52,7 @@ export const StyledButton = styled.button`
 
 // Modal styles can be customized as needed
 export const ModalContainer = styled.div`
-  padding: 24px;
+  // padding: 24px;
 
   background-color: ${theme.colors.white};
 `;

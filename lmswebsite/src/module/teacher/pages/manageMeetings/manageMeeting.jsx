@@ -87,10 +87,11 @@ function ManageMeeting() {
       setAttendanceStatus((prevStatus) => ({
         ...prevStatus,
         [meetingId]: "clocked-in", // Update the status to clocked-in
-        if(response){
-          setLoadData(!loadData);
-        }
+       
       }));
+      if(response){
+        setLoadData(!loadData);
+      }
     } catch (error) {
       console.error("Error clocking in:", error);
     }
@@ -122,13 +123,14 @@ function ManageMeeting() {
       <div>
         <strong>{event.title}</strong>
         <br />
-        <span style={{ fontSize: "12px", color: "#ffffff" }}>
+        <span style={{ fontSize: "12px", color: "#111111" }}>
           {moment(event.start).format("hh:mm A")} -{" "}
           {moment(event.end).format("hh:mm A")}
         </span>
         <br />
         {event.meeting_url ? (
-          <button
+          !event.clockIn ? (
+            <button
             onClick={() => handleSelectEvent(event)}
             style={{
               backgroundColor: "#4CAF50",
@@ -139,6 +141,9 @@ function ManageMeeting() {
           >
             Join Meeting
           </button>
+          ):
+          null
+         
         ) : null}
         <br />
 
