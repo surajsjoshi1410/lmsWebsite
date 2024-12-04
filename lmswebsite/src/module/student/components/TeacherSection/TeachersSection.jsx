@@ -40,7 +40,7 @@ const TeachersSection = () => {
   console.log("teachers", teachers);  
   return (
    
-    <>hello</>
+    <></>
     // <TeachersSectionContainer>
     //   <SectionTitle>Meet Our Experienced Teachers</SectionTitle>
     //   <TeachersGrid>

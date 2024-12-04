@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, DatePicker, Upload, message } from "antd";
+import { Modal, Form, Input, Select, Button, DatePicker, Upload, message, Radio } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { createBatch } from "../../../../api/batchApi";
 import { getClasses, getSubjects, getTeachersBySubjectAndClass } from "../../../../services/createBatch";
@@ -15,6 +15,7 @@ const CreateNewBatch = ({ open, closeModal }) => {
   const [subjects, setSubjects] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [students, setStudents] = useState([]);
+  const[mode, setMode] = useState("normal");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,10 +40,10 @@ const CreateNewBatch = ({ open, closeModal }) => {
 
   const handleSubjectChange = async (value) => {
     const teacherData = await getTeachersBySubjectAndClass(value, form.getFieldValue("class"));
-    const studentData = await getStudentsForBatchBySubjectId(value);
-    console.log("studentData", studentData.data);
+    const studentData = await getStudentsForBatchBySubjectId(value, mode);
+   
   
-    setStudents(studentData.data || []);
+    setStudents(studentData.students || []);
     setTeachers(teacherData || []);
     form.setFieldsValue({ teachers: undefined });
   };
@@ -107,6 +108,18 @@ const CreateNewBatch = ({ open, closeModal }) => {
             rules={[{ required: true, message: "Please enter the batch name" }]}
           >
             <Input placeholder="Enter batch name" />
+          </Form.Item>
+
+          <Form.Item
+          name="batchMode"
+          label="Batch Mode"
+          rules={[{ required: true, message: "Please select a batch mode" }]}
+          >
+            <Radio.Group onChange={(e) => setMode(e.target.value)}>
+              <Radio value="normal">Normal</Radio>
+              <Radio value="personal">Personal</Radio>
+            </Radio.Group>
+            
           </Form.Item>
 
           <Form.Item

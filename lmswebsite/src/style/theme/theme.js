@@ -46,6 +46,8 @@ export const theme = {
     darkwhite:'#fffcfc',
     pink10:"#ffd1f0",
     grey1:"#363232",
+    one:"#ddedff",
+    blueone:"#7ebaff"
   },
   lineargradients: {
         pinkGradient: `linear-gradient(90deg,   #672A47 0%, #EE1B7A 100% )`,

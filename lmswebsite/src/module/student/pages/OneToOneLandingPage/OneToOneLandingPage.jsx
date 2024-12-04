@@ -15,11 +15,11 @@ import {
   AvailableSlotsContainer,
   Slot,
   CustomPackageStatus
-} from "./StudentLandingPage.style";
+} from "./OneToOneLandingPage.style";
 import StudentEnrollmentVideoView from "../../components/StudentEnrollmentVideoView/StudentEnrollmentVideoView";
-import StudentEnrollmentReviews from "../../components/StudentEnrollmentReviews/StudentEnrollmentReviews";
+// import StudentEnrollmentReviews from "../../components/StudentEnrollmentReviews/StudentEnrollmentReviews";
 import TeachersSection from "../../components/TeacherSection/TeachersSection";
-import StudentExistingPackages from "../../components/StudentExistingPackages/StudentExistingPackages";
+// import StudentExistingPackages from "../../components/StudentExistingPackages/StudentExistingPackages";
 import Footer2 from "../../components/Footer2/Footer2";
 import { getUserByAuthId } from "../../../../api/userApi";
 import { getStudentByAuthId, getStudentById } from "../../../../api/studentApi";
@@ -29,12 +29,11 @@ import { getClassesByBoardId } from "../../../../api/classApi";
 import { getPackageByClassId } from "../../../../api/packagesApi";
 import { getSubjects } from "../../../../services/createBatch";
 import { createCustomPackage } from "../../../../api/customPackageApi"
-import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
-
-import {GotoOneToOne} from "../../components/GotoOneToOne/GotoOneToOne";
-
-
-export const StudentLandingPage = () => {
+// import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
+import OneStudentExistingPackage from "../demomodeupdate/Mode/OneStudentExistingPackage/OneStudentExistingPackage";
+// import oneLoadingPage from "../demomodeupdate/Mode/oneLoadingPage/oneLoadingPage";
+// import oneStudentEnrollmentReview from "../demomodeupdate/Mode/oneStudentEnrollmentReview/oneStudentEnrollmentReview";
+export const OneToOneStudentlandingPage = () => {
   const [profilePicture, setProfilePicture] = useState(null);
 
   const [studentDataForm, setStudentDataForm] = useState();
@@ -73,7 +72,7 @@ export const StudentLandingPage = () => {
         }
         console.log("studentData", data);
         setStudentDataForm(data);
-        const packageResponse = await getPackageByClassId(data.student.class._id, "normal");
+        const packageResponse = await getPackageByClassId(data.student.class._id,"personal");
         setPackagesData(packageResponse);
         console.log("packageResponse", data.student.class._id, "gg", packageResponse);
         const subjectResponse = await getSubjects(data.student.class._id);
@@ -308,28 +307,24 @@ export const StudentLandingPage = () => {
                   </StyledRow>
                 </Form>
               </ApplicationDetails>
-              
             </ApplicationContainer>
-            
             : studentDataForm.student.custom_package_status === "pending" ?
               <CustomPackageStatus> Your Custom Package is under review</CustomPackageStatus>
               : <CustomPackageStatus> Your Custom Package Request Rejected</CustomPackageStatus>
           }
-           <GotoOneToOne/>
           {studentDataForm.student.custom_package_status == "no_package" &&
-            <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+            <OneStudentExistingPackage data={packagesData} studentId={studentDataForm.student._id} />
 
           }
-          
           <StudentEnrollmentVideoView />
-        
           <TeachersSection />
-          <StudentEnrollmentReviews />
+          {/* <StudentEnrollmentReviews /> */}
+          {/* <oneStudentEnrollmentReview /> */}
           <Footer2 />
         </>
         :
 
-        <LoadingPage />
+        <oneLoadingPage />
 
     }
 

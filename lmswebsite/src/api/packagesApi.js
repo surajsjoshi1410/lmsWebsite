@@ -22,10 +22,10 @@ export const createPackage = async (responseData) => {
 };
 
 
-export const getPackageByClassId = async (classId) => {
+export const getPackageByClassId = async (classId, mode) => {
     try {
         // Call the backend API using the Axios instance
-        const response = await api.get(`/packages/getPackages/${classId}`);
+        const response = await api.get(`/packages/getPackages/${classId}/${mode}`);
         console.log("Package fetched successfully:", response.data);
         return response.data;
     } catch (error) {
@@ -35,8 +35,7 @@ export const getPackageByClassId = async (classId) => {
 
 
 export const getAllPackages = async () => {
-    try {
-        // Call the backend API using the Axios instance
+    try {     // Call the backend API using the Axios instance
         const response = await api.get("/packages/getAllPackages");
         console.log("Packages fetched successfully:", response.data);
         return response.data;

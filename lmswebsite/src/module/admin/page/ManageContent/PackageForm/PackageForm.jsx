@@ -11,7 +11,7 @@ import { createPackage } from "../../../../../api/packagesApi"; // API call for 
 import { getClassesByBoardId } from "../../../../../api/classApi"; // Fetch classes by board
 import { getSubjects } from "../../../../../services/createBatch"; // Fetch subjects by class
 import { getBoards } from "../../../../../api/boadApi"; // Fetch boards
-import { message, Spin, Alert, Select } from "antd";
+import { message, Spin, Alert, Select, Radio } from "antd";
 
 const { Option } = Select;
 
@@ -25,6 +25,7 @@ const PackageForm = () => {
     subject_id: [],
     price: "",
     image: null,
+    mode: "normal",
   });
 
   const [classes, setClasses] = useState([]);
@@ -35,6 +36,7 @@ const PackageForm = () => {
   const [loadingBoards, setLoadingBoards] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const[mode, setMode] = useState('');
   const [subjectError, setSubjectError] = useState(null); // New state for subject selection error
 
   // Fetch boards on component mount
@@ -101,6 +103,7 @@ const PackageForm = () => {
   // Handle input change
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     setError(null);
     if (name === "image") {
       setFormData((prev) => ({
@@ -167,7 +170,6 @@ const PackageForm = () => {
         setIsSubmitting(false);
         return;
       }
-
       await createPackage(formData);
       message.success("Package created successfully!");
 
@@ -220,6 +222,18 @@ const PackageForm = () => {
               onChange={handleChange}
               required
             />
+          </FormItem>
+
+          <FormItem
+          name="mode"
+          label="Package Mode"
+          rules={[{ required: true, message: "Please select a Package Mode" }]}
+          >
+            <Radio.Group   name="mode" onChange={handleChange}>
+              <Radio value="normal">Normal</Radio>
+              <Radio value="personal">Personal</Radio>
+            </Radio.Group>
+            
           </FormItem>
 
           <FormItem>

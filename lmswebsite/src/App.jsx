@@ -80,6 +80,8 @@ import TeacherdashBoardCards from "./module/teacher/components/TeacherdashBoardC
 import StudentMaterial from "./module/student/pages/StudentMaterials/StudentMaterial";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import LandingHome from "./Main/Pages/LandingHome";
+import { OneToOneStudentlandingPage } from "./module/student/pages/OneToOneLandingPage/OneToOneLandingPage";
+import Mode from "./module/student/pages/demomodeupdate/Mode/Mode";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -109,6 +111,10 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/student" element={<StudentLandingPage />} />
+          
+          <Route path="/student/mode" element={<Mode />} /> 
+          <Route path="/student/personal" element={<OneToOneStudentlandingPage />} /> 
+
           <Route
             path="/student/course/details"
             element={<StudentCourseDetailsPage />}
