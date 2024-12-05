@@ -134,7 +134,8 @@ export const OneToOneStudentlandingPage = () => {
       try {
         const response = await createCustomPackage({ subject_id: slectedSubject, student_id: studentDataForm.student._id, slots: slot });
         console.log("response", response);
-        // window.location.reload();
+        alert("Request submitted   successfully!");
+        window.location.reload();
       } catch (err) {
         console.error("Error submitting Packages:", err);
       }

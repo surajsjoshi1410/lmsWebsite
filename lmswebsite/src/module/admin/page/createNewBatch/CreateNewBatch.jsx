@@ -42,7 +42,7 @@ const CreateNewBatch = ({ open, closeModal }) => {
     const teacherData = await getTeachersBySubjectAndClass(value, form.getFieldValue("class"));
     const studentData = await getStudentsForBatchBySubjectId(value, mode);
    
-  
+   console.log("studentData", studentData);
     setStudents(studentData.students || []);
     setTeachers(teacherData || []);
     form.setFieldsValue({ teachers: undefined });

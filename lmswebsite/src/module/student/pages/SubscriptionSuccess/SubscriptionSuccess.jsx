@@ -17,6 +17,7 @@ const SubscriptionSuccess = () => {
   useEffect(() => {
     if (packageId) {
       const apiCaller = async () => {
+        if(packageId==undefined) return;
         try {
           const response = await getPackageById(packageId);
           setPackageName(response?.package_name);
@@ -38,7 +39,7 @@ const SubscriptionSuccess = () => {
   return (
    
     <SubscriptionSuccessWrap>
-      {packageName ? (
+      {packageName||status==="approved" ? (
         <>
           <Title level={2} className="SubscriptionSuccessWrap-title1">
             Subscription Successful!

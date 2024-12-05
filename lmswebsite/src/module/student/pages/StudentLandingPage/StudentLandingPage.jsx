@@ -31,7 +31,7 @@ import { getSubjects } from "../../../../services/createBatch";
 import { createCustomPackage } from "../../../../api/customPackageApi"
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
 
-import {GotoOneToOne} from "../../components/GotoOneToOne/GotoOneToOne";
+import { GotoOneToOne } from "../../components/GotoOneToOne/GotoOneToOne";
 
 
 export const StudentLandingPage = () => {
@@ -134,7 +134,8 @@ export const StudentLandingPage = () => {
       try {
         const response = await createCustomPackage({ subject_id: slectedSubject, student_id: studentDataForm.student._id, slots: slot });
         console.log("response", response);
-        // window.location.reload();
+        alert("Request submitted   successfully!");
+        window.location.reload();
       } catch (err) {
         console.error("Error submitting Packages:", err);
       }
@@ -308,19 +309,22 @@ export const StudentLandingPage = () => {
                   </StyledRow>
                 </Form>
               </ApplicationDetails>
-              
+
             </ApplicationContainer>
-            
+
             : studentDataForm.student.custom_package_status === "pending" ?
               <CustomPackageStatus> Your Custom Package is under review</CustomPackageStatus>
               : <CustomPackageStatus> Your Custom Package Request Rejected</CustomPackageStatus>
           }
-           <GotoOneToOne/>
+
           {studentDataForm.student.custom_package_status == "no_package" &&
-            <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+            <>
+              <GotoOneToOne />
+              <StudentExistingPackages data={packagesData} studentId={studentDataForm.student._id} />
+            </>
 
           }
-          
+
           <StudentEnrollmentVideoView />
           <TeachersSection />
           <StudentEnrollmentReviews />
