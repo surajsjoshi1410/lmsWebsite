@@ -66,7 +66,16 @@ export const getAllStudents = async () => {
   }
 };
 
-
+  export const getStudentscheduleById = async (studentId) => {
+    try {
+      const response = await api.get(`/students/student/${studentId}/schedule`);
+      console.log('Student schedule fetched successfully:', response.data);
+      return response;
+    } catch (error) {
+      console.error('Error fetching student schedule:', error);
+      throw error;
+    }
+  }
 export const getStudentByAuthId = async (authId) => {
   try {
     const response = await api.get('/students/getstudent/getbyAuthId', {
@@ -104,15 +113,7 @@ export const getStudentsForBatchBySubjectId = async (subjectId,mode) => {
   }
 }
 
-export const getStudentscheduleById = async (studentId) => {
-  try {
-    const response = await api.get(`/students/student/${studentId}/schedule`);
-    return response;
-  } catch (error) {
-    console.error('Error fetching student schedule:', error);
-    throw error;
-  }
-}
+
 
 export const studentClockIn = async (studentId, meetingId) => {
   try {

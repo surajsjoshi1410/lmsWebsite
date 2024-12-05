@@ -13,7 +13,7 @@ export const GotoOneToOne = () => {
        <GotoOneToOneContainer>
          <div>
             <h1>Want to enroll for One to One Sessions</h1>
-            <button onClick={handleGoToDashboard}>Go to Dashboard</button>
+            <button onClick={handleGoToDashboard}>Go to Enroll</button>
         </div>  
        </GotoOneToOneContainer>
     )

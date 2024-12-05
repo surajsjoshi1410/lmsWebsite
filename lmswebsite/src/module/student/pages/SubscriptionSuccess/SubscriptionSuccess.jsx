@@ -19,7 +19,7 @@ const SubscriptionSuccess = () => {
       const apiCaller = async () => {
         try {
           const response = await getPackageById(packageId);
-          setPackageName(response.package_name);
+          setPackageName(response?.package_name);
         } catch (err) {
           console.error("Error fetching Packages:", err);
         }

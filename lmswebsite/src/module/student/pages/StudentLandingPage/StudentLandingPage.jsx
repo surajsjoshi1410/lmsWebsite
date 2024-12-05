@@ -322,7 +322,6 @@ export const StudentLandingPage = () => {
           }
           
           <StudentEnrollmentVideoView />
-        
           <TeachersSection />
           <StudentEnrollmentReviews />
           <Footer2 />

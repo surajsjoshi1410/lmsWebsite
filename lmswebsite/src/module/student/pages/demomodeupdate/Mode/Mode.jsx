@@ -4,6 +4,7 @@ import { getStudentByAuthId, updateMode } from "../../../../../api/studentApi";
 import styled from "styled-components";
 import MeetingHeaderImage from "../../../assets/one-to-one-join-meeting1.jpeg";
 import JoinMeetingHeaderImage from "../../../assets/one-to-one-join-meeting2.jpeg";
+import OneHeader from "../../../../student/pages/demomodeupdate/Mode/oneHeader/oneHeader";
 import {
   Wrapper,
   Content,
@@ -56,6 +57,7 @@ const Mode = () => {
 
   return (
     <>
+    <OneHeader />
       <Wrapper>
         <Content>
           <TextSection>

@@ -28,7 +28,7 @@ function ManageMeeting() {
         const authId = JSON.parse(localStorage.getItem("sessionData")).userId;
         const teacherdata = await getTeacherByAuthId(authId);
         const response = await getTeacherscheduleById(teacherdata.teacher._id);
-        const attendanceData= await getTeacherAttendance(teacherdata.teacher._id); 
+        const attendanceData = await getTeacherAttendance(teacherdata.teacher._id);
         const schedule = response.data.schedule;
 
         let formattedEvents = schedule.map((item, index) => ({
@@ -38,6 +38,7 @@ function ManageMeeting() {
           end: new Date(new Date(item.date).getTime() + 60 * 60 * 1000), // Assume 1-hour meetings
           meetingId: item.meeting_id, // Use meeting_id to track clocking
           meeting_url: item.meeting_url || null, // Include meeting URL
+          meeting_reschedule: item.meeting_reschedule,
           clockIn: false,
           clockOut: false,
         }));
@@ -46,10 +47,10 @@ function ManageMeeting() {
             if (item?.meeting_id === event.meetingId) {
               return {
                 ...event,
-                clockIn: item.clock_in_time?true:false,
-                clockOut: item.clock_out_time?true:false
+                clockIn: item.clock_in_time ? true : false,
+                clockOut: item.clock_out_time ? true : false
               };
-            }else{
+            } else {
               return event;
             }
           });
@@ -87,9 +88,9 @@ function ManageMeeting() {
       setAttendanceStatus((prevStatus) => ({
         ...prevStatus,
         [meetingId]: "clocked-in", // Update the status to clocked-in
-       
+
       }));
-      if(response){
+      if (response) {
         setLoadData(!loadData);
       }
     } catch (error) {
@@ -108,9 +109,9 @@ function ManageMeeting() {
         ...prevStatus,
         [meetingId]: "clocked-out", // Update the status to clocked-out
       }));
-      if(response){
+      if (response) {
         setLoadData(!loadData);
-     }
+      }
     } catch (error) {
       console.error("Error clocking out:", error);
     }
@@ -121,59 +122,64 @@ function ManageMeeting() {
 
     return (
       <div>
-        <strong>{event.title}</strong>
+        <strong style={{  color: "#111111" }}>{event.title}</strong>
         <br />
         <span style={{ fontSize: "12px", color: "#111111" }}>
           {moment(event.start).format("hh:mm A")} -{" "}
           {moment(event.end).format("hh:mm A")}
         </span>
         <br />
-        {event.meeting_url ? (
-          !event.clockIn ? (
-            <button
-            onClick={() => handleSelectEvent(event)}
-            style={{
-              backgroundColor: "#4CAF50",
-              color: "white",
-              padding: "5px 10px",
-              marginTop: "5px",
-            }}
-          >
-            Join Meeting
-          </button>
-          ):
-          null
-         
-        ) : null}
-        <br />
+        {!event.meeting_reschedule ? (<>
+          {event.meeting_url ? (
+            !event.clockIn ? (
+              <button
+                onClick={() => handleSelectEvent(event)}
+                style={{
+                  backgroundColor: "#4CAF50",
+                  color: "white",
+                  padding: "5px 10px",
+                  marginTop: "5px",
+                }}
+              >
+                Join Meeting
+              </button>
+            ) :
+              null
 
-        {!event.clockIn && !event.clockOut ? (
-          <button
-            onClick={() => handleClockIn(event.meetingId)}
-            style={{
-              backgroundColor: "#4CAF50",
-              color: "white",
-              padding: "5px 10px",
-              marginTop: "5px",
-            }}
-          >
-            Clock In
-          </button>
-        ) : event.clockIn&&!event.clockOut ? (
-          <button
-            onClick={() => handleClockOut(event.meetingId)}
-            style={{
-              backgroundColor: "#FF6347",
-              color: "white",
-              padding: "5px 10px",
-              marginTop: "5px",
-            }}
-          >
-            Clock Out
-          </button>
-        ) : (
-          <span style={{ color: "green" }}>Clocked Out</span>
-        )}
+          ) : null}
+          <br />
+
+          {!event.clockIn && !event.clockOut ? (
+            <button
+              onClick={() => handleClockIn(event.meetingId)}
+              style={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                padding: "5px 10px",
+                marginTop: "5px",
+              }}
+            >
+              Clock In
+            </button>
+          ) : event.clockIn && !event.clockOut ? (
+            <button
+              onClick={() => handleClockOut(event.meetingId)}
+              style={{
+                backgroundColor: "#FF6347",
+                color: "white",
+                padding: "5px 10px",
+                marginTop: "5px",
+              }}
+            >
+              Clock Out
+            </button>
+          ) : (
+            <span style={{ color: "green" }}>Clocked Out</span>
+          )}
+        </>):
+         ( <span style={{ fontSize: "12px", color: "#111111" }}>Meeting Rescheduled</span>)
+        }
+        
       </div>
     );
   };

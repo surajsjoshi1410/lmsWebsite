@@ -74,3 +74,10 @@ export const LegendColorBox = styled.div`
   margin-right: 5px;
 `;
  
+export const PaidUnpaidChart = styled.div`
+width: 60%;
+@media (max-width: 768px) {
+  width: 100%;
+}
+
+`;

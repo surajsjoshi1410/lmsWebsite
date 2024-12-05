@@ -1,0 +1,32 @@
+.e-custom-event {
+  padding: 10px;
+  background-color: #ff7043;
+  color: #fff;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+.e-custom-event .event-title {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.e-custom-event .event-time {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.e-custom-event .event-location {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.e-quick-popup .e-subject-wrap {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.e-quick-popup .e-content-wrap {
+  margin-top: 10px;
+}

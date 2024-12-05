@@ -25,7 +25,7 @@ export const Header = styled.div`
   margin-bottom: 20px;
 
   h2 {
-    font-size: 48px;
+    font-size: 24px;
     margin-bottom: 10px;
 
     @media (max-width: 990px) {

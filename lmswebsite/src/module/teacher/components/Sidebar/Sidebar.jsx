@@ -149,8 +149,22 @@ const Sidebar = () => {
                   )}
                 </NavLink>
               </li>
+              <li className="menu-item">
+                <NavLink
+                  to="/teacher/dashboard/meetingReschedule"
+                  activeClassName="active"
+                  className="menu-link"
+                >
+                  <span className="menu-link-icon">
+                    <AiTwotoneSchedule />
+                  </span>
+                  {!isCollapsed && (
+                    <span className="menu-link-text">Reschedule Meeting</span>
+                  )}
+                </NavLink>
+              </li>
 
-              
+             
               <li className="menu-item">
                 <NavLink
                   to="/teacher/dashboard/setting"

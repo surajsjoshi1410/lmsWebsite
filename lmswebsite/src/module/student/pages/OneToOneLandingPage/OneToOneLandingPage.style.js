@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Button } from "antd";
+import {theme,media} from "../../../../style/theme/theme";
 
 // Container for the application form
 export const ApplicationContainer = styled.div`
@@ -152,9 +153,9 @@ export const AvailableSlotsContainer = styled.div`
 
 export const Slot = styled.div`
   padding: 8px;
-  background-color : ${(props) =>(props.isSelected ? "#EE1B7A" : "#fff")};
-  color:${(props) =>(props.isSelected ? "#fff" : "#000")};
-  border: 1px solid #dcdcdc;
+  background-color : ${(props) =>(props.isSelected ? "#7ebaff" : "#fff")};
+  color:${(props) =>(props.isSelected ? "#fff" : "#ddedff")};
+  border: 1px solid #ddedff;
   border-radius: 50px;
   text-align: center;
   font-size: 14px;
@@ -163,7 +164,7 @@ export const Slot = styled.div`
 
 
   &:hover {
-    background-color: #ffc1cd;
+    background-color: #7ebaff;
     color: #fff;
   }
 `;
@@ -179,3 +180,4 @@ height:400px;
 width:100%;
 margin:0px;
 `;
+

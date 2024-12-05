@@ -11,7 +11,7 @@ export const FormContainer = styled.div`
     max-width: 800px;
     // width: 100%;
     margin: 0 auto; /* Center the container */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    // box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto; /* Enable vertical scrolling if content overflows */
 
     .buttonboard{

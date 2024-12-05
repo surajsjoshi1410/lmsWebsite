@@ -7,7 +7,7 @@ export const FormContainer = styled.div`
   background-color: #ffffff;
   padding: 40px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   margin: 0 auto; /* Center the form horizontally */
 

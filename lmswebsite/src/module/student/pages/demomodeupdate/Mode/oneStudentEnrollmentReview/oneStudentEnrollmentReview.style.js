@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {theme, media} from "../../../../../../style/theme/theme";
 
 export const TestimonialSection = styled.section`
   padding: 40px 20px;
@@ -130,7 +131,7 @@ export const StudentImage = styled.img`
 `;
 
 export const TestimonialCard = styled.div`
-  background-color: #f8d7e0;
+  background-color: ${theme.colors.one};
   border-radius: 80px;
   padding: 20px;
   max-width: 400px;
@@ -151,7 +152,8 @@ export const TestimonialCard = styled.div`
 
 export const TestimonialText = styled.p`
   font-size: 16px;
-  color: #333;
+  color:${theme.colors.primary};
+  
   width: 300px;
   margin: 0px 30px;
   text-align: center;
@@ -177,8 +179,8 @@ export const TestimonialAuthor = styled.div`
   position: relative;
   align-items: center;
   justify-content: space-between;
-  background-color: #333;
-  color: #fff;
+  background-color: ${theme.colors.blueone};
+  color: ${theme.colors.white};
   padding: 10px;
   border-radius: 80px;
   margin-top: 150px;
@@ -206,6 +208,7 @@ export const TestimonialAuthor = styled.div`
 export const AuthorName = styled.h4`
   font-size: 14px;
   font-weight: bold;
+  color:${theme.colors.white};
   margin-left: 50px;
 
   @media (max-width: 768px) {
@@ -215,7 +218,7 @@ export const AuthorName = styled.h4`
 
 export const AuthorCompany = styled.p`
   font-size: 12px;
-  color: #ddd;
+  color: ${theme.colors.gray700};
   margin-left: 50px;
 
   @media (max-width: 768px) {
@@ -225,7 +228,7 @@ export const AuthorCompany = styled.p`
 
 export const Rating = styled.div`
   font-size: 14px;
-  color: #ffd700;
+  color: ${theme.colors.white};
   margin-left: 50px;
 
   @media (max-width: 768px) {

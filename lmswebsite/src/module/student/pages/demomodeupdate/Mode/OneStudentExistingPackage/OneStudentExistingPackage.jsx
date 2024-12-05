@@ -57,6 +57,7 @@ const packages = [
 ];
 
 const OneStudentExistingPackage = ({data,studentId}) => {
+  
   return (
     <Container>
       <Header>
@@ -64,12 +65,7 @@ const OneStudentExistingPackage = ({data,studentId}) => {
         <h2>Existing Packages</h2>
         <p>Simple, transparent pricing that grows with you.</p>
       </Header>
-      <ToggleContainer>
-        <label>
-          <ToggleSwitch type="checkbox" />
-          <span>Annual pricing (save 20%)</span>
-        </label>
-      </ToggleContainer>
+     
 
       {/* Clip-path div */}
       <div className="clip-path-bg"></div>

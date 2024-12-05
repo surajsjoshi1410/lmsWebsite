@@ -28,7 +28,7 @@ const GeneralSettings = () => {
       setEmail(DataTeacher.teacher.user_id.email);
       setPhone(DataTeacher.teacher.phone_number);
       setMicrosoft_id(DataTeacher.teacher?.microsoft_id);
-      setMicrosoft_principal_name(DataTeacher.teacher?.microsoft_principal_name);
+      setMicrosoft_principal_name(DataTeacher.teacher?.microsoft_principle_name);
       console.log(DataTeacher);
 
       // Format the date of birth
@@ -54,6 +54,8 @@ const GeneralSettings = () => {
               email,
               phone,
               dob,
+              microsoft_id,
+              microsoft_principal_name
             }}
           >
             <Row gutter={16}>

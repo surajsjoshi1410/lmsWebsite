@@ -35,7 +35,7 @@ export const ChartContainer = styled.div`
   height: 100%;
 
   @media (max-width: 768px) {
-    height: 450px;
+    height: 400px;
   }
 `;
 

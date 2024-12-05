@@ -36,7 +36,7 @@ export const Dot = styled.div`
   position: absolute;
   width: 12px;
   height: 12px;
-  background-color: ${theme.colors.pink};
+  background-color: ${theme.colors.blueone};
   border-radius: 50%;
   animation: ${pulse} 1.2s infinite ease-in-out;
   animation-delay: ${(props) => props.delay}s;

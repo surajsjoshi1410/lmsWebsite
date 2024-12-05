@@ -13,7 +13,7 @@ export const GotoOneToOneContainer = styled.div`
     `}    
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 24px;
         margin-bottom: 10px;
         font-family: ${theme.typography.fontFamily};
     }
