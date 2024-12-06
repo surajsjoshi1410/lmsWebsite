@@ -7,6 +7,7 @@ import "./ManageMeeting.css"; // Optional custom styles
 import { getStudentAttendance, getStudentByAuthId, getStudentscheduleById, studentClockIn, studentClockOut } from "../../../../api/studentApi";
 import { clockIn, clockOut } from "../../../../api/teacherApi";
 import { useNavigate ,Link} from "react-router-dom";
+import { Heading,PageContainer,PrimaryButton } from "../../../../style/PrimaryStyles/PrimaryStyles";
 
 const localizer = momentLocalizer(moment);
 
@@ -136,7 +137,7 @@ function ManageMeetingStudent() {
           {moment(event.end).format("hh:mm A")}
         </span>
         <br />
-     { !(event.meeting_reschedule)&&(studentMode==='personal')?( <> {event.meeting_url ? (
+     { !(event.meeting_reschedule)?( <> {event.meeting_url ? (
           !event.clockIn ?
             (<>
             <button
@@ -152,7 +153,7 @@ function ManageMeetingStudent() {
             </button>
             <Link state={{ meetingId: event.meetingId }} to={`/student/dashboard/meetings/reschedule`}>
            
-            <button
+           { studentMode==='personal'&&<button
               onClick={() => { naviagte("/student/dashboard/meetings/reschedule")}}
               style={{
                 backgroundColor: "#ff6347",
@@ -162,7 +163,7 @@ function ManageMeetingStudent() {
               }}
             >
               Reschedule
-            </button>
+            </button>}
             </Link>
             </>
           ) :
@@ -205,8 +206,11 @@ function ManageMeetingStudent() {
 
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Manage Meetings</h1>
+    <PageContainer  >
+      {/* <BaseButton>hello</BaseButton> */}
+      <PrimaryButton onClick={()=>{alert("logout")}}>Logout</PrimaryButton>
+       <Heading>Manage Meetings</Heading>
+      {/* <h1>Manage Meetings</h1> */}
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -233,7 +237,7 @@ function ManageMeetingStudent() {
           })}
         />
       )}
-    </div>
+    </PageContainer>
   );
 }
 

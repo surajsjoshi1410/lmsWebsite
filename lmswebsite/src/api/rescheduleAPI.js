@@ -15,7 +15,7 @@ export const createReschedule = async (data) => {
 
 export const getRescheduleByTeacherId = async (teacherId) => {
    try {
-      const response = await api.get(`/reschedule//reschedule-meetings/teacher/${teacherId}`);
+      const response = await api.get(`/reschedule/reschedule-meetings/teacher/${teacherId}`);
       return response.data;
    } catch (error) {
       console.error("Error fetching reschedule by teacher ID:", error);
