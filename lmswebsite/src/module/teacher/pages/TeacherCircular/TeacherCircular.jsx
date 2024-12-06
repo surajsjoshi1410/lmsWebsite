@@ -4,6 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { getAllCircularNotificationsApi } from "../../../../api/circularNotificationApi";
 import { TeacherCircularWrap } from "./TeacherCircular.styles";
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
+import { Heading, PageContainer } from "../../../../style/PrimaryStyles/PrimaryStyles";
 
 const TeacherCircular = () => {
   const [circulars, setCirculars] = useState([]);
@@ -90,39 +91,43 @@ const TeacherCircular = () => {
   ];
 
   return (
-    <TeacherCircularWrap>{circulars ?
-      <>
-        <div className="header">
-          <h2>Created Circulars</h2>
-          <Input
-            placeholder="Search by Circular Name"
-            value={searchInput}
-            onChange={handleSearch}
-            allowClear
-            prefix={<SearchOutlined />}
-            style={{ width: 300 }}
+    <PageContainer>
+
+
+      <TeacherCircularWrap>{circulars ?
+        <>
+          <div className="header">
+            <Heading>Created Circulars</Heading>
+            <Input
+              placeholder="Search by Circular Name"
+              value={searchInput}
+              onChange={handleSearch}
+              allowClear
+              prefix={<SearchOutlined />}
+              style={{ width: 300 }}
+            />
+          </div>
+          <Table
+            dataSource={filteredCirculars}
+            columns={columns}
+            pagination={{ pageSize: 5 }}
+            bordered
           />
-        </div>
-        <Table
-          dataSource={filteredCirculars}
-          columns={columns}
-          pagination={{ pageSize: 5 }}
-          bordered
-        />
-        <Modal
-          // title="View Image"
-          visible={isModalVisible}
-          onCancel={closeModal}
-          footer={null}
-          centered
-        >
-          <Image src={selectedImage} alt="Circular" width="100%" />
-        </Modal>
-      </>
-      :
-      <LoadingPage />
-    }
-    </TeacherCircularWrap>
+          <Modal
+            // title="View Image"
+            open={isModalVisible}
+            onCancel={closeModal}
+            footer={null}
+            centered
+          >
+            <Image src={selectedImage} alt="Circular" width="100%" />
+          </Modal>
+        </>
+        :
+        <LoadingPage />
+      }
+      </TeacherCircularWrap>
+    </PageContainer>
   );
 };
 

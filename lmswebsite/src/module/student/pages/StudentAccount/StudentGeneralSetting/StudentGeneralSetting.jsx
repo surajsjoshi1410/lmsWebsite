@@ -3,6 +3,7 @@ import { Form, Input, DatePicker, Typography, Row, Col } from "antd";
 import dayjs from "dayjs"; // Import dayjs for date handling
 import { getStudentByAuthId } from "../../../../../api/studentApi";
 import { StyledDatePicker, StyledInput } from "./StudentGeneralSetting.style";
+import { Heading, PageContainer, Subheading } from "../../../../../style/PrimaryStyles/PrimaryStyles";
 
 const { Title } = Typography;
 
@@ -35,65 +36,67 @@ const GeneralSettings = () => {
   }, []);
   console.log("ddd", fullName);
   return (
-    <>
-      {fullName &&
+    <PageContainer> 
 
-        <div style={{ padding: "24px", background: "#fff", borderRadius: "8px" }}>
-          <Title level={3}>General Settings</Title>
-          <Form
-            form={form}
-            layout="vertical"
-            initialValues={{
-              fullName,
-              username,
-              email,
-              phone,
-              dob,
-            }}
-          >
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Full Name" name="fullName">
-                  <StyledInput value={fullName} readOnly />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Username" name="username">
-                  <StyledInput value={username} readOnly />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Email Address" name="email">
-                  <StyledInput value={email} readOnly />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item label="Phone Number" name="phone">
-                  <StyledInput value={phone} readOnly />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item label="Date of Birth" name="dob">
-                  <div>
-                    {/* <pre>{JSON.stringify(dob)}</pre> Log the value */}
-                    <StyledDatePicker
-                      value={dob ? dayjs(dob, "YYYY-MM-DD") : null}
-                      format="YYYY-MM-DD"
-                      disabled
-                      style={{ width: "100%" }}
-                    />
-                  </div>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-      }
-    </>
+      
+{fullName &&
+
+<div style={{ padding: "24px", background: "#fff", borderRadius: "8px" }}>
+  <Subheading level={3}>General Settings</Subheading>
+  <Form
+    form={form}
+    layout="vertical"
+    initialValues={{
+      fullName,
+      username,
+      email,
+      phone,
+      dob,
+    }}
+  >
+    <Row gutter={16}>
+      <Col span={12}>
+        <Form.Item label="Full Name" name="fullName">
+          <StyledInput value={fullName} readOnly />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item label="Username" name="username">
+          <StyledInput value={username} readOnly />
+        </Form.Item>
+      </Col>
+    </Row>
+    <Row gutter={16}>
+      <Col span={12}>
+        <Form.Item label="Email Address" name="email">
+          <StyledInput value={email} readOnly />
+        </Form.Item>
+      </Col>
+      <Col span={12}>
+        <Form.Item label="Phone Number" name="phone">
+          <StyledInput value={phone} readOnly />
+        </Form.Item>
+      </Col>
+    </Row>
+    <Row gutter={16}>
+      <Col span={12}>
+        <Form.Item label="Date of Birth" name="dob">
+          <div>
+            {/* <pre>{JSON.stringify(dob)}</pre> Log the value */}
+            <StyledDatePicker
+              value={dob ? dayjs(dob, "YYYY-MM-DD") : null}
+              format="YYYY-MM-DD"
+              disabled
+              style={{ width: "100%" }}
+            />
+          </div>
+        </Form.Item>
+      </Col>
+    </Row>
+  </Form>
+</div>
+}
+    </PageContainer>
 
   );
 };

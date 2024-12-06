@@ -333,3 +333,35 @@ export const IconButton = styled(BaseButton)`
     }
   }
 `;
+
+export const ModalBody = styled.div`
+  max-height: 500px; /* Default fixed height */
+  overflow-y: auto;
+  scroll-behavior: smooth;
+
+   @media (min-width: 768px) {
+    max-height: 400px; /* Slightly smaller for tablets */
+  }
+
+  @media (max-width: 768px) {
+    max-height: 400px; /* Slightly smaller for tablets */
+  }
+
+  @media (max-width: 480px) {
+    max-height: 300px; /* Even smaller for mobile */
+  }
+
+  /* Customize scrollbar for better aesthetics (optional) */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #b3b3b3;
+  }
+`;

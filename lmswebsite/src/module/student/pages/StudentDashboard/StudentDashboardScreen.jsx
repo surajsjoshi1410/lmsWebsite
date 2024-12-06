@@ -7,6 +7,7 @@ import teacher_icon from "../../assets/total_teachers_icon.png";
 import TeacherdashBoardCards from "../../../teacher/components/TeacherdashBoardCards/TeacherdashBoardCards";
 import { getStatisticsData } from "../../../../api/statsApi";
 import DailyScheduleStudent from "../../components/DailyScheduleStudent/DailyScheduleStudent";
+import { Heading, Subheading } from "../../../../style/PrimaryStyles/PrimaryStyles";
 
 const StudentDashboardScreen = () => {
   const [dashboardCards, setDashboardCards] = useState([]);
@@ -41,8 +42,8 @@ const StudentDashboardScreen = () => {
   return (
     <StudentDashboardScreenWrap className="content-area">
       <div>
-        <WelcomeTitle>Welcome, Topper!</WelcomeTitle>
-        <WelcomeMessage>Keep up the great work and let's achieve even more together.</WelcomeMessage>
+        <Heading>Welcome, Topper!</Heading>
+        <Subheading>Keep up the great work and let's achieve even more together.</Subheading>
         {/* <TeacherdashBoardCards cardsData={dashboardCards} /> */}
       </div>
       <div className="area-row ar-two">

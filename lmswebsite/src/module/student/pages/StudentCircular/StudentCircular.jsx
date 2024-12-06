@@ -4,6 +4,8 @@ import { SearchOutlined } from "@ant-design/icons";
 import { getAllCircularNotificationsApi } from "../../../../api/circularNotificationApi";
 import { StudentCircularWrap } from "./StudentCircular.style";
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
+import { BodyText, Heading } from "../../../../style/PrimaryStyles/PrimaryStyles";
+import { PageContainer } from "../../../../style/PrimaryStyles/PrimaryStyles";
 
 const StudentCircular = () => {
   const [circulars, setCirculars] = useState([]);
@@ -90,10 +92,11 @@ const StudentCircular = () => {
   ];
 
   return (
+    <PageContainer>
     <StudentCircularWrap>{circulars ?
       <>
         <div className="header">
-          <h2> Circulars</h2>
+         <Heading> Circulars </Heading>
           <Input
             placeholder="Search by Circular Name"
             value={searchInput}
@@ -123,6 +126,7 @@ const StudentCircular = () => {
       <LoadingPage />
     }
     </StudentCircularWrap>
+    </PageContainer>
   );
 };
 

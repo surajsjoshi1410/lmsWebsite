@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Form, Radio, Button, message } from 'antd';
 import { submitResponse, getResponsesByQuiz } from '../../../../../api/responseApi';
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { PageContainer, PrimaryButton, Subheading } from '../../../../../style/PrimaryStyles/PrimaryStyles';
 
 const QuizQuestionPage = () => {
   const { state } = useLocation();
@@ -71,14 +72,14 @@ const QuizQuestionPage = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <PageContainer>
       <button
         onClick={() => navigate(-1)}
         style={{ fontSize: '30px', top: '10px', left: '10px' }}
       >
         <IoArrowBackCircleOutline />
       </button>
-      <h1 style={{ textAlign: 'center', paddingBottom: '30px' }}>{quiz.quiz_title}</h1>
+      <Subheading style={{ textAlign: 'center', paddingBottom: '30px' }}>{quiz.quiz_title}</Subheading>
 
       <Form onFinish={handleSubmitAnswers}>
         {quiz.questions.map((question, index) => (
@@ -102,22 +103,13 @@ const QuizQuestionPage = () => {
           </div>
         ))}
 
-        <Form.Item style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{
-              backgroundColor: '#e91e63',
-              borderColor: '#e91e63',
-              width: 'auto',
-              padding: '10px 20px',
-            }}
-          >
+        <Form.Item >
+          <PrimaryButton type='submit'>
             Submit Answers
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
-    </div>
+      </PageContainer>
   );
 };
 

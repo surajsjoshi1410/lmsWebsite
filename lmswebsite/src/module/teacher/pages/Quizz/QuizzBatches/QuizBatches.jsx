@@ -12,6 +12,9 @@ import { FaEye } from "react-icons/fa";
 import { getTeacherByAuthId } from "../../../../../api/teacherApi";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../../../../../pages/LoadingPage/LoadingPage";
+import { Heading, PageContainer } from "../../../../../style/PrimaryStyles/PrimaryStyles";
+import { Table, Button, Input, Modal, Image, message } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 export default function QuizBatches() {
     const [searchInput, setSearchInput] = useState("");
@@ -83,64 +86,56 @@ export default function QuizBatches() {
     }, [stdTableIndex, originalData]);
 
     return (
-        <QuizBatcheswrap className="content-area">
-            <div className="area-row ar-one">
-                <div className="AssignedTeacherBatch-batches_nav">
-                    <h2 className="AssignedTeacherBatch-batch_title">Assigned Batches</h2>
-                    <div className="AssignedTeacherBatch-search">
-                        <form>
-                            <div className="input-group">
-                                <span className="input-icon">
-                                    <FaSearch />
-                                </span>
-                                <input
-                                    type="text"
-                                    className="input-control"
-                                    placeholder="Search by Batch Name"
-                                    value={searchInput}
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                />
-                            </div>
-                        </form>
-                    </div>
+        <PageContainer>
+            <QuizBatcheswrap>
+                <div className="area-row ar-one">
+                    <Heading>Assigned Batches</Heading>
+                    <Input
+                        placeholder="Search by Circular Name"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        allowClear
+                        prefix={<SearchOutlined />}
+                        style={{ width: 300 }}
+                    />
                 </div>
-            </div>
-            <div className="area-row ar-two">
-                {/* Additional content can go here */}
-            </div>
-            <div className="area-row ar-three">
-                {loading ? (
-                    <>
-                        <LoadingPage />
-                    </>
-                ) : error ? (
-                    <p style={{ color: 'red' }}>{error}</p>
-                ) : batches && filterData.length > 0 ? (
-                    filterData.map((batch, index) => {
-                        const batchData = {
-                            batch_image: batch.batch_image,
-                            batch_name: batch.batch_name,
-                            class_id: batch.class_id,
-                            subject_id: batch.subject_id,
-                            teacher_id: batch.teacher_id,
-                            date: batch.date,
-                            studentcount: batch.students.length,
-                            action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`) }}> View Quizes</button>
-                        }
-                        return (
-                            <BatchCard key={batch._id} batch={batchData} />
-                        )
-                    })
-                ) : (
-                    <>
-                        <div className="quizBatches-batchNotFound">
-                            <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
-                        </div>
-                    </>
-                )}
+                <div className="area-row ar-two">
+                    {/* Additional content can go here */}
+                </div>
+                <div className="area-row ar-three">
+                    {loading ? (
+                        <>
+                            <LoadingPage />
+                        </>
+                    ) : error ? (
+                        <p style={{ color: 'red' }}>{error}</p>
+                    ) : batches && filterData.length > 0 ? (
+                        filterData.map((batch, index) => {
+                            const batchData = {
+                                batch_image: batch.batch_image,
+                                batch_name: batch.batch_name,
+                                class_id: batch.class_id,
+                                subject_id: batch.subject_id,
+                                teacher_id: batch.teacher_id,
+                                date: batch.date,
+                                studentcount: batch.students.length,
+                                action: <button onClick={() => { navigate(`/teacher/dashboard/quizz/batches/${batch._id}`) }}> View Quizes</button>
+                            }
+                            return (
+                                <BatchCard key={batch._id} batch={batchData} />
+                            )
+                        })
+                    ) : (
+                        <>
+                            <div className="quizBatches-batchNotFound">
+                                <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
+                            </div>
+                        </>
+                    )}
 
-               
-            </div>
-        </QuizBatcheswrap>
+
+                </div>
+            </QuizBatcheswrap>
+        </PageContainer>
     )
 }

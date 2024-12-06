@@ -315,3 +315,26 @@ export const MemberList = styled.div`
   }
 `;
 
+export const AssignedBatchStudentsListContainer = styled.div`
+
+.assigned-students-actions{
+ display: flex;
+ justify-content: space-between;
+ gap: 20px;
+}
+ .assigned-students-header-row-heading{
+ display: flex;
+ align-items: center;
+ gap: 20px;
+ }
+
+.assigned-students-header-row{
+ display: flex;
+ align-items: center;
+ margin-bottom: 20px;
+ justify-content: space-between;
+
+}
+
+`
+

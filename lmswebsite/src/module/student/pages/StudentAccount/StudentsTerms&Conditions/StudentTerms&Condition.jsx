@@ -1,12 +1,14 @@
 // src/TermsConditionSettings/TermsConditionSettings.jsx
 import React from "react";
 import { Container, Title, Text } from "./StudentTerms&Conditions.style";
+import { BodyText, PageContainer, Subheading } from "../../../../../style/PrimaryStyles/PrimaryStyles";
 
 const StudentTermsConditionSettings = () => {
   return (
-    <Container>
-      <Title>Terms & Condition</Title>
-      <Text>
+    
+      <PageContainer>
+        <Subheading>Terms & Condition</Subheading>
+      <BodyText>
         Lorem Ipsum is simply dummy text of the printing and typesetting
         industry. Lorem Ipsum has been the industry's standard dummy text ever
         since the 1500s, when an unknown printer took a galley of type and
@@ -16,8 +18,9 @@ const StudentTermsConditionSettings = () => {
         of Letraset sheets containing Lorem Ipsum passages, and more recently
         with desktop publishing software like Aldus PageMaker including versions
         of Lorem Ipsum.
-      </Text>
-    </Container>
+      </BodyText>
+ 
+      </PageContainer>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { ViewButton, QuizCard, QuizzesContainer, QuizListWrap, Button } from './QuizList.Styles';
+import { ViewButton, QuizCard, QuizzesContainer, QuizListWrap } from './QuizList.Styles';
 import { Link, useParams } from 'react-router-dom';
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
@@ -10,7 +10,14 @@ import { getTeacherByAuthId } from '../../../../../api/teacherApi';
 import { getQuizzesByTeacher } from '../../../../../api/quizApi';
 import TeacherCreateQuizForm from '../TeacherCreateQuizForm/TeacherCreateQuizForm';
 import { createQuiz } from '../../../../../api/quizApi';
-import { Modal } from 'antd';
+import { BodyText, Heading, PageContainer, PrimaryButton, ModalBody } from '../../../../../style/PrimaryStyles/PrimaryStyles';
+import { Table, Button, Input, Modal, Image, message, Spin, Collapse, Typography, List, Divider, } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { SubHeading } from '../../../../../components/common/landingPageComponents/SingleCoursePerClass.styles';
+
+
+const { Panel } = Collapse;
+const { Title, Text } = Typography;
 
 export default function QuizList() {
     const [searchInput, setSearchInput] = useState("");
@@ -26,7 +33,9 @@ export default function QuizList() {
     const [selectedQuiz, setSelectedQuiz] = useState(null); // Store selected quiz for modal
     const [quizResponse, setQuizResponse] = useState(null); // Store quiz responses
     const [loadingResponses, setLoadingResponses] = useState(false);
+    const [antTableData, setAntTableData] = useState([]);
     const [model2, setModel2] = useState(false);
+    const [model3, setModel3] = useState(false);
 
 
     const param = useParams();
@@ -123,185 +132,217 @@ export default function QuizList() {
 
     const handleViewResponses = (quiz) => {
         setQuizResponse(quiz.answered_by || []); // Assuming responses are inside the quiz object
+        const filterData = quiz.answered_by.map((item) => {
+            return {
+                _id: item._id,
+                student_name: item.student_id.user_id.name,
+                score: item.score
+            }
+        })
+        setAntTableData(filterData);
         setLoadingResponses(false);
         setModel2(true);
     };
 
-    return (<QuizListWrap className="content-area">
-        <div className="area-row ar-one">
-            <div className="created-quizes-batches_nav">
-                <div className='created-quizes-back-btn'>
-                    <Link to={`/teacher/dashboard/quizz/assignedBatch`}><IoMdArrowRoundBack /></Link>
-                </div>
+    const columns = [
+        {
+            title: "Sl No.",
+            dataIndex: "index",
+            key: "index",
+            render: (text, record, index) => <BodyText>{index + 1}</BodyText>,
+        },
+        {
+            title: "Student Name",
+            dataIndex: "student_name",
+            key: "student_name",
+            render: (text) => <BodyText>{text}</BodyText>,
+        },
+        {
+            title: "Score",
+            dataIndex: "score",
+            key: "score",
+            render: (text) => <BodyText>{text}</BodyText>,
+        },
 
-                <h2 className="created-quizes-batch_title">Created Quizes</h2>
-                <div className="create-quizes-search">
-                
-                        <div className="created-quizes-input-group">
-                            <span className="input-icon">
-                                <FaSearch />
-                            </span>
-                            <input
-                                type="text"
-                                className="created-quizes-input-control"
-                                placeholder="Search by Quiz Title"
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
-                            />
-                        </div>
-                  
-                </div>
-                {/* Link replaced with button to open modal */}
-                <button
-                    onClick={handleAddQuiz} // Open modal on click
-                    className="created-quizes-batch_btn"
-                >
-                    <AiOutlineFileAdd className="created-quizes-batch_icon" />
-                    <span>Create Quizes</span>
-                </button>
-            </div>
-        </div>
-        <div className="area-row ar-two"></div>
-        <div className="area-row ar-three">
-            {loading && <p>Creating quiz...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
-            <QuizzesContainer>
-                {filterData.map((quiz, index) => (
-                    <QuizCard key={quiz._id || index}>
-                        <h2>{quiz.quiz_title}</h2>
-
-                        <div className="batch">
-                            <p className='red'>
-                                <strong>Batch:</strong> {quiz.batch_index.batch_name} {/* Assuming populated */}
-                            </p>
-                        </div>
+    ];
 
 
-                        <div className='quizdisplay'>
-                            <div className='subject'>
-                                <p>
-                                    <strong>Subject:</strong> {quiz.subject?.subject_name} {/* Assuming populated */}
-                                </p>
-                            </div>
-
-                            <div className='class'>
-                                <p>
-                                    <strong>Class  :</strong> {quiz.class_level?.classLevel} {/* Assuming populated */}
-                                </p>
-                            </div>
-
-                            <div className="description">
-                                <p>
-                                    <strong>Description:</strong> {quiz.description}
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="view-questions-button" style={{ display: "flex", justifyContent: "space-between" }}>
-                            <ViewButton
-                                style={{ width: "20%", color: "white", backgroundColor: "#f7366f" }}
-                                onClick={() => handleViewQuestions(quiz)}
-                            >
-                                View Questions
-                            </ViewButton>
-
-                            <ViewButton
-                                style={{ width: "20%", color: "white", backgroundColor: "#f7366f" }}
-                                onClick={() => handleViewResponses(quiz)}
-                            >
-                                View Responses
-                            </ViewButton>
-                        </div>
-                    </QuizCard>
-                ))}
-            </QuizzesContainer>
-            {/* Conditionally render the TeacherCreateQuizForm dialog */}
-            {showDialog && (
-                <TeacherCreateQuizForm
-                    onSubmit={handleFormSubmit} // Pass the onSubmit function
-                    onClose={handleCloseDialog} // Pass onClose for closing the dialog
-                    teacherId={teacherId} // Pass the teacherId
-                />
-            )}
-
-            <Modal
-                title={` ${selectedQuiz?.quiz_title}`}
-                visible={!!selectedQuiz}
-                onCancel={() => setSelectedQuiz(null)}
-                footer={[
-                    <Button key="back" onClick={() => setSelectedQuiz(null)}>
-                        Close
-                    </Button>,
-                ]}
-            >
-                <div>
-                    <ul>
-                        {selectedQuiz?.questions.map((question, index) => (
-                            <li style={{ paddingRight: "20px" }} key={index}>
-                                <strong>Q{index + 1}: </strong>{question.question_text}
-                                <ul style={{ paddingLeft: "20px" }}>
-                                    {question.options.map((option) => (
-                                        <li key={option.option_id}>
-                                            {option.option_id}. {option.option_text}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </Modal>
-
-            {/* View Responses Modal */}
-            <Modal
-                title={`Responses`}
-                visible={model2}
-                onCancel={() => { setSelectedQuiz(null); setModel2(false); }}
-                footer={[
-                    <Button key="back" onClick={() => { setSelectedQuiz(null); setModel2(false); }}>
-                        Close
-                    </Button>,
-                ]}
-            >
-                {loadingResponses ? (
-                    <p>Loading responses...</p>
-                ) : (
-                    <div>
-                        {quizResponse && quizResponse.length === 0 ? (
-                            <p style={{ padding: "20px" }}>No Answer's Submitted By Students Yet!</p>
-                        ) : (
-                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Student Name</th>
-                                        <th style={{ border: '1px solid #ddd', padding: '8px' }}>Score</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {quizResponse?.map((response, index) => (
-                                        <tr key={index}>
-                                            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                                {response.student_id.user_id.name}
-                                            </td>
-                                            <td style={{ border: '1px solid #ddd', padding: '8px' }}>
-                                                {response.score}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        )}
+    return (
+        <PageContainer>
+            <QuizListWrap >
+                <div className="created-quizes-batches-row-one">
+                    <div className="created-quizes-batches-title-section">
+                        <Link to={`/teacher/dashboard/quizz/assignedBatch`}><IoMdArrowRoundBack size={24} /></Link>
+                        <Heading>Created Quizes</Heading>
                     </div>
-                )}
-            </Modal>
+                    <div className="created-quizes-batches-action-section">
+                        <Input
+                            placeholder="Search by Circular Name"
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            allowClear
+                            prefix={<SearchOutlined />}
+                            style={{ width: 300 }}
+                        />
+                        <PrimaryButton
+                            onClick={handleAddQuiz} // Open modal on click
+
+                        >
+                            <AiOutlineFileAdd size={24} />
+                            Create Quizes
+                        </PrimaryButton>
+                    </div>
+                </div>
+                <div className="area-row ar-two"></div>
+                <div className="area-row ar-three">
+                    {loading && <p>Creating quiz...</p>}
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    <QuizzesContainer>
+                        {filterData.map((quiz, index) => (
+                            <QuizCard key={quiz._id || index}>
+                                <h2>{quiz.quiz_title}</h2>
+
+                                <div className="batch">
+                                    <p className='red'>
+                                        <strong>Batch:</strong> {quiz.batch_index.batch_name} {/* Assuming populated */}
+                                    </p>
+                                </div>
+
+
+                                <div className='quizdisplay'>
+                                    <div className='subject'>
+                                        <p>
+                                            <strong>Subject:</strong> {quiz.subject?.subject_name} {/* Assuming populated */}
+                                        </p>
+                                    </div>
+
+                                    <div className='class'>
+                                        <p>
+                                            <strong>Class  :</strong> {quiz.class_level?.classLevel} {/* Assuming populated */}
+                                        </p>
+                                    </div>
+
+                                    <div className="description">
+                                        <p>
+                                            <strong>Description:</strong> {quiz.description}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="view-questions-button" style={{ display: "flex", justifyContent: "space-between" }}>
+                                    <PrimaryButton
+                                        onClick={() => handleViewQuestions(quiz)}
+                                    >
+                                        View Questions
+                                    </PrimaryButton>
+
+                                    <PrimaryButton
+                                        onClick={() => handleViewResponses(quiz)}
+                                    >
+                                        View Responses
+                                    </PrimaryButton>
+                                </div>
+                            </QuizCard>
+                        ))}
+                    </QuizzesContainer>
+                    {
+                        <Modal
+                            title={`Create New Quiz`}
+                            open={showDialog}
+                            onCancel={() => { setShowDialog(false) }}
+                            footer={null}
+                        >
+                            <ModalBody>
+                                <TeacherCreateQuizForm
+                                    onSubmit={handleFormSubmit} // Pass the onSubmit function
+                                    onClose={handleCloseDialog} // Pass onClose for closing the dialog
+                                    teacherId={teacherId} // Pass the teacherId
+                                />
+                            </ModalBody>
+
+                        </Modal>
+                    }
+                    {/* Conditionally render the TeacherCreateQuizForm dialog */}
+                    {/* {showDialog==undefined && (
+                        <TeacherCreateQuizForm
+                            onSubmit={handleFormSubmit} // Pass the onSubmit function
+                            onClose={handleCloseDialog} // Pass onClose for closing the dialog
+                            teacherId={teacherId} // Pass the teacherId
+                        />
+                    )} */}
+                    <Modal
+                        title={<SubHeading>{selectedQuiz?.quiz_title}</SubHeading>} // Use the selectedQuiz?.quiz_title}
+                        open={!!selectedQuiz}
+                        onCancel={() => setSelectedQuiz(null)}
+                        footer={null}
+                        width={800} // Adjust the width as needed
+                        centered
+                        bodyStyle={{ padding: "20px" }}
+                    >
+                        <ModalBody>
+                            {selectedQuiz?.questions.length > 0 ? (
+                                <Collapse accordion>
+                                    {selectedQuiz.questions.map((question, index) => (
+                                        <Panel
+                                            header={
+                                                <Title level={5}>
+                                                    <BodyText>{`Q${index + 1}: ${question.question_text}`}</BodyText>
+                                                </Title>
+                                            }
+                                            key={question._id || index} // Use unique identifier if available
+                                        >
+                                            <List
+                                                dataSource={question.options}
+                                                renderItem={(option) => (
+                                                    <List.Item key={option.option_id}>
+                                                        <Text>
+                                                            <BodyText><strong>{option.option_id}.</strong> {option.option_text}</BodyText>
+                                                        </Text>
+                                                    </List.Item>
+                                                )}
+                                            />
+                                        </Panel>
+                                    ))}
+                                </Collapse>
+                            ) : (
+                                <Text>No questions available for this quiz.</Text>
+                            )}
+                        </ModalBody>
+                    </Modal>
+
+                    {/* View Responses Modal */}
+                    <Modal
+                        title={`Responses`}
+                        open={model2}
+                        onCancel={() => { setSelectedQuiz(null); setModel2(false); }}
+                        footer={null}
+                    >
+                        {loadingResponses ? (
+                            <Spin tip="Loading..." />
+                        ) : (
+                            <div>
+                                {quizResponse && quizResponse.length === 0 ? (
+                                    <BodyText>No Answer's Submitted By Students Yet!</BodyText>
+                                ) : (
+                                    <Table
+                                        columns={columns}
+                                        dataSource={antTableData} // Bind the filtered data to the table
+                                        rowKey="_id"
+                                        pagination={true} // You can add pagination if needed
+                                    />
+                                )}
+                            </div>
+                        )}
+                    </Modal>
 
 
 
 
-        </div>
+                </div>
 
 
-    </QuizListWrap>
+            </QuizListWrap>
+        </PageContainer>
     );
 }

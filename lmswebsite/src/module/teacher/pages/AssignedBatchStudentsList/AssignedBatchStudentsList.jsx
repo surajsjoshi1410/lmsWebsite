@@ -21,6 +21,8 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import moment from "moment";
 import { set } from "lodash";
+import { BodyText, Heading, PageContainer, PrimaryButton } from "../../../../style/PrimaryStyles/PrimaryStyles";
+import { AssignedBatchStudentsListContainer } from "./AssignedBatchStudentsList.style"
 
 const { RangePicker } = DatePicker;
 
@@ -146,7 +148,7 @@ const AssignedBatchStudentsList = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => <strong>{text}</strong>,
+      render: (text) => <BodyText>{text}</BodyText>,
     },
     {
       title: "Email",
@@ -162,7 +164,7 @@ const AssignedBatchStudentsList = () => {
       title: "Class Level",
       dataIndex: "classLevel",
       key: "classLevel",
-      render: (text) => <Tag color="green">{text}</Tag>,
+      render: (text) => <Tag color="green"><BodyText>{text}</BodyText></Tag>,
     },
     {
       title: "Subjects",
@@ -170,9 +172,9 @@ const AssignedBatchStudentsList = () => {
       key: "subjects",
       render: (subjects) => (
         <Tooltip title={subjects}>
-          <span>
+          <BodyText>
             {subjects.length > 20 ? `${subjects.slice(0, 20)}...` : subjects}
-          </span>
+          </BodyText>
         </Tooltip>
       ),
     },
@@ -227,117 +229,121 @@ const AssignedBatchStudentsList = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}
-      >
-        <Link to="/teacher/dashboard/batches">
-          <IoMdArrowRoundBack size={24} style={{ marginRight: "10px" }} />
-        </Link>
-        <h2 style={{ margin: 0 }}>Students List for {batchName}</h2>
-        <Button
-          type="primary"
-          style={{ marginLeft: "auto", backgroundColor: "#ee1b7a"  }}
-          onClick={handleCreateMeeting}
+    <PageContainer>
+      <AssignedBatchStudentsListContainer>
+        <div
+          className="assigned-students-header-row"
         >
-          Create Meeting
-        </Button>
+          < div className="assigned-students-header-row-heading">
+            <Link to="/teacher/dashboard/batches">
+              <IoMdArrowRoundBack size={24} style={{ marginRight: "10px" }} />
+            </Link>
+            <Heading>Students List for {batchName}</Heading>
+          </div>
 
-        <Button 
-        type="primary"
-        style={{ marginLeft: "10px", backgroundColor: "#ee1b7a" }}
-        onClick={openUploadModal2}>
-          Upload Content
-        </Button>
+          <div className="assigned-students-actions" >
+            <PrimaryButton
+              type="primary"
 
-      </div>
-
-      {loading ? (
-        <Spin size="large" />
-      ) : error ? (
-        <Alert message="Error" description={error} type="error" showIcon />
-      ) : (
-        <Table
-          columns={columns}
-          dataSource={students}
-          pagination={{ pageSize: 8 }}
-          bordered
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        />
-      )}
-
-      {/* Modal for Creating Meeting */}
-      <Modal
-        title="Create Meeting"
-        visible={isModalVisible}
-        onCancel={handleModalCancel}
-        footer={null}
-      >
-        <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
-          <Form.Item
-            name="title"
-            label="Meeting Title"
-            rules={[{ required: true, message: "Please enter a title!" }]}
-          >
-            <Input placeholder="Enter meeting title" />
-          </Form.Item>
-          <Form.Item
-            name="time"
-            label="Meeting Time"
-            rules={[{ required: true, message: "Please select a time range!" }]}
-          >
-            <RangePicker
-              showTime
-              format="YYYY-MM-DD HH:mm"
-              placeholder={["Start Time", "End Time"]}
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button 
-            type="primary"
-            style={{ backgroundColor: "#ee1b7a" }}
-            htmlType="submit" block>
+              onClick={handleCreateMeeting}
+            >
               Create Meeting
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+            </PrimaryButton>
 
-{/* Modal for upploading content */}
+            <PrimaryButton
+              type="primary"
+              onClick={openUploadModal2}>
+              Upload Content
+            </PrimaryButton>
+          </div>
+        </div>
+
+        {loading ? (
+          <Spin size="large" />
+        ) : error ? (
+          <Alert message="Error" description={error} type="error" showIcon />
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={students}
+            pagination={{ pageSize: 8 }}
+            bordered
+            style={{
+              backgroundColor: "#fff",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          />
+        )}
+
+        {/* Modal for Creating Meeting */}
+        <Modal
+          title="Create Meeting"
+          open={isModalVisible}
+          onCancel={handleModalCancel}
+          footer={null}
+        >
+          <Form form={form} layout="vertical" onFinish={handleFormSubmit}>
+            <Form.Item
+              name="title"
+              label="Meeting Title"
+              rules={[{ required: true, message: "Please enter a title!" }]}
+            >
+              <Input placeholder="Enter meeting title" />
+            </Form.Item>
+            <Form.Item
+              name="time"
+              label="Meeting Time"
+              rules={[{ required: true, message: "Please select a time range!" }]}
+            >
+              <RangePicker
+                showTime
+                format="YYYY-MM-DD HH:mm"
+                placeholder={["Start Time", "End Time"]}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                style={{ backgroundColor: "#ee1b7a" }}
+                htmlType="submit" block>
+                Create Meeting
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+
+        {/* Modal for upploading content */}
 
         <Modal
           title="Upload Content"
           visible={isModel2visble}
-          
+
           onCancel={() => { setIsModel2visble(false) }}
           footer={null}
         >
           <Form form={form} layout="vertical" onFinish={handleUploadContent}>
-          <Form.Item
-                name="description"
-                label="Enter Description"
-               value = {description}    
+            <Form.Item
+              name="description"
+              label="Enter Description"
+              value={description}
 
-              >
-                <input type="text" onChange={(e) => setDescription(e.target.value)}    />
-              </Form.Item>
+            >
+              <input type="text" onChange={(e) => setDescription(e.target.value)} />
+            </Form.Item>
 
 
             <Upload onChange={handleFileChange}
             >
 
-              
+
 
               <Form.Item
                 name="title"
                 label="Select File"
                 rules={[{ required: true, message: "Click to Select File" }]}
-             
+
               >
                 <Input placeholder="Click to Select File" />
               </Form.Item>
@@ -353,7 +359,8 @@ const AssignedBatchStudentsList = () => {
             Upload
           </Button>
         </Modal>
-      </div>
+      </AssignedBatchStudentsListContainer>
+    </PageContainer>
 
     // </div>
 

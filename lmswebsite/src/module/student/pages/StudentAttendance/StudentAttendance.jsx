@@ -8,6 +8,7 @@ import {
     message,
 } from "antd";
 import { getStudentAttendance, getStudentByAuthId } from '../../../../api/studentApi';
+import { BodyText, Heading, PageContainer } from '../../../../style/PrimaryStyles/PrimaryStyles';
 
 
 export const StudentAttendance = () => {
@@ -64,13 +65,13 @@ export const StudentAttendance = () => {
             title: "Sl No.",
             dataIndex: "index",
             key: "index",
-            render: (text, record, index) => <strong>{index + 1}</strong>,
+            render: (text, record, index) => <BodyText>{index + 1}</BodyText>,
         },
         {
             title: "Meeting Name",
             dataIndex: "meeting_title",
             key: "meeting_title",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Clock-In Time",
@@ -78,7 +79,7 @@ export const StudentAttendance = () => {
             key: "clock_in_time",
             render: (text) => {
                 if (text == null) {
-                    return <span>00:00.00</span>;
+                    return <BodyText>00:00.00</BodyText>;
                 } else {
                     const date = new Date(text);
                     const formattedDate = date.toLocaleDateString("en-US", {
@@ -90,7 +91,7 @@ export const StudentAttendance = () => {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
             },
         },
@@ -112,17 +113,17 @@ export const StudentAttendance = () => {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
             },
         },
     ];
 
     return (
-        <div style={{ padding: "20px" }}>
+        <PageContainer>
             <div  style={{ display: "flex", alignItems: "center", marginBottom: "20px", justifyContent: "space-between"}}>
-            <h2 style={{ margin: 0 }}>Attendance List </h2>
-                {/* Search Field */}
+          <Heading> Attendance List </Heading> 
+               {/* Search Field */}
                 <Input
                     placeholder="Search by meeting name"
                     value={searchTerm}
@@ -143,6 +144,6 @@ export const StudentAttendance = () => {
                     pagination={true} // You can add pagination if needed
                 />
             )}
-        </div>
+        </PageContainer>
     );
 };

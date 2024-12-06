@@ -3,14 +3,37 @@ import styled from "styled-components";
 import { media, theme } from "../../../../../style/theme/theme";
 
 export const QuizListWrap = styled.div`
+.created-quizes-batches-row-one{
+display: flex;
+align-items: center;
+justify-content: space-between;
+${media.sm`
+  flex-direction: column; 
+  align-items: stretch; `
+  }
+
+}
+.created-quizes-batches-title-section{
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.created-quizes-batches-action-section{
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+
+
+
 
 .created-quizes-batches_nav {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2em;
-    margin: 0;
 
     ${media.md`
       flex-direction: column;
@@ -28,9 +51,9 @@ export const QuizListWrap = styled.div`
   }
 
   .create-quizes-search {
-    max-width: 320px;
+    max-width: 250px;
     width: 100%;
-    margin-right:25px;
+   
    
       flex: 0 0 auto;
       align-items: center; 
@@ -83,7 +106,11 @@ export const QuizListWrap = styled.div`
       flex-direction: column;
     `}
   }
-
+.created-quizes-nav{
+display: flex;
+align-items: center;
+gap: 10px;
+}
   
 /* Navigation Section row1 */
 .created-quizes-batches_nav {
@@ -120,7 +147,7 @@ export const QuizListWrap = styled.div`
 }
 
 .created-quizes-batch_icon {
-    font-size: 1.3rem;
+    // font-size: 1.3rem;
     margin-right: 5px;
 }
 
@@ -130,10 +157,10 @@ export const QuizListWrap = styled.div`
 }
 
 .created-quizes-back-btn{
+display: flex;
+align-items: center;
   text-decoration: none;
-  margin-right: 30px;
-  margin-left: 0px;
-  font-size: 1.5rem;
+ gap: 10px;
 }
     
 `;
@@ -142,7 +169,7 @@ export const QuizListWrap = styled.div`
 /* ----------------------------------------------------
    QuizzesContainer
    ---------------------------------------------------- */
-   export const QuizzesContainer = styled.div`
+export const QuizzesContainer = styled.div`
 //    display: grid;
 //    gap: 20px; /* Spacing between cards */
    padding: 20px;
@@ -171,11 +198,11 @@ export const QuizListWrap = styled.div`
      padding: 10px;
    `}
  `;
- 
- /* ----------------------------------------------------
-    ButtonContainer
-    ---------------------------------------------------- */
- export const ButtonContainer = styled.div`
+
+/* ----------------------------------------------------
+   ButtonContainer
+   ---------------------------------------------------- */
+export const ButtonContainer = styled.div`
    display: flex;
    justify-content: flex-end;
    width: 100%;
@@ -192,11 +219,11 @@ export const QuizListWrap = styled.div`
      margin-bottom: 10px;
    `}
  `;
- 
- /* ----------------------------------------------------
-    ViewButton
-    ---------------------------------------------------- */
- export const ViewButton = styled.button`
+
+/* ----------------------------------------------------
+   ViewButton
+   ---------------------------------------------------- */
+export const ViewButton = styled.button`
    border: none;
    padding: 10px 20px;
    border-radius: 5px;
@@ -220,11 +247,11 @@ export const QuizListWrap = styled.div`
      padding: 6px 12px;
    `}
  `;
- 
- /* ----------------------------------------------------
-    General Button
-    ---------------------------------------------------- */
- export const Button = styled.button`
+
+/* ----------------------------------------------------
+   General Button
+   ---------------------------------------------------- */
+export const Button = styled.button`
    background-color: ${theme.colors.pink4};
    color: ${theme.colors.white};
    border: none;
@@ -252,11 +279,11 @@ export const QuizListWrap = styled.div`
      margin-right: 3vw;
    `}
  `;
- 
- /* ----------------------------------------------------
-    QuizCard
-    ---------------------------------------------------- */
-    export const QuizCard = styled.div`
+
+/* ----------------------------------------------------
+   QuizCard
+   ---------------------------------------------------- */
+export const QuizCard = styled.div`
     width: 100%;
     margin-bottom:20px;
     border: 1px solid transaparent;
@@ -361,5 +388,4 @@ export const QuizListWrap = styled.div`
     `}
   `;
 
-   
-  
+

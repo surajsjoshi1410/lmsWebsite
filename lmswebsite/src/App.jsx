@@ -84,6 +84,8 @@ import RescheduleMeeting from "./module/student/pages/RescheduleMeeting/Reschedu
 import RescheduleMeetingTeacher from "./module/teacher/pages/RescheduleMeetingTeacher/RescheduleMeetingTeacher";
 import { OneToOneStudentlandingPage } from "./module/student/pages/OneToOneLandingPage/OneToOneLandingPage";
 import Mode from "./module/student/pages/demomodeupdate/Mode/Mode";
+import BoardDetailPage from "./pages/BoardDetailPage/BoardDetailPage";
+import ClassDetailPage from "./pages/ClassDetailPage/ClassDetailPage";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -110,6 +112,9 @@ function App() {
               </PublicRoute>
             }
           />
+
+<Route path="/testing" element={<BoardDetailPage />} />
+<Route path="/testing/:classId" element={<ClassDetailPage/>}/>
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/student" element={<StudentLandingPage />} />

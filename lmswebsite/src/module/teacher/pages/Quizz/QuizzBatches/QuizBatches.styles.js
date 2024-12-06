@@ -10,8 +10,8 @@ export const QuizBatcheswrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2em;
-    margin: 0;
+
+
 
     ${media.md`
       flex-direction: column;
@@ -38,9 +38,8 @@ gap:20px;}
   .AssignedTeacherBatch-search {
     max-width: 320px;
     width: 100%;
-    margin-right:25px;
     
-    flex: 0 0 auto;
+display: flex;
     align-items: center; 
 
     ${media.md`
@@ -53,7 +52,6 @@ gap:20px;}
       background-color: ${(props) => props.theme.colors.white};
       border-radius: 6px;
       height: 40px; 
-      margin-top:40px;
       padding-right:10px;
       display: flex;
       align-items: center;
@@ -91,7 +89,16 @@ gap:20px;}
     gap: 24px;
 
     &.ar-one {
-      justify-content: space-between;
+      display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    
+
+    input {
+      width: 300px;
+    }
     }
 
     &.ar-two {

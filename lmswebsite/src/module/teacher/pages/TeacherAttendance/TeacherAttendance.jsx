@@ -9,6 +9,8 @@ import {
 } from "antd";
 import { getTeacherAttendance } from '../../../../api/teacherApi';
 import { getTeacherByAuthId } from '../../../../api/teacherApi';
+import { BodyText, Heading, PageContainer } from '../../../../style/PrimaryStyles/PrimaryStyles';
+import { TeacherAttendanceWrap } from './TeacherAttendance.styles';
 
 export const TeacherAttendance = () => {
     const [attendance, setAttendance] = useState([]);
@@ -64,13 +66,13 @@ export const TeacherAttendance = () => {
             title: "Sl No.",
             dataIndex: "index",
             key: "index",
-            render: (text, record, index) => <strong>{index + 1}</strong>,
+            render: (text, record, index) => <BodyText>{index + 1}</BodyText>,
         },
         {
             title: "Meeting Name",
             dataIndex: "meeting_title",
             key: "meeting_title",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Clock-In Time",
@@ -78,7 +80,7 @@ export const TeacherAttendance = () => {
             key: "clock_in_time",
             render: (text) => {
                 if (text == null) {
-                    return <span>00:00.00</span>;
+                    return <BodyText>00:00.00</BodyText>;
                 } else {
                     const date = new Date(text);
                     const formattedDate = date.toLocaleDateString("en-US", {
@@ -90,7 +92,7 @@ export const TeacherAttendance = () => {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
             },
         },
@@ -100,7 +102,7 @@ export const TeacherAttendance = () => {
             key: "clock_out_time",
             render: (text) => {
                 if (text == null) {
-                    return <span>00:00.00</span>;
+                    return <BodyText>00:00.00</BodyText>;
                 } else {
                     const date = new Date(text);
                     const formattedDate = date.toLocaleDateString("en-US", {
@@ -112,7 +114,7 @@ export const TeacherAttendance = () => {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
 
             },
@@ -120,30 +122,32 @@ export const TeacherAttendance = () => {
     ];
 
     return (
-        <div style={{ padding: "20px" }}>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px", justifyContent: "space-between" }}>
-                <h2 style={{ margin: 0 }}>Attendance List </h2>
-                {/* Search Field */}
-                <Input
-                    placeholder="Search by meeting name"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={{ width: 300 }}
-                />
-            </div>
+        <PageContainer>
+            <TeacherAttendanceWrap>
+                <div className='TeacherAttendance-heading-row'>
+                   <Heading>Attendance List </Heading>
+                    {/* Search Field */}
+                    <Input
+                        placeholder="Search by meeting name"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        style={{ width: 300 }}
+                    />
+                </div>
 
-            {loading ? (
-                <Spin tip="Loading..." />
-            ) : error ? (
-                <Alert message={error} type="error" />
-            ) : (
-                <Table
-                    columns={columns}
-                    dataSource={filteredAttendance} // Bind the filtered data to the table
-                    rowKey="_id"
-                    pagination={true} // You can add pagination if needed
-                />
-            )}
-        </div>
+                {loading ? (
+                    <Spin tip="Loading..." />
+                ) : error ? (
+                    <Alert message={error} type="error" />
+                ) : (
+                    <Table
+                        columns={columns}
+                        dataSource={filteredAttendance} // Bind the filtered data to the table
+                        rowKey="_id"
+                        pagination={true} // You can add pagination if needed
+                    />
+                )}
+            </TeacherAttendanceWrap>
+        </PageContainer>
     );
 };

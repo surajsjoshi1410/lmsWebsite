@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { TeacherDashBoardCardswrap } from './TeacherDashboardScreen.styles'; 
+import { TeacherDashBoardCardswrap } from './TeacherDashboardScreen.styles';
 import { getBatchesCount, getStudentsCount, getTotalWorkingHours } from '../../../../api/teachDashboardApi';
 import { getTeacherByAuthId } from '../../../../api/teacherApi';
-import TeacherdashBoardCards from '../../components/TeacherdashBoardCards/TeacherdashBoardCards'; 
+import TeacherdashBoardCards from '../../components/TeacherdashBoardCards/TeacherdashBoardCards';
 import { ImUser } from 'react-icons/im';
 import { MdLiveTv } from 'react-icons/md';
 import { getRecentQuizForTeacher } from '../../../../api/teachDashboardApi'; // Correct API import
 import TeacherdashBoardQuizCard from '../../components/TeacherDashboardQuizCard/TeacherDashboardQuizCard';
 import DailySchedule from '../../components/DailySchedule/DailySchedule';
 import { Ri24HoursFill } from "react-icons/ri";
+import { PageContainer } from '../../../../style/PrimaryStyles/PrimaryStyles';
 
 const iconMap = {
   'Total students': <ImUser />,
   'Total Batches': <MdLiveTv />,
-  'Recent Quiz': <MdLiveTv /> , // You can replace with a more relevant icon if you have one
+  'Recent Quiz': <MdLiveTv />, // You can replace with a more relevant icon if you have one
   'Total Working Hours': <Ri24HoursFill />
 };
 
@@ -22,7 +23,7 @@ const TeacherDashBoardScreen = () => {
   const [studentsCount, setStudentsCount] = useState(0);
   const [teacherData, setTeacherData] = useState(null);
   const [teacherId, setTeacherId] = useState(null);
-  const [dashboardCards, setDashboardCards] = useState([]); 
+  const [dashboardCards, setDashboardCards] = useState([]);
   const [recentQuiz, setRecentQuiz] = useState(null); // State to store recent quiz data
   const [quizCardData, setQuizCardData] = useState(null);  // State to store quiz card data
 
@@ -112,27 +113,31 @@ const TeacherDashBoardScreen = () => {
     };
 
     fetchRecentQuiz();
-  }, [teacherId]); 
+  }, [teacherId]);
 
-  
+
 
   if (!teacherId) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
-console.log('Recent Quiz:', quizCardData);
+  console.log('Recent Quiz:', quizCardData);
   return (
-    <TeacherDashBoardCardswrap className="content-area">
-      <div>
-        {/* Pass the cards data to TeacherdashBoardCards component */}
-        <TeacherdashBoardCards cardsData={dashboardCards} />
-      </div>
-      <div className="area-row ar-two">
-      <DailySchedule/> <TeacherdashBoardQuizCard cardsdata={quizCardData} />
-      </div>
-      <div className="area-row ar-three">
-        {/* Additional UI components */}
-      </div>
-    </TeacherDashBoardCardswrap>
+    <>
+      <PageContainer>
+        <TeacherDashBoardCardswrap className="content-area">
+          <div>
+            {/* Pass the cards data to TeacherdashBoardCards component */}
+            <TeacherdashBoardCards cardsData={dashboardCards} />
+          </div>
+          <div className="area-row ar-two">
+            <DailySchedule /> <TeacherdashBoardQuizCard cardsdata={quizCardData} />
+          </div>
+          <div className="area-row ar-three">
+            {/* Additional UI components */}
+          </div>
+        </TeacherDashBoardCardswrap>
+      </PageContainer>
+    </>
   );
 };
 

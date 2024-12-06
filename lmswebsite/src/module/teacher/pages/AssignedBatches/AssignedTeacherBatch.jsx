@@ -8,6 +8,9 @@ import { getBatchesByTeacherId } from "../../../../api/batchApi";
 import BatchCard from "../../components/BatchCard/BatchCard";
 import { getTeacherByAuthId } from "../../../../api/teacherApi";
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
+import { Heading, PageContainer } from "../../../../style/PrimaryStyles/PrimaryStyles";
+import { Table, Button, Input, Modal, Image, message } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 export default function AssignedTeacherBatch() {
     const [searchInput, setSearchInput] = useState("");
@@ -69,97 +72,90 @@ export default function AssignedTeacherBatch() {
     };
 
     return (
-        <AssignedTeacherBatchesWrap className="content-area">
-            <div className="area-row ar-one">
-                <div className="AssignedTeacherBatch-batches_nav">
-                    <h2 className="AssignedTeacherBatch-batch_title">Assigned Batches</h2>
-                    <div className="AssignedTeacherBatch-search">
-                        <form>
-                            <div className="input-group">
-                                <span className="input-icon">
-                                    <FaSearch />
-                                </span>
-                                <input
-                                    type="text"
-                                    className="input-control"
-                                    placeholder="Search by Batch Name"
-                                    value={searchInput}
-                                    onChange={(e) => setSearchInput(e.target.value)}
-                                />
-                            </div>
-                        </form>
-                    </div>
+        <PageContainer>
+            <AssignedTeacherBatchesWrap className="content-area">
+                <div className="area-row ar-one">
+                    <Heading>Assigned Batches</Heading>
+                    <Input
+                        placeholder="Search by Circular Name"
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        allowClear
+                        prefix={<SearchOutlined />}
+                        style={{ width: 300 }}
+                    />
                 </div>
-            </div>
-            <div className="area-row ar-two">
-                {/* Additional content can go here */}
-            </div>
-            <div className="area-row ar-three">
-                {loading ? (
-                    <>
-                        <LoadingPage />
-                    </>
-                ) : error ? (
-                    <div>
-                        <p style={{ color: 'red' }}>{error}</p>
-                        {error === "No batches found for this teacher" && (
-                            <Link to="/teacher/dashboard/create-batch">
-                                <button style={{
-                                    padding: "10px 20px",
-                                    backgroundColor: "#28a745",
-                                    color: "#fff",
-                                    border: "none",
-                                    borderRadius: "5px",
-                                    cursor: "pointer",
-                                    marginTop: "10px"
-                                }}>
-                                    Create New Batch
-                                </button>
-                            </Link>
-                        )}
-                    </div>
-                ) : batches && filterData.length > 0 ? (
-                    filterData.map((batch) => {
-                        const batchData = {
-                            batch_image: batch.batch_image,
-                            batch_name: batch.batch_name,
-                            class_id: batch.class_id,
-                            subject_id: batch.subject_id,
-                            teacher_id: batch.teacher_id,
-                            date: batch.date,
-                            studentcount: batch.students.length,
-                            action: (
-                                <button
-                                    onClick={() => handleViewStudents(batch._id, batch.batch_name)}
-                                    style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        padding: "5px 10px",
-                                        backgroundColor: "#ff007a",
+                
+                <div className="area-row ar-two">
+                    {/* Additional content can go here */}
+                </div>
+                <div className="area-row ar-three">
+                    {loading ? (
+                        <>
+                            <LoadingPage />
+                        </>
+                    ) : error ? (
+                        <div>
+                            <p style={{ color: 'red' }}>{error}</p>
+                            {error === "No batches found for this teacher" && (
+                                <Link to="/teacher/dashboard/create-batch">
+                                    <button style={{
+                                        padding: "10px 20px",
+                                        backgroundColor: "#28a745",
                                         color: "#fff",
                                         border: "none",
                                         borderRadius: "5px",
                                         cursor: "pointer",
-                                    }}
-                                >
-                                     View Students
-                                </button>
-                            )
-                        };
-                        return (
-                            <BatchCard key={batch._id} batch={batchData} />
-                        );
-                    })
-                ) :
-                    (
-                        <>
-                            <div className="assignedBatches-batchNotFound">
-                                <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
-                            </div>
-                        </>
+                                        marginTop: "10px"
+                                    }}>
+                                        Create New Batch
+                                    </button>
+                                </Link>
+                            )}
+                        </div>
+                    ) : batches && filterData.length > 0 ? (
+                        filterData.map((batch) => {
+                            const batchData = {
+                                batch_image: batch.batch_image,
+                                batch_name: batch.batch_name,
+                                class_id: batch.class_id,
+                                subject_id: batch.subject_id,
+                                teacher_id: batch.teacher_id,
+                                date: batch.date,
+                                studentcount: batch.students.length,
+                                action: (
+                                    <button
+                                        onClick={() => handleViewStudents(batch._id, batch.batch_name)}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            padding: "5px 10px",
+                                            backgroundColor: "#ff007a",
+                                            color: "#fff",
+                                            border: "none",
+                                            borderRadius: "5px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        View Students
+                                    </button>
+                                )
+                            };
+                            return (
+                                <BatchCard key={batch._id} batch={batchData} />
+                            );
+                        })
+                    ) :
+                        (
+                            <>
+                                <div className="assignedBatches-batchNotFound">
+                                    <h2 className="AssignedTeacherBatch-batch_title">No batches Assigned for you.</h2>
+                                </div>
+                            </>
 
-                    )}
-            </div>
-        </AssignedTeacherBatchesWrap>
+                        )}
+                </div>
+            </AssignedTeacherBatchesWrap>
+        </PageContainer>
     );
 }

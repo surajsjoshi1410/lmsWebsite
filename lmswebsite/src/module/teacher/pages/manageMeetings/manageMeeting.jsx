@@ -11,6 +11,8 @@ import {
   clockOut,
   getTeacherAttendance,
 } from "../../../../api/teacherApi"; // Adjust this import path as necessary
+import { Heading, PageContainer } from "../../../../style/PrimaryStyles/PrimaryStyles";
+import { ManageMeetingwrap } from "./manageMeetings.Styles";
 
 const localizer = momentLocalizer(moment);
 
@@ -122,7 +124,7 @@ function ManageMeeting() {
 
     return (
       <div>
-        <strong style={{  color: "#111111" }}>{event.title}</strong>
+        <strong style={{ color: "#111111" }}>{event.title}</strong>
         <br />
         <span style={{ fontSize: "12px", color: "#111111" }}>
           {moment(event.start).format("hh:mm A")} -{" "}
@@ -176,36 +178,41 @@ function ManageMeeting() {
           ) : (
             <span style={{ color: "green" }}>Clocked Out</span>
           )}
-        </>):
-         ( <span style={{ fontSize: "12px", color: "#111111" }}>Meeting Rescheduled</span>)
+        </>) :
+          (<span style={{ fontSize: "12px", color: "#111111" }}>Meeting Rescheduled</span>)
         }
-        
+
       </div>
     );
   };
 
   return (
-    <div className="manage-meeting">
-      {loading ? (
-        <p>Loading schedule...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: "800px", margin: "50px 0" }}
-          eventPropGetter={(event) => ({
-            style: { backgroundColor: "#ffffff" },
-          })}
-          components={{
-            event: renderEvent,
-          }}
-        />
-      )}
-    </div>
+    <PageContainer>
+      <ManageMeetingwrap>
+        <div className="meetingSchedule-heading">
+           <Heading>Meeting Schedule</Heading>
+        </div>
+        {loading ? (
+          <p>Loading schedule...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: "800px", margin: "50px 0" }}
+            eventPropGetter={(event) => ({
+              style: { backgroundColor: "#ffffff" },
+            })}
+            components={{
+              event: renderEvent,
+            }}
+          />
+        )}
+      </ManageMeetingwrap>
+    </PageContainer>
   );
 }
 

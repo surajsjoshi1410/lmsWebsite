@@ -6,7 +6,7 @@ import {
   Input,
   IconInputContainer,
   Icon,
-  Button,
+  // Button,
 } from "./StudentAccountSetting.style";
 import { FaUser } from "react-icons/fa"; // Example icon, using FontAwesome for the user icon
 import { MdEmail } from "react-icons/md";
@@ -14,6 +14,7 @@ import { FaPhone } from "react-icons/fa6";
 import{getUserByAuthId}from "../../../../../api/userApi"
 import{getStudentByAuthId}from "../../../../../api/studentApi"
 import { updateUserByAuthId } from "../../../../../api/userApi";
+import { BodyText, PageContainer, PrimaryButton, Subheading } from "../../../../../style/PrimaryStyles/PrimaryStyles";
 
 const StudentAccountSettings = () => {
   
@@ -50,10 +51,12 @@ const StudentAccountSettings = () => {
   }
 
   return (
-    <Form>
-      <h2>Account settings</h2>
+ 
+ 
+     <Form>
+      <Subheading>Account Settings</Subheading>
       <FormField>
-        <Label>First Name</Label>
+       <BodyText> <Label>First Name</Label></BodyText>
         <IconInputContainer>
           <Icon>
             <FaUser />
@@ -65,8 +68,9 @@ const StudentAccountSettings = () => {
           />
         </IconInputContainer>
       </FormField>
+
       <FormField>
-        <Label>UserName</Label>
+      <BodyText> <Label>UserName</Label></BodyText>
         <IconInputContainer>
           <Icon>
             <FaUser />
@@ -79,8 +83,9 @@ const StudentAccountSettings = () => {
           />
         </IconInputContainer>
       </FormField>
+
       <FormField>
-        <Label>Email</Label>
+      <BodyText>  <Label>Email</Label></BodyText>
         <IconInputContainer>
           <Icon>
             <MdEmail />
@@ -93,8 +98,9 @@ const StudentAccountSettings = () => {
           />
         </IconInputContainer>
       </FormField>
+
       <FormField>
-        <Label>Phone Number</Label>
+      <BodyText><Label>Phone Number</Label> </BodyText>
         <IconInputContainer>
           <Icon>
             <FaPhone />
@@ -109,9 +115,10 @@ const StudentAccountSettings = () => {
           />
         </IconInputContainer>
       </FormField>
-      <Button onClick={handleSubmit}>Save Changes</Button>
+      <PrimaryButton onClick={handleSubmit}>Save Changes</PrimaryButton>
     </Form>
-  );
+    
+ );
 };
 
 export default StudentAccountSettings;

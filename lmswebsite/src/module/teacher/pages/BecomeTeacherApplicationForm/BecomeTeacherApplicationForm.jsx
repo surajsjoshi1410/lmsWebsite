@@ -34,6 +34,7 @@ import { getUserByAuthId } from "../../../../api/userApi";
 import { getAllSubjects } from "../../../../api/subjectApi";
 import LoadingPage from "../../../../pages/LoadingPage/LoadingPage";
 import { updateAccessToken } from "../../../../api/refreshTokenApi";
+import {PageContainer,Heading,Subheading,BodyText,PrimaryButton} from "../../../../style/PrimaryStyles/PrimaryStyles";
 
 const { Option } = Select;
 
@@ -178,7 +179,7 @@ const BecomeTeacherApplicationForm = () => {
   };
 
   return (
-    <>
+    <><PageContainer>
       {userData ?
         <>
           <Header />
@@ -192,12 +193,12 @@ const BecomeTeacherApplicationForm = () => {
                 />
               </div>
               <div className="applicationDetails">
-                <h2 className="applicationFormTitle">
+                <Heading>
                   Love Teaching Students? Join Us
-                </h2>
-                <p className="applicationFormSubtitle">
+                </Heading>
+                <Subheading>
                   Become a Teacher and train students all around the world.
-                </p>
+                </Subheading>
                 <StyledForm>
                   <Form
                     form={form}
@@ -463,12 +464,12 @@ const BecomeTeacherApplicationForm = () => {
                     </div>
 
                     <Form.Item>
-                      <Button type="primary" htmlType="submit"
+                      <PrimaryButton htmlType="submit"
                         disabled={isSubmitting}
-                        style={{ background: "#EE1B7A", borderColor: "#EE1B7A" }}
+                        // style={{ background: "#EE1B7A", borderColor: "#EE1B7A" }}
                       >
                         {isSubmitting ? "Submitting..." : "Submit"}
-                      </Button>
+                      </PrimaryButton>
                     </Form.Item>
                   </Form>
                 </StyledForm>
@@ -496,6 +497,7 @@ const BecomeTeacherApplicationForm = () => {
           <LoadingPage />
         </>
       }
+      </PageContainer>
     </>
   );
 };

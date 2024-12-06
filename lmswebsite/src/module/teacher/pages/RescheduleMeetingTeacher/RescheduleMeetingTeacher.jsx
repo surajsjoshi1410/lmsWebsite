@@ -12,6 +12,8 @@ import { getTeacherByAuthId } from '../../../../api/teacherApi';
 import { studentClockIn } from '../../../../api/studentApi';
 import { set } from 'lodash';
 import { createMeeting } from '../../../../api/batchApi';
+import { BodyText, Heading, PageContainer, PrimaryButton } from '../../../../style/PrimaryStyles/PrimaryStyles';
+import { RescheduleMeetingTeacherWrap } from './RescheduleMeetingTeacher.styles';
 
 function RescheduleMeetingTeacher() {
     const [rescheduleData, setRescheduleData] = useState([]);
@@ -71,7 +73,7 @@ function RescheduleMeetingTeacher() {
     };
 
     const handleRescheduleApprove = async (record) => {
-        
+
         approveReschedule(record.meeting_id).then((response) => {
             console.log(response);
             if (response) {
@@ -105,7 +107,7 @@ function RescheduleMeetingTeacher() {
                 message.success(response.message);
             }
         })
-       
+
     }
 
     const columns = [
@@ -113,31 +115,31 @@ function RescheduleMeetingTeacher() {
             title: "Sl No.",
             dataIndex: "index",
             key: "index",
-            render: (text, record, index) => <strong>{index + 1}</strong>,
+            render: (text, record, index) => <BodyText>{index + 1}</BodyText>,
         },
         {
             title: "Student Name",
             dataIndex: "student_name",
             key: "student_name",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Batch Name",
             dataIndex: "batch_name",
             key: "batch_name",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Meeting Name",
             dataIndex: "meeting_title",
             key: "meeting_title",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Meeting Description",
             dataIndex: "meeting_description",
             key: "meeting_description",
-            render: (text) => <strong>{text}</strong>,
+            render: (text) => <BodyText>{text}</BodyText>,
         },
         {
             title: "Start Time",
@@ -145,7 +147,7 @@ function RescheduleMeetingTeacher() {
             key: "start_time",
             render: (text) => {
                 if (text == null) {
-                    return <span>00:00.00</span>;
+                    return <BodyText>00:00.00</BodyText>;
                 } else {
                     const date = new Date(text);
                     const formattedDate = date.toLocaleDateString("en-US", {
@@ -157,7 +159,7 @@ function RescheduleMeetingTeacher() {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
             },
         },
@@ -167,7 +169,7 @@ function RescheduleMeetingTeacher() {
             key: "end_time",
             render: (text) => {
                 if (text == null) {
-                    return <span>00:00.00</span>;
+                    return <BodyText>00:00.00</BodyText>;
                 } else {
                     const date = new Date(text);
                     const formattedDate = date.toLocaleDateString("en-US", {
@@ -179,7 +181,7 @@ function RescheduleMeetingTeacher() {
                         hour: "2-digit",
                         minute: "2-digit",
                     });
-                    return <span>{formattedDate} {formattedTime}</span>;
+                    return <BodyText>{formattedDate} {formattedTime}</BodyText>;
                 }
 
             },
@@ -190,13 +192,13 @@ function RescheduleMeetingTeacher() {
             key: "index",
 
             render: (text, record) =>
-            (< div style={{ display: "flex", gap: "10px" }}>
-                <Button type="primary" onClick={() => handleRescheduleApprove(record)} >
+            (< div className='table-action-button-container'>
+                <PrimaryButton onClick={() => handleRescheduleApprove(record)} >
                     Approve
-                </Button>
-                <Button type="primary" onClick={() => handleRescheduleReject(record)}>
+                </PrimaryButton>
+                <PrimaryButton onClick={() => handleRescheduleReject(record)}>
                     Reject
-                </Button>
+                </PrimaryButton>
             </div>)
 
         }
@@ -204,29 +206,32 @@ function RescheduleMeetingTeacher() {
 
 
     return (
-        <div style={{ padding: "20px" }}>
-            <div style={{ display: "flex", alignItems: "center", marginBottom: "20px", justifyContent: "space-between" }}>
-                <h2 style={{ margin: 0 }}>Reschedule Meeting List </h2>
-                {/* Search Field */}
-                <Input
-                    placeholder="Search by meeting name"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={{ width: 300 }}
-                />
-            </div>
+        <PageContainer>
+            <RescheduleMeetingTeacherWrap>
+                <div className='rescheduleMeetingTeacher-heading-row'>
+                    <Heading>Reschedule Meeting List </Heading>
+                    {/* Search Field */}
+                    <Input
+                        placeholder="Search by meeting name"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        style={{ width: 300 }}
+                    />
+                </div>
 
-            {loading ? (
-                <Spin tip="Loading..." />
-            ) : (
-                <Table
-                    columns={columns}
-                    dataSource={filteredData} // Bind the filtered data to the table
-                    rowKey="_id"
-                    pagination={true} // You can add pagination if needed
-                />
-            )}
-        </div>
+                {loading ? (
+                    <Spin tip="Loading..." />
+                ) : (
+                    <Table
+                        columns={columns}
+                        dataSource={filteredData} // Bind the filtered data to the table
+                        rowKey="_id"
+                        pagination={true} // You can add pagination if needed
+                    />
+                )}
+            </RescheduleMeetingTeacherWrap>
+
+        </PageContainer>
     )
 }
 

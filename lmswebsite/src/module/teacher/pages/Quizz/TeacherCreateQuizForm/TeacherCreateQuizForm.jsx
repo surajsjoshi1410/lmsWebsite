@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import {
   ModalOverlay,
   ModalContent,
-  Button,
+  // Button,
   FormTitle,
   Label,
-  Input,
-  TextArea,
+  // Input,
+  // TextArea,
   CreateButton,
   AddQuestionLink,
   FormRow,
@@ -18,8 +18,26 @@ import { getBatchesByTeacherId } from '../../../../../api/batchApi';
 import { getUserProfile } from '../../../../../api/userApi';
 import { getTeacherByAuthId } from '../../../../../api/teacherApi';
 import { getTeacherById } from '../../../../../api/teacherApi';
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  Typography,
+  Modal,
+  List,
+  Divider,
+} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { ModalBody } from '../../../../../style/PrimaryStyles/PrimaryStyles';
+
+const { Title, Text } = Typography;
+const { Option } = Select;
+const { TextArea } = Input;
+
 
 const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive teacherId as a prop
+  const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     title: '',
     batch: '',
@@ -44,23 +62,30 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
   useEffect(() => {
     console.log("Selected Batch Index:", selectedBatchIndex);
     if (selectedBatchIndex !== null) {
-      setSubjectData(batches.map((batch, index) => {
+      setSubjectData(batches.filter((batch, index) => {
+
         if (batch._id === selectedBatchIndex) {
-          return batch.subject_id;
+          return (batch.subject_id);
         }
       }));
 
-      let classD ;
+      let classD;
       batches.map((batch, index) => {
         if (batch._id === selectedBatchIndex) {
 
 
-          classD={ id: batch.class_id._id, name: batch.class_id.classLevel };
+          classD = { id: batch.class_id._id, name: batch.class_id.classLevel };
         }
       })
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        classLevel: classD._id,
+      }));
+      // Update the form field with class name
+      form.setFieldsValue({ ClassLevel: classD.name });
 
       setClassData(classD);
-      console.log("Class Data:", classData);
+      console.log("Class Data:", classD);
     }
   }, [selectedBatchIndex])
 
@@ -80,7 +105,7 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
         setTeacherIdData(teacherData.teacher._id)
         setBatches(fetchedBatches);
 
-        let batchesData = fetchedBatches; 
+        let batchesData = fetchedBatches;
 
         // Attempt to extract batches from known keys
         if (fetchedBatches.batches && Array.isArray(fetchedBatches.batches)) {
@@ -135,7 +160,7 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (formData.questions.length === 0) {
       alert('Please add at least one question.');
@@ -188,13 +213,165 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
   }
 
   return (
-    <ModalOverlay>
-      <ModalContent>
-        <Button onClick={onClose}>X</Button>
-        <form onSubmit={handleSubmit}>
+    // <ModalOverlay>
+    <>
+      {/* <ModalContent> */}
+      {/* <Button onClick={onClose}>X</Button> */}
+
+      <Form
+        form={form}
+        name="create_quiz"
+        layout="vertical"
+        onFinish={handleSubmit}
+        // onFinishFailed={onFinishFailed}
+        initialValues={formData}
+        style={{ maxWidth: '600px', margin: '0 auto', padding: '40px', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)' }}
+      >
+        {/* Form Title */}
+        <Form.Item>
+          <Title level={2} style={{ textAlign: 'center', color: '#ff0080' }}>
+            Create a New Quiz
+          </Title>
+        </Form.Item>
+
+        {/* Title Input */}
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[{ required: true, message: 'Please enter the quiz title' }]}
+        >
+          <Input
+            placeholder="Enter quiz title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+          />
+        </Form.Item>
+
+        {/* Batch Select */}
+        <Form.Item
+          label="Batch"
+          name="batch"
+          rules={[{ required: true, message: 'Please select a batch' }]}
+        >
+          <Select
+            placeholder="Select Batch"
+            value={formData.batch}
+            onChange={(value) => {
+              setSelectedBatchIndex(value);
+              console.log("Selected Batch Index:", value);
+              handleChange({ target: { name: 'batch', value } });
+            }}
+          >
+            {batches.map((batch) => (
+              <Option key={batch._id} value={batch._id}>
+                {batch.batch_name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        {/* Subject Select */}
+        <Form.Item
+          label="Subject"
+          name="subject"
+          rules={[{ required: true, message: 'Please select a subject' }]}
+        >
+          <Select
+            placeholder="Select Subject"
+            value={formData.subject}
+            onChange={(value) => handleChange({ target: { name: 'subject', value } })}
+          >
+            {subjectData?.map((subject) => {
+              return (
+
+                <Option key={subject?.subject_id?._id} value={subject?.subject_id._id}>
+                  {subject?.subject_id.subject_name}
+                </Option>
+              )
+            })}
+          </Select>
+        </Form.Item>
+
+        {/* Description TextArea */}
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: 'Please enter the description' }]}
+        >
+          <TextArea
+            rows={4}
+            placeholder="Enter quiz description"
+             name="description"
+            value={formData.description}
+            onChange={handleChange}
+          />
+        </Form.Item>
+
+        {/* Conditional Class Level Select */}
+        {classData && (
+          <Form.Item
+            label="Class Level"
+            name="ClassLevel"
+            rules={[{ required: true, message: 'Please enter the class level' }]}
+          >
+            <Input placeholder="Class level" readOnly />
+          </Form.Item>
+
+        )}
+        {/* <Form.Item
+          label="Class Level"
+          name="ClassLevel"
+          rules={[{ required: true, message: 'Please enter the class level' }]}
+
+        >
+
+          <Input
+            placeholder="Enter class level"
+            name="ClassLevel"
+            value={classData.name}
+            onChange={handleChange}
+            readOnly
+          />
+        </Form.Item> */}
+        {/* Quiz Questions */}
+        <Form.Item>
+          <Button
+            type="dashed"
+            onClick={openQuizDialog}
+            block
+            icon={<PlusOutlined />}
+            style={{ borderColor: '#ff0080', color: '#ff0080' }}
+          >
+            Add Questions
+          </Button>
+        </Form.Item>
+
+        {/* Display number of questions added */}
+        {formData.questions.length > 0 && (
+          <Form.Item>
+            <Text>
+              {formData.questions.length} question
+              {formData.questions.length > 1 ? 's' : ''} added.
+            </Text>
+          </Form.Item>
+        )}
+
+        {/* Create Quiz Button */}
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            style={{ backgroundColor: '#ff0080', borderColor: '#ff0080' }}
+          >
+            Create Quiz
+          </Button>
+        </Form.Item>
+      </Form>
+      {/* <form onSubmit={handleSubmit}>
           <FormTitle>Create a New Quiz</FormTitle>
 
-          {/* Title Input */}
           <FormRow>
             <Label>Title</Label>
             <Input
@@ -206,7 +383,6 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
             />
           </FormRow>
 
-          {/* Batch Select */}
           <FormRow>
             <Label>Batch</Label>
             <select
@@ -224,16 +400,13 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
               <option value="">Select Batch</option>
               {batches.map((batch, index) => (
                 <option key={batch._id} value={batch._id}>
-                  {batch.batch_name} {/* Adjust based on actual batch field */}
+                  {batch.batch_name}
                 </option>
               ))}
             </select>
           </FormRow>
 
-          {/* Class Level Select */}
-
-
-          {/* Subject Select */}
+         
           <FormRow>
             <Label>Subject</Label>
             <select
@@ -251,13 +424,13 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
               <option value="">Select Subject</option>
               {subjectData.map((subject,index) => (
                 <option key={subject?._id} value={subject?._id||index}>
-                  {subject?.subject_name} {/* Adjust based on actual subject field */}
+                  {subject?.subject_name} 
                 </option>
               ))}
             </select>
           </FormRow>
 
-          {/* Description TextArea */}
+         
           <FormRow>
             <Label>Description</Label>
             <TextArea
@@ -278,7 +451,7 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
               />
             </FormRow>}
 
-          {/* Quiz Questions */}
+         
           <FormRow>
             <Label>Quiz Questions</Label>
             <AddQuestionLink type="button" onClick={openQuizDialog}>
@@ -286,26 +459,39 @@ const TeacherCreateQuizForm = ({ onSubmit, onClose, teacherId }) => { // Receive
             </AddQuestionLink>
           </FormRow>
 
-          {/* Display number of questions added */}
+         
           {formData.questions.length > 0 && (
             <p>{formData.questions.length} question(s) added.</p>
           )}
 
-          {/* Create Quiz Button */}
+       
           <CreateButton type="submit">Create Quiz</CreateButton>
-        </form>
-      </ModalContent>
+        </form> */}
+      {/* </ModalContent> */}
 
       {/* TeacherAddQuiz dialog/modal */}
-      {showQuizDialog && (
+      <Modal
+        title={`Add Questions to ${formData.title}`}
+        open={showQuizDialog}
+        onCancel={() => {  setShowQuizDialog(false) }  }
+        footer={null}
+      >
+        <ModalBody >
+          <TeacherAddQuestionModel onSave={handleSaveQuestions} />
+        </ModalBody>
+
+      </Modal>
+      {/* {showQuizDialog && (
         <ModalOverlay>
           <ModalContent>
             <TeacherAddQuestionModel onSave={handleSaveQuestions} />
             <Button onClick={closeQuizDialog}>Close</Button>
           </ModalContent>
         </ModalOverlay>
-      )}
-    </ModalOverlay>
+      )} */}
+
+      {/* </ModalOverlay> */}
+    </>
   );
 };
 

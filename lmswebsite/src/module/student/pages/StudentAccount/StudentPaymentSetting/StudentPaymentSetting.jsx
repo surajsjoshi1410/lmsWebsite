@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Button, Typography } from "antd";
+import { Heading, PageContainer, PrimaryButton, Subheading } from "../../../../../style/PrimaryStyles/PrimaryStyles";
 
 const { Title } = Typography;
 
@@ -74,25 +75,25 @@ const StudentPaymentSettings = () => {
   };
 
   return (
-    <div style={{ padding: "24px", background: "#fff", borderRadius: "8px" }}>
-      <Title level={3}>Payment History</Title>
-      <Table
-        dataSource={paymentHistory}
-        columns={columns}
-        pagination={{ pageSize: 5 }}
-        bordered
-        style={{ marginTop: "16px" }}
-      />
-      <Button
-        type="primary" 
-        style={{ marginTop: "16px", backgroundColor: "#f52754", borderColor: "#f52754" , 
-        
-        } }
-        onClick={handleExport}
-      >
-        Export History
-      </Button>
-    </div>
+  
+    <PageContainer>
+    <Subheading>Payment History</Subheading>
+     <Table
+       dataSource={paymentHistory}
+       columns={columns}
+       pagination={{ pageSize: 5 }}
+       bordered
+       style={{ marginTop: "16px" }}
+     />
+     <PrimaryButton
+      //  type="primary" 
+      //  style={{ marginTop: "16px", backgroundColor: "#f52754", borderColor: "#f52754" , 
+       
+      //  } }
+       onClick={handleExport}
+     >
+       Export History
+     </PrimaryButton></PageContainer>
   );
 };
 

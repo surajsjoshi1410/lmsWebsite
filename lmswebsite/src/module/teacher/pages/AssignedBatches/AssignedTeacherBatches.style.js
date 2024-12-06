@@ -10,8 +10,7 @@ export const AssignedTeacherBatchesWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2em;
-    margin: 0;
+   
 
     ${media.md`
       flex-direction: column;
@@ -31,9 +30,9 @@ export const AssignedTeacherBatchesWrap = styled.div`
   .AssignedTeacherBatch-search {
     max-width: 320px;
     width: 100%;
-    margin-right:25px;
+   
     
-    flex: 0 0 auto;
+display: flex;  
     align-items: center; 
 
     ${media.md`
@@ -46,7 +45,6 @@ export const AssignedTeacherBatchesWrap = styled.div`
       background-color: ${(props) => props.theme.colors.white};
       border-radius: 6px;
       height: 40px; 
-      margin-top:40px;
       padding-right:10px;
       display: flex;
       align-items: center;
@@ -81,10 +79,21 @@ export const AssignedTeacherBatchesWrap = styled.div`
 
   .area-row {
     display: flex;
-    gap: 24px;
+    gap: 10px;
 
     &.ar-one {
-      justify-content: space-between;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    
+
+    input {
+      width: 300px;
+    }
+
     }
 
     &.ar-two {
@@ -96,7 +105,7 @@ export const AssignedTeacherBatchesWrap = styled.div`
     &.ar-three {
       display: flex;
       flex-direction: column;
-      margin-top: 6vh;
+    
     }
 
     ${media.md`

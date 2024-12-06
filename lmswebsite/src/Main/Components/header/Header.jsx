@@ -12,6 +12,7 @@ import {
   MobileMenu,
 } from "./Header.styles";
 import { Link } from "react-router-dom";
+import DynamicTieredMenu from "../../../components/DynamicTieredMenu/DynamicTieredMenu";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,13 +26,14 @@ const Header = () => {
       <Logo>
         <img src={LogoImage} alt="Logo" />
       </Logo>
-
+    
+<DynamicTieredMenu/>
       <HamburgerMenu onClick={toggleMenu}>
         <span />
         <span />
         <span />
       </HamburgerMenu>
-
+       
       <NavLinks menuOpen={menuOpen}>
         <Dropdown>
           <button>Courses</button>

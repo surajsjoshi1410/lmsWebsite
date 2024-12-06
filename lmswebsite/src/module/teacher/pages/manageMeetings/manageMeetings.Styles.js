@@ -1,2 +1,7 @@
 import styled from "styled-components";
-export const manageMeetingwrap = styled.div``;
+export const ManageMeetingwrap = styled.div`
+.meetingSchedule-heading{
+display: flex;
+
+}
+`;

@@ -41,3 +41,13 @@ export const updateBoard = async (boardId, updatedData) => {
         throw error;
     }
 }
+
+export const getBoardById = async (boardId) => {
+    try {
+        const response = await api.get(`/boards/${boardId}/`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching board by ID:", error);
+        throw error;
+    }
+};

@@ -12,6 +12,7 @@ import StudentAccountSettings from "../StudentAccountSetting/StudentAccountSetti
 import StudentPaymentSettings from "../StudentPaymentSetting/StudentPaymentSetting";
 import StudentTermsConditionSettings from "../StudentsTerms&Conditions/StudentTerms&Condition";
 import { StyledMenuItem } from "../StudentSetting/StudentSetting.style";
+import { BodyText, Heading, PageContainer, Subheading } from "../../../../../style/PrimaryStyles/PrimaryStyles";
 
 const { Sider, Content } = Layout;
 
@@ -40,6 +41,7 @@ const StudentSetting = () => {
   };
 
   return (
+    <PageContainer>
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
@@ -47,7 +49,7 @@ const StudentSetting = () => {
         onCollapse={(value) => setCollapsed(value)}
         theme="light"
       >
-        <div className="settings-sider "
+        <Subheading className="settings-sider "
           style={{
             height: 32,
             margin: 16,
@@ -56,7 +58,7 @@ const StudentSetting = () => {
           }}
         >
           Settings
-        </div>
+        </Subheading>
 
         <Menu
           mode="inline"
@@ -64,17 +66,17 @@ const StudentSetting = () => {
           onClick={handleMenuClick}
         >
           <StyledMenuItem key="general" icon={<SettingOutlined />}>
-            General
+           <BodyText>General</BodyText>
           </StyledMenuItem>
           <StyledMenuItem key="account" icon={<UserOutlined />}>
-            Account
+          <BodyText>Account</BodyText>
           </StyledMenuItem>
           <StyledMenuItem key="billing" icon={<CreditCardOutlined />}>
-            Payment & Billing
+          <BodyText>Payment & Billing</BodyText>
           </StyledMenuItem>
           
           <StyledMenuItem key="terms" icon={<FileTextOutlined />}>
-            Terms & Condition
+          <BodyText> Terms&Condition</BodyText>
           </StyledMenuItem>
         </Menu>
       </Sider>
@@ -90,6 +92,7 @@ const StudentSetting = () => {
         </Content>
       </Layout>
     </Layout>
+    </PageContainer>
   );
 };
 
